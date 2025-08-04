@@ -1,0 +1,510 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    max-width: 800px;
+    width: 100%;
+    margin: 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.player-info {
+    display: flex;
+    gap: 1rem;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #f7fafc;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.player.active {
+    border-color: #4299e1;
+    background: #ebf8ff;
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+.stone {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stone1 {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+}
+
+.stone2 {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+}
+
+.game-status {
+    background: #edf2f7;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #4a5568;
+    min-width: 200px;
+    text-align: center;
+}
+
+.game-board {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.graph-container {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.node {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border: 3px solid #cbd5e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.node:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-color: #4299e1;
+}
+
+.node.occupied {
+    /* cursor: not-allowed; */
+}
+
+.node.occupied:hover {
+    transform: none;
+}
+
+.node-content {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.node.player1 .node-content {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+}
+
+.node.player2 .node-content {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+}
+
+.node.valid-move {
+    border-color: #48bb78;
+    background: linear-gradient(145deg, #f0fff4, #e6fffa);
+    animation: pulse 1.5s infinite;
+}
+
+.node.selected {
+    border-color: #4299e1;
+    background: linear-gradient(145deg, #ebf8ff, #bee3f8);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+    animation: selectedPulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes selectedPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(66, 153, 225, 0.5);
+    }
+}
+
+/* Node positions */
+#A {
+    top: 20px;
+    left: 170px;
+}
+
+#B {
+    top: 120px;
+    left: 70px;
+}
+
+#C {
+    top: 120px;
+    left: 170px;
+}
+
+#D {
+    top: 220px;
+    left: 170px;
+}
+
+#E {
+    top: 120px;
+    left: 270px;
+}
+
+.edges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Hide mobile edges by default */
+.mobile-edges,
+.small-mobile-edges {
+    display: none;
+}
+
+.edge {
+    stroke: #a0aec0;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke 0.3s ease;
+}
+
+.edge.highlighted {
+    stroke: #48bb78;
+    stroke-width: 4;
+    animation: edgePulse 1.5s infinite;
+}
+
+@keyframes edgePulse {
+
+    0%,
+    100% {
+        stroke-width: 4;
+    }
+
+    50% {
+        stroke-width: 6;
+    }
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-home {
+    background: linear-gradient(45deg, #f093fb, #f5576c);
+    color: white;
+}
+
+.btn-reset {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-rules {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    color: white;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #a0aec0;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #4a5568;
+}
+
+.rules-content h3 {
+    color: #4a5568;
+    margin: 1.5rem 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.rules-content p,
+.rules-content ul {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.rules-content ul {
+    padding-left: 1.5rem;
+}
+
+.rules-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .game-info {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .player-info {
+        justify-content: center;
+    }
+
+    .graph-container {
+        width: 300px;
+        height: 225px;
+    }
+
+    .node {
+        width: 50px;
+        height: 50px;
+    }
+
+    .node-content {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Adjust node positions for smaller screen */
+    #A {
+        top: 15px;
+        left: 125px;
+    }
+
+    #B {
+        top: 90px;
+        left: 52px;
+    }
+
+    #C {
+        top: 90px;
+        left: 125px;
+    }
+
+    #D {
+        top: 165px;
+        left: 125px;
+    }
+
+    #E {
+        top: 90px;
+        left: 198px;
+    }
+
+    .edges {
+        width: 300px;
+        height: 225px;
+    }
+
+    /* Show mobile edges, hide desktop */
+    .desktop-edges,
+    .small-mobile-edges {
+        display: none;
+    }
+
+    .mobile-edges {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .graph-container {
+        width: 250px;
+        height: 187px;
+    }
+
+    .node {
+        width: 40px;
+        height: 40px;
+    }
+
+    .node-content {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Further adjust positions */
+    #A {
+        top: 12px;
+        left: 105px;
+    }
+
+    #B {
+        top: 72px;
+        left: 43px;
+    }
+
+    #C {
+        top: 72px;
+        left: 105px;
+    }
+
+    #D {
+        top: 132px;
+        left: 105px;
+    }
+
+    #E {
+        top: 72px;
+        left: 167px;
+    }
+
+    .edges {
+        width: 250px;
+        height: 187px;
+    }
+
+    /* Show small mobile edges, hide others */
+    .desktop-edges,
+    .mobile-edges {
+        display: none;
+    }
+
+    .small-mobile-edges {
+        display: block;
+    }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakīr-9 - Layered Square Frame Game</title>
+    <link rel="stylesheet" href="lakir9-styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🔲 Lakīr-9</h1>
+            <p class="subtitle">A complex layered square frame game with 24 positions</p>
+        </header>
+
+        <div class="game-info">
+            <div class="player-info">
+                <div class="player player1">
+                    <div class="player-stone"></div>
+                    <span>Player 1</span>
+                    <div class="stone-count">Stones: 9</div>
+                </div>
+                <div class="player player2">
+                    <div class="player-stone"></div>
+                    <span>Player 2</span>
+                    <div class="stone-count">Stones: 9</div>
+                </div>
+            </div>
+            <div class="game-status" id="gameStatus">Player 1, place your stone!</div>
+        </div>
+
+        <div class="game-board">
+            <div class="board-container">
+                <!-- 24 nodes for Nine Men's Morris layout -->
+                <!-- Outer square corners and midpoints -->
+                <div class="node" id="1" data-node="1"></div>
+                <div class="node" id="2" data-node="2"></div>
+                <div class="node" id="3" data-node="3"></div>
+                <div class="node" id="4" data-node="4"></div>
+                <div class="node" id="5" data-node="5"></div>
+                <div class="node" id="6" data-node="6"></div>
+                <div class="node" id="7" data-node="7"></div>
+                <div class="node" id="8" data-node="8"></div>
+
+                <!-- Middle square corners and midpoints -->
+                <div class="node" id="9" data-node="9"></div>
+                <div class="node" id="10" data-node="10"></div>
+                <div class="node" id="11" data-node="11"></div>
+                <div class="node" id="12" data-node="12"></div>
+                <div class="node" id="13" data-node="13"></div>
+                <div class="node" id="14" data-node="14"></div>
+                <div class="node" id="15" data-node="15"></div>
+                <div class="node" id="16" data-node="16"></div>
+
+                <!-- Inner square corners and midpoints -->
+                <div class="node" id="17" data-node="17"></div>
+                <div class="node" id="18" data-node="18"></div>
+                <div class="node" id="19" data-node="19"></div>
+                <div class="node" id="20" data-node="20"></div>
+                <div class="node" id="21" data-node="21"></div>
+                <div class="node" id="22" data-node="22"></div>
+                <div class="node" id="23" data-node="23"></div>
+                <div class="node" id="24" data-node="24"></div>
+
+                <!-- SVG for connecting lines - Nine Men's Morris layout -->
+                <svg class="edges" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer square edges -->
+                    <line x1="30" y1="30" x2="140" y2="30" class="edge" data-edge="1-2" />
+                    <line x1="140" y1="30" x2="260" y2="30" class="edge" data-edge="2-3" />
+                    <line x1="260" y1="30" x2="260" y2="140" class="edge" data-edge="3-4" />
+                    <line x1="260" y1="140" x2="260" y2="260" class="edge" data-edge="4-5" />
+                    <line x1="260" y1="260" x2="140" y2="260" class="edge" data-edge="5-6" />
+                    <line x1="140" y1="260" x2="30" y2="260" class="edge" data-edge="6-7" />
+                    <line x1="30" y1="260" x2="30" y2="140" class="edge" data-edge="7-8" />
+                    <line x1="30" y1="140" x2="30" y2="30" class="edge" data-edge="8-1" />
+
+                    <!-- Middle square edges -->
+                    <line x1="70" y1="70" x2="140" y2="70" class="edge" data-edge="9-10" />
+                    <line x1="140" y1="70" x2="220" y2="70" class="edge" data-edge="10-11" />
+                    <line x1="220" y1="70" x2="220" y2="140" class="edge" data-edge="11-12" />
+                    <line x1="220" y1="140" x2="220" y2="220" class="edge" data-edge="12-13" />
+                    <line x1="220" y1="220" x2="140" y2="220" class="edge" data-edge="13-14" />
+                    <line x1="140" y1="220" x2="70" y2="220" class="edge" data-edge="14-15" />
+                    <line x1="70" y1="220" x2="70" y2="140" class="edge" data-edge="15-16" />
+                    <line x1="70" y1="140" x2="70" y2="70" class="edge" data-edge="16-9" />
+
+                    <!-- Inner square edges -->
+                    <line x1="110" y1="110" x2="140" y2="110" class="edge" data-edge="17-18" />
+                    <line x1="140" y1="110" x2="180" y2="110" class="edge" data-edge="18-19" />
+                    <line x1="180" y1="110" x2="180" y2="140" class="edge" data-edge="19-20" />
+                    <line x1="180" y1="140" x2="180" y2="180" class="edge" data-edge="20-21" />
+                    <line x1="180" y1="180" x2="140" y2="180" class="edge" data-edge="21-22" />
+                    <line x1="140" y1="180" x2="110" y2="180" class="edge" data-edge="22-23" />
+                    <line x1="110" y1="180" x2="110" y2="140" class="edge" data-edge="23-24" />
+                    <line x1="110" y1="140" x2="110" y2="110" class="edge" data-edge="24-17" />
+
+                    <!-- Midpoint connections (bridges between squares) -->
+                    <!-- Top midpoints -->
+                    <line x1="140" y1="30" x2="140" y2="70" class="edge" data-edge="2-10" />
+                    <line x1="140" y1="70" x2="140" y2="110" class="edge" data-edge="10-18" />
+
+                    <!-- Bottom midpoints -->
+                    <line x1="140" y1="110" x2="140" y2="180" class="edge" data-edge="18-22" />
+                    <line x1="140" y1="180" x2="140" y2="220" class="edge" data-edge="22-14" />
+                    <line x1="140" y1="220" x2="140" y2="260" class="edge" data-edge="14-6" />
+
+                    <!-- Left midpoints -->
+                    <line x1="30" y1="140" x2="70" y2="140" class="edge" data-edge="8-16" />
+                    <line x1="70" y1="140" x2="110" y2="140" class="edge" data-edge="16-24" />
+
+                    <!-- Right midpoints -->
+                    <line x1="110" y1="140" x2="180" y2="140" class="edge" data-edge="24-20" />
+                    <line x1="180" y1="140" x2="220" y2="140" class="edge" data-edge="20-12" />
+                    <line x1="220" y1="140" x2="260" y2="140" class="edge" data-edge="12-4" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="homeBtn" class="btn btn-home">🏠 Home</button>
+            <button id="resetBtn" class="btn btn-reset">🔄 Reset Game</button>
+            <button id="rulesBtn" class="btn btn-rules">📖 Rules</button>
+        </div>
+
+        <!-- Rules Modal -->
+        <div id="rulesModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>🎮 Lakīr-9 Game Rules</h2>
+                <div class="rules-content">
+                    <h3>📋 Objective</h3>
+                    <p>Capture all of the opponent's stones or leave them with no legal moves.</p>
+
+                    <h3>🎯 Game Setup</h3>
+                    <p>Each player starts with 9 stones. The board has 24 positions arranged in a layered square frame.
+                    </p>
+
+                    <h3>📌 Phase 1: Stone Placement</h3>
+                    <ul>
+                        <li>Players take turns placing one stone per turn on any empty position.</li>
+                        <li>If a player forms a line of 3 stones (row or column), they immediately capture one opponent
+                            stone.</li>
+                        <li>After capturing, the player gets an extra turn to move an existing stone (no additional
+                            placement).</li>
+                        <li>Each row/column can only give one capture per player during the entire game.</li>
+                    </ul>
+
+                    <h3>🔄 Phase 2: Movement and Capture</h3>
+                    <ul>
+                        <li>Players move their existing stones one at a time per turn.</li>
+                        <li>Stones can only move along connecting lines to adjacent empty positions.</li>
+                        <li>Captures occur when a player makes a new row or column of 3 stones.</li>
+                        <li>That specific row/column is "claimed" and cannot be used again for capture by the same
+                            player.</li>
+                    </ul>
+
+                    <h3>🏆 Winning</h3>
+                    <p>The game ends when a player has no stones left or no valid moves left.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lakir9-script.js" defer></script>
+</body>
+
+</html>
