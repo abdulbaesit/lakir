@@ -1,5 +1,6 @@
 class Lakir1Game {
     constructor() {
+        console.log('Lakir1Game constructor called');
         this.nodes = ['A', 'B', 'C', 'D', 'E'];
         this.edges = [
             ['A', 'B'], ['A', 'C'], ['B', 'C'],
@@ -16,9 +17,11 @@ class Lakir1Game {
 
         this.initializeGame();
         this.setupEventListeners();
+        console.log('Lakir1Game initialization complete');
     }
 
     initializeGame() {
+        console.log('initializeGame called');
         // Clear board
         this.gameState.board = {};
         this.gameState.currentPlayer = 1;
@@ -31,29 +34,60 @@ class Lakir1Game {
         this.clearNodeStates();
         this.updatePlayerDisplay();
         this.updateStatus();
+        console.log('initializeGame complete');
     }
 
     setupEventListeners() {
         // Node click events
         this.nodes.forEach(nodeId => {
             const node = document.getElementById(nodeId);
-            node.addEventListener('click', () => this.handleNodeClick(nodeId));
-            node.addEventListener('mouseenter', () => this.handleNodeMouseEnter(nodeId));
-            node.addEventListener('mouseleave', () => node.style.cursor = '');
+            if (node) {
+                node.addEventListener('click', () => this.handleNodeClick(nodeId));
+                node.addEventListener('mouseenter', () => this.handleNodeMouseEnter(nodeId));
+                node.addEventListener('mouseleave', () => node.style.cursor = '');
+            } else {
+                console.error(`Node ${nodeId} not found`);
+            }
         });
 
         // Control buttons
-        document.getElementById('homeBtn').addEventListener('click', () => window.location.href = 'index.html');
-        document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-        document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
+        const homeBtn = document.getElementById('homeBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const rulesBtn = document.getElementById('rulesBtn');
+
+        if (homeBtn) {
+            homeBtn.addEventListener('click', () => window.location.href = 'index.html');
+        } else {
+            console.error('Home button not found');
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.resetGame());
+        } else {
+            console.error('Reset button not found');
+        }
+
+        if (rulesBtn) {
+            rulesBtn.addEventListener('click', () => this.showRules());
+        } else {
+            console.error('Rules button not found');
+        }
 
         // Modal close
         const modal = document.getElementById('rulesModal');
-        const closeBtn = modal.querySelector('.close');
-        closeBtn.addEventListener('click', () => this.hideRules());
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) this.hideRules();
-        });
+        if (modal) {
+            const closeBtn = modal.querySelector('.close-rules-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => this.hideRules());
+            } else {
+                console.error('Close button not found');
+            }
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) this.hideRules();
+            });
+        } else {
+            console.error('Rules modal not found');
+        }
     }
 
     handleNodeClick(nodeId) {
@@ -290,14 +324,34 @@ class Lakir1Game {
 
 // Initialize the game when the page loads
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded event fired');
+
+    // Initialize the game
+    const game = new Lakir1Game();
+    console.log('Game instance created:', game);
+
+    // Set up rules modal
     const rulesBtn = document.getElementById('rulesBtn');
     const rulesModal = document.getElementById('rulesModal');
+    const closeBtn = rulesModal.querySelector('.close-rules-btn');
+
+    console.log('Rules button found:', rulesBtn);
+    console.log('Rules modal found:', rulesModal);
+    console.log('Close button found:', closeBtn);
+
     rulesBtn.addEventListener('click', function () {
         rulesModal.style.display = 'block';
     });
+
+    closeBtn.addEventListener('click', function () {
+        rulesModal.style.display = 'none';
+    });
+
     rulesModal.addEventListener('click', function (e) {
-        if (e.target.classList.contains('close') || e.target.classList.contains('close-rules-btn') || e.target === rulesModal) {
+        if (e.target === rulesModal) {
             rulesModal.style.display = 'none';
         }
     });
+
+    console.log('All event listeners set up');
 }); 

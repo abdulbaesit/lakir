@@ -369,13 +369,24 @@ class Lakir3Game {
 
 // Initialize the game when the page loads
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the game
+    const game = new Lakir3Game();
+
+    // Set up rules modal
     const rulesBtn = document.getElementById('rulesBtn');
     const rulesModal = document.getElementById('rulesModal');
+    const closeBtn = rulesModal.querySelector('.close-rules-btn');
+
     rulesBtn.addEventListener('click', function () {
         rulesModal.style.display = 'block';
     });
+
+    closeBtn.addEventListener('click', function () {
+        rulesModal.style.display = 'none';
+    });
+
     rulesModal.addEventListener('click', function (e) {
-        if (e.target.classList.contains('close') || e.target.classList.contains('close-rules-btn') || e.target === rulesModal) {
+        if (e.target === rulesModal) {
             rulesModal.style.display = 'none';
         }
     });
