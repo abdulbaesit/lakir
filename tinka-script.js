@@ -143,17 +143,11 @@ class TinkaGame {
                     return;
                 }
 
-                // Handle extra turn after capture
-                if (captured && this.hasValidMoves(row, col)) {
-                    this.gameState.extraTurn = true;
-                    this.selectCell(row, col); // Keep the same stone selected
-                } else {
-                    // Switch players
-                    this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
-                    this.gameState.extraTurn = false;
-                    this.updatePlayerDisplay();
-                    this.updateStatus();
-                }
+                // Switch players (no extra turn after capture)
+                this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
+                this.gameState.extraTurn = false;
+                this.updatePlayerDisplay();
+                this.updateStatus();
             } else if (this.board[row][col] === this.gameState.currentPlayer) {
                 // Select different stone
                 this.selectCell(row, col);
@@ -346,11 +340,7 @@ class TinkaGame {
                 statusText.textContent = `Player ${this.gameState.currentPlayer}, place your stone!`;
             }
         } else {
-            if (this.gameState.extraTurn) {
-                statusText.textContent = `Player ${this.gameState.currentPlayer}, you have an extra turn after capture!`;
-            } else {
-                statusText.textContent = `Player ${this.gameState.currentPlayer}, select your stone to move!`;
-            }
+            statusText.textContent = `Player ${this.gameState.currentPlayer}, select your stone to move!`;
         }
     }
 

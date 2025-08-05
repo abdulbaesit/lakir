@@ -9,14 +9,24 @@
 </head>
 
 <body>
+    <!-- Parallax Background Elements -->
+    <div class="parallax-bg">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+        <div class="floating-shape shape-5"></div>
+        <div class="floating-shape shape-6"></div>
+    </div>
+
     <div class="container">
-        <header>
+        <header class="parallax-header">
             <h1>🎮 KK Games' Collection</h1>
             <p class="subtitle">Choose your favorite strategic game to play!</p>
         </header>
 
         <div class="games-grid">
-            <div class="game-card" onclick="window.location.href='saler.html'">
+            <div class="game-card">
                 <div class="game-icon">🕹️</div>
                 <h2>Sālĕr</h2>
                 <p>A strategic two-player game played on a graph shaped like the digit "4". Trap your opponent by
@@ -26,10 +36,10 @@
                     <span class="feature">Strategy</span>
                     <span class="feature">Quick Play</span>
                 </div>
-                <div class="play-button">Play Now</div>
+                <button class="play-button" onclick="window.location.href='saler.html'">Play Now</button>
             </div>
 
-            <div class="game-card" onclick="window.location.href='tinka.html'">
+            <div class="game-card">
                 <div class="game-icon">⚪</div>
                 <h2>Tinḳä</h2>
                 <p>A 3×3 grid capture game where players jump over opponents to remove their stones. Think strategically
@@ -39,10 +49,10 @@
                     <span class="feature">Capture</span>
                     <span class="feature">Tactical</span>
                 </div>
-                <div class="play-button">Play Now</div>
+                <button class="play-button" onclick="window.location.href='tinka.html'">Play Now</button>
             </div>
 
-            <div class="game-card" onclick="window.location.href='lakir.html'">
+            <div class="game-card">
                 <div class="game-icon">🔲</div>
                 <h2>Läḳīr</h2>
                 <p>A complex layered square frame game with 24 positions. Form lines of 3 to capture opponent stones
@@ -52,14 +62,16 @@
                     <span class="feature">Complex</span>
                     <span class="feature">Strategic</span>
                 </div>
-                <div class="play-button">Play Now</div>
+                <button class="play-button" onclick="window.location.href='lakir.html'">Play Now</button>
             </div>
         </div>
 
-        <footer>
+        <footer class="parallax-footer">
             <p>🎮 Enjoy playing these strategic games with friends and family!</p>
         </footer>
     </div>
+
+    <script src="homepage-script.js"></script>
 </body>
 
 </html>

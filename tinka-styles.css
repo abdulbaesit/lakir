@@ -3,30 +3,33 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 835px;
+    height: 660px;
+    margin: 0rem auto;
     padding: 2rem;
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    margin-top: -1.5rem;
 }
 
 header h1 {
     font-size: 2.5rem;
     color: #4a5568;
     margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
@@ -39,7 +42,7 @@ header h1 {
 .etymology {
     color: #a0aec0;
     font-size: 0.9rem;
-    margin-top: 0.25rem;
+    margin-top: -0.9rem;
     font-style: italic;
     text-align: center;
     max-width: 600px;
@@ -64,7 +67,7 @@ header h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 1rem;
 }
 
@@ -81,6 +84,7 @@ header h1 {
     border-radius: 10px;
     background: #f7fafc;
     border: 2px solid transparent;
+    transition: all 0.3s ease;
     font-weight: 600;
 }
 
@@ -132,20 +136,21 @@ header h1 {
 .game-board {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
 }
 
 .graph-container {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     margin: 0 auto;
 }
 
 .node {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(145deg, #fff, #e6e6e6);
     border: 3px solid #cbd5e0;
@@ -184,8 +189,8 @@ header h1 {
 }
 
 .node-content {
-    width: 26px;
-    height: 26px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -224,50 +229,50 @@ header h1 {
     }
 }
 
-/* Node positions for 3x3 grid on 200x200 board */
+/* Node positions for 3x3 grid on 300x300 board */
 [id="0,0"] {
-    top: 0px;
-    left: 0px;
+    top: -5px;
+    left: -5px;
 }
 
 [id="0,1"] {
-    top: 0px;
-    left: 80px;
+    top: -5px;
+    left: 120px;
 }
 
 [id="0,2"] {
-    top: 0px;
-    left: 160px;
+    top: -5px;
+    left: 250px;
 }
 
 [id="1,0"] {
-    top: 80px;
-    left: 0px;
+    top: 120px;
+    left: -5px;
 }
 
 [id="1,1"] {
-    top: 80px;
-    left: 80px;
+    top: 120px;
+    left: 120px;
 }
 
 [id="1,2"] {
-    top: 80px;
-    left: 160px;
+    top: 120px;
+    left: 250px;
 }
 
 [id="2,0"] {
-    top: 160px;
-    left: 0px;
+    top: 250px;
+    left: -5px;
 }
 
 [id="2,1"] {
-    top: 160px;
-    left: 80px;
+    top: 250px;
+    left: 120px;
 }
 
 [id="2,2"] {
-    top: 160px;
-    left: 160px;
+    top: 250px;
+    left: 250px;
 }
 
 .edges {
@@ -309,6 +314,8 @@ header h1 {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 0.5rem;
 }
 
 .btn {
@@ -449,67 +456,168 @@ header h1 {
         overflow-x: auto;
         word-break: break-word;
     }
+
+    .game-info {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+        align-items: center;
+    }
+
+    .player-info {
+        flex-shrink: 0;
+    }
+
+    .game-status {
+        flex: 1;
+        min-width: auto;
+    }
 }
 
 @media (max-width: 480px) {
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        margin: 0.5rem;
+        padding: 1rem;
+        width: auto;
+        height: auto;
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .game-info {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+        margin-bottom: 1rem;
+    }
+
+    .player-info {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .player {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .game-status {
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+        background: #edf2f7;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+    }
+
+    .game-board {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
     .graph-container {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
+        padding: 10px;
+        margin: 0 auto;
     }
 
     .node {
-        width: 32px;
-        height: 32px;
+        width: 35px;
+        height: 35px;
     }
 
     .node-content {
-        width: 20px;
-        height: 20px;
+        width: 23px;
+        height: 23px;
     }
 
-    /* Center nodes on grid intersections */
+    /* Correct node positions for 250x250 mobile board */
     [id="0,0"] {
-        top: 4px;
-        left: 4px;
+        top: 0px;
+        left: 0px;
     }
 
     [id="0,1"] {
-        top: 4px;
-        left: 84px;
+        top: 0px;
+        left: 115px;
     }
 
     [id="0,2"] {
-        top: 4px;
-        left: 164px;
+        top: 0px;
+        left: 235px;
     }
 
     [id="1,0"] {
-        top: 84px;
-        left: 4px;
+        top: 115px;
+        left: 0px;
     }
 
     [id="1,1"] {
-        top: 84px;
-        left: 84px;
+        top: 115px;
+        left: 115px;
     }
 
     [id="1,2"] {
-        top: 84px;
-        left: 164px;
+        top: 115px;
+        left: 230px;
     }
 
     [id="2,0"] {
-        top: 164px;
-        left: 4px;
+        top: 230px;
+        left: 0px;
     }
 
     [id="2,1"] {
-        top: 164px;
-        left: 84px;
+        top: 230px;
+        left: 115px;
     }
 
     [id="2,2"] {
-        top: 164px;
-        left: 164px;
+        top: 230px;
+        left: 230px;
+    }
+
+    .controls {
+        margin-top: 1rem;
+        gap: 0.5rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        padding: 1rem;
+        max-width: 98vw;
+        font-size: 0.9rem;
+    }
+
+    .rules-content h3 {
+        font-size: 1rem;
+    }
+
+    .rules-content {
+        max-width: 100vw;
+        overflow-x: auto;
+        word-break: break-word;
     }
 }

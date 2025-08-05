@@ -199,7 +199,16 @@ class LakirGame {
     handleMovement(node, nodeId) {
         if (this.gameState.selectedNode) {
             // Try to move to this node
-            if (this.gameState.board[nodeId]) return; // Node occupied
+            if (this.gameState.board[nodeId]) {
+                // If clicking on own stone, select it instead
+                if (this.gameState.board[nodeId] === this.gameState.currentPlayer) {
+                    this.clearSelection();
+                    this.gameState.selectedNode = nodeId;
+                    node.classList.add('selected');
+                    this.showValidMoves(nodeId);
+                }
+                return;
+            }
 
             // Check if move is valid (adjacent)
             if (!this.isValidMove(this.gameState.selectedNode, nodeId)) {
@@ -414,28 +423,45 @@ class LakirGame {
         }
     }
 
+    clearSelection() {
+        if (this.gameState.selectedNode) {
+            const selectedNode = document.getElementById(this.gameState.selectedNode);
+            if (selectedNode) {
+                selectedNode.classList.remove('selected');
+            }
+            this.clearValidMoves();
+            this.gameState.selectedNode = null;
+        }
+    }
+
+    clearValidMoves() {
+        document.querySelectorAll('.valid-move').forEach(node => {
+            node.classList.remove('valid-move');
+        });
+    }
+
     handleNodeMouseEnter(node) {
         if (this.gameState.gameOver) return;
 
-        if (this.gameState.gamePhase === 'placement') {
-            if (!this.gameState.board[node.id]) {
-                // Only show valid-move if it's not an invalid placement position
-                if (!this.wouldFormLine(node.id, this.gameState.currentPlayer) &&
-                    !node.classList.contains('invalid-placement')) {
-                    node.classList.add('valid-move');
-                }
-                // Invalid placement indicators are already shown by updateInvalidPlacementIndicators
+        const nodeId = node.id;
+        const player = this.gameState.board[nodeId];
+
+        if (this.gameState.captureMode) {
+            // During capture mode, opponent stones are clickable
+            const opponentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
+            if (player === opponentPlayer) {
+                node.style.cursor = 'pointer';
+            } else {
+                node.style.cursor = 'default';
+            }
+        } else if (player) {
+            if (player !== this.gameState.currentPlayer) {
+                node.style.cursor = 'not-allowed';
+            } else {
+                node.style.cursor = 'pointer';
             }
         } else {
-            if (this.gameState.selectedNode) {
-                if (!this.gameState.board[node.id] && this.isValidMove(this.gameState.selectedNode, node.id)) {
-                    node.classList.add('valid-move');
-                }
-            } else {
-                if (this.gameState.board[node.id] === this.gameState.currentPlayer) {
-                    node.classList.add('valid-move');
-                }
-            }
+            node.style.cursor = 'pointer';
         }
     }
 
@@ -450,15 +476,23 @@ class LakirGame {
     }
 
     updatePlayerDisplay() {
-        const player1Element = document.querySelector('.player1 .stone');
-        const player2Element = document.querySelector('.player2 .stone');
+        const player1Element = document.getElementById('player1');
+        const player2Element = document.getElementById('player2');
 
         if (player1Element) {
-            player1Element.style.backgroundColor = this.gameState.currentPlayer === 1 ? '#e53e3e' : '#cbd5e0';
+            if (this.gameState.currentPlayer === 1) {
+                player1Element.classList.add('active');
+            } else {
+                player1Element.classList.remove('active');
+            }
         }
 
         if (player2Element) {
-            player2Element.style.backgroundColor = this.gameState.currentPlayer === 2 ? '#3182ce' : '#cbd5e0';
+            if (this.gameState.currentPlayer === 2) {
+                player2Element.classList.add('active');
+            } else {
+                player2Element.classList.remove('active');
+            }
         }
     }
 
@@ -483,11 +517,11 @@ class LakirGame {
             if (this.gameState.gameOver) {
                 statusElement.textContent = `Game Over! Player ${this.gameState.winner} wins!`;
             } else if (this.gameState.captureMode) {
-                statusElement.textContent = `Player ${this.gameState.currentPlayer} - Select an opponent stone to capture!`;
+                statusElement.textContent = `Player ${this.gameState.currentPlayer}, Select an opponent stone to capture!`;
             } else if (this.gameState.gamePhase === 'placement') {
-                statusElement.textContent = `Player ${this.gameState.currentPlayer}'s turn - Place your stone`;
+                statusElement.textContent = `Player ${this.gameState.currentPlayer}, place your stone!`;
             } else {
-                statusElement.textContent = `Player ${this.gameState.currentPlayer}'s turn - Move your stone`;
+                statusElement.textContent = `Player ${this.gameState.currentPlayer}, select your stone to move!`;
             }
         }
     }

@@ -280,8 +280,34 @@ class Saler1Game {
     }
 
     updatePlayerDisplay() {
-        document.getElementById('player1').classList.toggle('active', this.gameState.currentPlayer === 1);
-        document.getElementById('player2').classList.toggle('active', this.gameState.currentPlayer === 2);
+        console.log('updatePlayerDisplay called, currentPlayer:', this.gameState.currentPlayer);
+        const player1Element = document.getElementById('player1');
+        const player2Element = document.getElementById('player2');
+
+        console.log('Player 1 element found:', !!player1Element);
+        console.log('Player 2 element found:', !!player2Element);
+
+        if (player1Element) {
+            const wasActive = player1Element.classList.contains('active');
+            if (this.gameState.currentPlayer === 1) {
+                player1Element.classList.add('active');
+            } else {
+                player1Element.classList.remove('active');
+            }
+            const isActive = player1Element.classList.contains('active');
+            console.log('Player 1 active state changed:', wasActive, '->', isActive);
+        }
+
+        if (player2Element) {
+            const wasActive = player2Element.classList.contains('active');
+            if (this.gameState.currentPlayer === 2) {
+                player2Element.classList.add('active');
+            } else {
+                player2Element.classList.remove('active');
+            }
+            const isActive = player2Element.classList.contains('active');
+            console.log('Player 2 active state changed:', wasActive, '->', isActive);
+        }
     }
 
     updateStatus() {
@@ -293,12 +319,7 @@ class Saler1Game {
         }
 
         if (this.gameState.gamePhase === 'placement') {
-            const placedStones = Object.keys(this.gameState.board).length;
-            if (placedStones === 0) {
-                statusText.textContent = 'Player 1, place your stone!';
-            } else if (placedStones === 1) {
-                statusText.textContent = 'Player 2, place your stone!';
-            }
+            statusText.textContent = `Player ${this.gameState.currentPlayer}, place your stone!`;
         } else {
             // Check if current player has any valid moves
             if (this.checkWinCondition()) {
@@ -311,6 +332,15 @@ class Saler1Game {
 
     resetGame() {
         this.initializeGame();
+    }
+
+    // Test function to manually switch players
+    testPlayerSwitch() {
+        console.log('Testing player switch...');
+        this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
+        console.log('Switched to player:', this.gameState.currentPlayer);
+        this.updatePlayerDisplay();
+        this.updateStatus();
     }
 
     showRules() {

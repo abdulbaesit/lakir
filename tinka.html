@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>⚪ Tinḳä</h1>
+            <h1>Tinḳä</h1>
             <p class="subtitle">A strategic 3×3 grid capture game</p>
             <p class="etymology">Inspired by Urdu "Teen" (three) — a playful, minimalist game of fast-paced strategy</p>
         </header>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="game-status" id="gameStatus">
-                <span id="statusText">Place your stones to begin!</span>
+                <span id="statusText">Player 1, place your stone!</span>
             </div>
         </div>
         <div class="game-board">
@@ -63,21 +63,21 @@
                     <div class="node-content"></div>
                 </div>
                 <!-- SVG for grid lines -->
-                <svg class="edges" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <svg class="edges" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
                     <!-- Horizontal lines -->
-                    <line x1="20" y1="20" x2="100" y2="20" class="edge" />
-                    <line x1="100" y1="20" x2="180" y2="20" class="edge" />
-                    <line x1="20" y1="100" x2="100" y2="100" class="edge" />
-                    <line x1="100" y1="100" x2="180" y2="100" class="edge" />
-                    <line x1="20" y1="180" x2="100" y2="180" class="edge" />
-                    <line x1="100" y1="180" x2="180" y2="180" class="edge" />
+                    <line x1="15" y1="15" x2="125" y2="15" class="edge" />
+                    <line x1="125" y1="15" x2="235" y2="15" class="edge" />
+                    <line x1="15" y1="125" x2="125" y2="125" class="edge" />
+                    <line x1="125" y1="125" x2="235" y2="125" class="edge" />
+                    <line x1="15" y1="235" x2="125" y2="235" class="edge" />
+                    <line x1="125" y1="235" x2="235" y2="235" class="edge" />
                     <!-- Vertical lines -->
-                    <line x1="20" y1="20" x2="20" y2="100" class="edge" />
-                    <line x1="20" y1="100" x2="20" y2="180" class="edge" />
-                    <line x1="100" y1="20" x2="100" y2="100" class="edge" />
-                    <line x1="100" y1="100" x2="100" y2="180" class="edge" />
-                    <line x1="180" y1="20" x2="180" y2="100" class="edge" />
-                    <line x1="180" y1="100" x2="180" y2="180" class="edge" />
+                    <line x1="15" y1="15" x2="15" y2="125" class="edge" />
+                    <line x1="15" y1="125" x2="15" y2="235" class="edge" />
+                    <line x1="125" y1="15" x2="125" y2="125" class="edge" />
+                    <line x1="125" y1="125" x2="125" y2="235" class="edge" />
+                    <line x1="235" y1="15" x2="235" y2="125" class="edge" />
+                    <line x1="235" y1="125" x2="235" y2="235" class="edge" />
                 </svg>
             </div>
         </div>
@@ -118,17 +118,12 @@
                     <li>You can <b>capture an opponent's stone</b> if:</li>
                     <ul>
                         <li>Your stone is on one side of a line of 3 ⚪ in a straight row or column.</li>
-                        <li>The <b>middle ⚪ is occupied by an opponent’s stone</b>.</li>
+                        <li>The <b>middle ⚪ is occupied by an opponent's stone</b>.</li>
                         <li>The <b>far-end ⚪ is empty</b>.</li>
                     </ul>
-                    <li>Then, you may <b>jump over the opponent’s stone into the far ⚪</b>.</li>
-                    <li>The opponent’s stone is <b>removed from the board</b>.</li>
+                    <li>Then, you may <b>jump over the opponent's stone into the far ⚪</b>.</li>
+                    <li>The opponent's stone is <b>removed from the board</b>.</li>
                     <li>✅ This move is like jumping in checkers, but <b>only allowed orthogonally</b>.</li>
-                </ul>
-                <h3>🔁 Extra Turn After Capture</h3>
-                <ul>
-                    <li>A <b>successful capture grants an extra turn</b>.</li>
-                    <li>If another capture is immediately possible, the player may <b>continue jumping</b>.</li>
                 </ul>
                 <h3>⛔ Blocked Moves</h3>
                 <ul>

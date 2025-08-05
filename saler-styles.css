@@ -21,9 +21,12 @@ body {
     padding: 2rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
+    height: 725px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -95,9 +98,9 @@ header h1 {
 }
 
 .player.active {
-    border-color: #4299e1;
-    background: #ebf8ff;
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+    border-color: #4299e1 !important;
+    background: #ebf8ff !important;
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3) !important;
 }
 
 .stone {
@@ -134,15 +137,15 @@ header h1 {
 
 .graph-container {
     position: relative;
-    width: 400px;
-    height: 300px;
+    width: 500px;
+    height: 400px;
     margin: 0 auto;
 }
 
 .node {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: linear-gradient(145deg, #ffffff, #e6e6e6);
     border: 3px solid #cbd5e0;
@@ -170,8 +173,8 @@ header h1 {
 }
 
 .node-content {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -225,28 +228,28 @@ header h1 {
 
 /* Node positions */
 #A {
-    top: 20px;
-    left: 170px;
+    top: 25px;
+    left: 215px;
 }
 
 #B {
-    top: 120px;
-    left: 70px;
+    top: 150px;
+    left: 87px;
 }
 
 #C {
-    top: 120px;
-    left: 170px;
+    top: 150px;
+    left: 215px;
 }
 
 #D {
-    top: 220px;
-    left: 170px;
+    top: 275px;
+    left: 215px;
 }
 
 #E {
-    top: 120px;
-    left: 270px;
+    top: 150px;
+    left: 343px;
 }
 
 .edges {
@@ -294,6 +297,9 @@ header h1 {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: -1.75rem;
+    padding-top: 0;
+    margin-bottom: 1rem;
 }
 
 .btn {
