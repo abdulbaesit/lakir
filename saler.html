@@ -1,14 +1,267 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sālĕr</title>
+    <title>Sālĕr - KK Board Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="saler-styles.css">
+
+    <!-- Squid Game Audio -->
+    <audio id="squid-game-theme" loop preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-04.wav" type="audio/wav">
+    </audio>
+    <audio id="red-light-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
+    </audio>
+    <audio id="green-light-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
 </head>
 
 <body>
+    <!-- Cosmic Background -->
+    <div class="parallax-container">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+        <div class="parallax-layer layer-4"></div>
+        <div class="parallax-layer layer-5"></div>
+
+        <!-- Floating Particles -->
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <!-- Interactive Grid -->
+        <div class="interactive-grid">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+        </div>
+
+        <!-- Cosmic Effects -->
+        <div class="aurora-effect"></div>
+        <div class="nebula-clouds"></div>
+        <div class="energy-rings"></div>
+        <div class="cosmic-dust"></div>
+        <div class="stellar-particles"></div>
+        <div class="quantum-waves"></div>
+        <div class="plasma-orbs"></div>
+        <div class="neural-network"></div>
+        <div class="holographic-grid"></div>
+        <div class="time-portals"></div>
+        <div class="crystal-shards"></div>
+        <div class="energy-beams"></div>
+        <div class="cosmic-strings"></div>
+        <div class="dimensional-rifts"></div>
+        <div class="quantum-foam"></div>
+        <div class="stellar-wind"></div>
+    </div>
+
+    <!-- Squid Game Elements -->
+    <div class="squid-game-elements">
+        <div class="squid-shape circle-shape"></div>
+        <div class="squid-shape triangle-shape"></div>
+        <div class="squid-shape square-shape"></div>
+        <div class="squid-shape circle-shape-2"></div>
+        <div class="squid-shape triangle-shape-2"></div>
+        <div class="squid-shape square-shape-2"></div>
+
+        <div class="pink-soldier soldier-1"></div>
+        <div class="pink-soldier soldier-2"></div>
+        <div class="pink-soldier soldier-3"></div>
+
+        <div class="game-mask mask-1"></div>
+        <div class="game-mask mask-2"></div>
+        <div class="game-mask mask-3"></div>
+
+        <div class="glass-panel panel-1"></div>
+        <div class="glass-panel panel-2"></div>
+        <div class="glass-panel panel-3"></div>
+        <div class="glass-panel panel-4"></div>
+        <div class="glass-panel panel-5"></div>
+        <div class="glass-panel panel-6"></div>
+
+        <div class="honeycomb-game">
+            <div class="honeycomb-cell cell-1"></div>
+            <div class="honeycomb-cell cell-2"></div>
+            <div class="honeycomb-cell cell-3"></div>
+            <div class="honeycomb-cell cell-4"></div>
+            <div class="honeycomb-cell cell-5"></div>
+            <div class="honeycomb-cell cell-6"></div>
+        </div>
+
+        <div class="tug-rope">
+            <div class="rope-segment segment-1"></div>
+            <div class="rope-segment segment-2"></div>
+            <div class="rope-segment segment-3"></div>
+            <div class="rope-segment segment-4"></div>
+        </div>
+
+        <div class="marbles-container">
+            <div class="marble marble-1"></div>
+            <div class="marble marble-2"></div>
+            <div class="marble marble-3"></div>
+            <div class="marble marble-4"></div>
+            <div class="marble marble-5"></div>
+            <div class="marble marble-6"></div>
+        </div>
+
+        <div class="doll-container">
+            <div class="doll-head"></div>
+            <div class="doll-body"></div>
+            <div class="doll-arm arm-left"></div>
+            <div class="doll-arm arm-right"></div>
+            <div class="doll-eye eye-left"></div>
+            <div class="doll-eye eye-right"></div>
+        </div>
+
+        <div class="vip-chair chair-1"></div>
+        <div class="vip-chair chair-2"></div>
+        <div class="vip-chair chair-3"></div>
+
+        <div class="money-pile pile-1"></div>
+        <div class="money-pile pile-2"></div>
+        <div class="money-pile pile-3"></div>
+
+        <div class="arena-light light-1"></div>
+        <div class="arena-light light-2"></div>
+        <div class="arena-light light-3"></div>
+        <div class="arena-light light-4"></div>
+
+        <div class="squid-logo">
+            <div class="logo-circle"></div>
+            <div class="logo-triangle"></div>
+            <div class="logo-square"></div>
+        </div>
+
+        <div class="player-number number-456">456</div>
+        <div class="player-number number-067">067</div>
+        <div class="player-number number-001">001</div>
+
+        <div class="game-instruction instruction-1">Red Light</div>
+        <div class="game-instruction instruction-2">Green Light</div>
+        <div class="game-instruction instruction-3">Move Forward</div>
+
+        <div class="elimination-effect elim-1"></div>
+        <div class="elimination-effect elim-2"></div>
+        <div class="elimination-effect elim-3"></div>
+
+        <div class="money-counter">
+            <div class="counter-digit">₩</div>
+            <div class="counter-digit">4</div>
+            <div class="counter-digit">5</div>
+            <div class="counter-digit">6</div>
+            <div class="counter-digit">,</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">,</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">,</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+            <div class="counter-digit">0</div>
+        </div>
+
+        <div class="game-timer">
+            <div class="timer-display">00:00</div>
+            <div class="timer-progress"></div>
+        </div>
+
+        <div class="camera camera-1">
+            <div class="camera-body">
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+        </div>
+        <div class="camera camera-2">
+            <div class="camera-body">
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+        </div>
+        <div class="camera camera-3">
+            <div class="camera-body">
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+        </div>
+
+        <div class="guard-tower tower-1">
+            <div class="tower-base"></div>
+            <div class="tower-top"></div>
+            <div class="guard-spotlight"></div>
+        </div>
+        <div class="guard-tower tower-2">
+            <div class="tower-base"></div>
+            <div class="tower-top"></div>
+            <div class="guard-spotlight"></div>
+        </div>
+
+        <div class="arena-fence fence-top"></div>
+        <div class="arena-fence fence-bottom"></div>
+        <div class="arena-fence fence-left"></div>
+        <div class="arena-fence fence-right"></div>
+
+        <div class="audio-controls">
+            <button class="theme-icon" id="themeToggle">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button class="audio-btn" id="toggleMusic">🔇</button>
+            <button class="audio-btn" id="toggleSfx">🔇</button>
+        </div>
+    </div>
+
+
+
     <div class="container">
         <header>
             <h1>Sālĕr</h1>

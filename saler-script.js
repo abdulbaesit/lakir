@@ -377,6 +377,267 @@ document.addEventListener('DOMContentLoaded', function () {
         rulesModal.style.display = 'none';
     });
 
+    // Squid Game Audio Controls
+    let musicEnabled = false;
+    let sfxEnabled = false;
+
+    const squidGameTheme = document.getElementById('squid-game-theme');
+    const redLightSound = document.getElementById('red-light-sound');
+    const greenLightSound = document.getElementById('green-light-sound');
+    const toggleMusicBtn = document.getElementById('toggleMusic');
+    const toggleSfxBtn = document.getElementById('toggleSfx');
+
+    function toggleMusic() {
+        musicEnabled = !musicEnabled;
+        if (musicEnabled) {
+            // Set volume and play
+            squidGameTheme.volume = 0.3;
+            squidGameTheme.play().then(() => {
+                toggleMusicBtn.classList.add('active');
+                toggleMusicBtn.textContent = '🎵';
+                console.log('Music started successfully');
+            }).catch(e => {
+                console.log('Audio play failed:', e);
+                // Fallback: try to enable audio context
+                if (e.name === 'NotAllowedError') {
+                    console.log('Audio not allowed, user interaction required');
+                }
+            });
+        } else {
+            squidGameTheme.pause();
+            toggleMusicBtn.classList.remove('active');
+            toggleMusicBtn.textContent = '🔇';
+            console.log('Music paused');
+        }
+    }
+
+    function toggleSfx() {
+        sfxEnabled = !sfxEnabled;
+        if (sfxEnabled) {
+            toggleSfxBtn.classList.add('active');
+            toggleSfxBtn.textContent = '🔊';
+        } else {
+            toggleSfxBtn.classList.remove('active');
+            toggleSfxBtn.textContent = '🔇';
+        }
+    }
+
+    // Audio Control Event Listeners
+    toggleMusicBtn.addEventListener('click', toggleMusic);
+    toggleSfxBtn.addEventListener('click', toggleSfx);
+
+    // Enable audio on first user interaction
+    document.addEventListener('click', function enableAudio() {
+        // This ensures audio can play after user interaction
+        squidGameTheme.load();
+        redLightSound.load();
+        greenLightSound.load();
+        document.removeEventListener('click', enableAudio);
+    }, { once: true });
+
+    // Red Light Green Light Game Logic - DISABLED to prevent layout issues
+    let isRedLight = false;
+    let gameTimer = 0;
+
+    function startRedLightGreenLight() {
+        // Disabled to prevent layout shifts and blur effects
+        /*
+        setInterval(() => {
+            isRedLight = !isRedLight;
+            if (isRedLight) {
+                if (sfxEnabled) {
+                    redLightSound.volume = 0.2;
+                    redLightSound.play().catch(e => console.log('Red light sound failed:', e));
+                }
+                document.body.style.filter = 'hue-rotate(0deg)';
+            } else {
+                if (sfxEnabled) {
+                    greenLightSound.volume = 0.2;
+                    greenLightSound.play().catch(e => console.log('Green light sound failed:', e));
+                }
+                document.body.style.filter = 'hue-rotate(120deg)';
+            }
+        }, 5000); // Change every 5 seconds
+        */
+    }
+
+    // Start the Red Light Green Light game
+    startRedLightGreenLight();
+
+    // Money Counter Animation
+    function animateMoneyCounter() {
+        const digits = document.querySelectorAll('.counter-digit');
+        let currentAmount = 456000000000;
+
+        setInterval(() => {
+            currentAmount += Math.floor(Math.random() * 1000000);
+            const amountStr = currentAmount.toString().padStart(12, '0');
+
+            digits.forEach((digit, index) => {
+                if (index === 0) {
+                    digit.textContent = '₩';
+                } else {
+                    digit.textContent = amountStr[index - 1];
+                }
+            });
+        }, 2000);
+    }
+
+    animateMoneyCounter();
+
+    // Game Timer Animation
+    function updateGameTimer() {
+        const timerDisplay = document.querySelector('.timer-display');
+        let seconds = 0;
+
+        setInterval(() => {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    updateGameTimer();
+
+    // Interactive Camera Effects
+    function setupCameraInteractions() {
+        const cameras = document.querySelectorAll('.camera');
+
+        cameras.forEach(camera => {
+            camera.addEventListener('mouseenter', function () {
+                if (sfxEnabled) {
+                    // Play camera sound effect
+                    const cameraSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                    cameraSound.play().catch(e => console.log('Audio play failed:', e));
+                }
+                this.style.transform = 'scale(1.2)';
+            });
+
+            camera.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    }
+
+    setupCameraInteractions();
+
+    // Elimination Effects Trigger
+    function triggerEliminationEffects() {
+        const elimEffects = document.querySelectorAll('.elimination-effect');
+
+        setInterval(() => {
+            const randomEffect = elimEffects[Math.floor(Math.random() * elimEffects.length)];
+            randomEffect.style.animation = 'none';
+            randomEffect.offsetHeight; // Trigger reflow
+            randomEffect.style.animation = 'elimination-blast 2s ease-out';
+
+            if (sfxEnabled) {
+                const elimSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                elimSound.play().catch(e => console.log('Audio play failed:', e));
+            }
+        }, 8000);
+    }
+
+    triggerEliminationEffects();
+
+    // Guard Tower Effects
+    function setupGuardTowerEffects() {
+        const towers = document.querySelectorAll('.guard-tower');
+
+        towers.forEach(tower => {
+            const spotlight = tower.querySelector('.guard-spotlight');
+
+            tower.addEventListener('mouseenter', function () {
+                spotlight.style.animation = 'spotlight-sweep 2s ease-in-out infinite';
+            });
+
+            tower.addEventListener('mouseleave', function () {
+                spotlight.style.animation = 'spotlight-sweep 4s ease-in-out infinite';
+            });
+        });
+    }
+
+    setupGuardTowerEffects();
+
+    // Player Number Interactions
+    function setupPlayerNumberInteractions() {
+        const playerNumbers = document.querySelectorAll('.player-number');
+
+        playerNumbers.forEach(number => {
+            number.addEventListener('click', function () {
+                this.style.animation = 'none';
+                this.offsetHeight; // Trigger reflow
+                this.style.animation = 'number-pulse 4s ease-in-out infinite';
+
+                if (sfxEnabled) {
+                    const numberSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                    numberSound.play().catch(e => console.log('Audio play failed:', e));
+                }
+            });
+        });
+    }
+
+    setupPlayerNumberInteractions();
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    console.log('Theme toggle button found:', !!themeToggle);
+    console.log('HTML element found:', !!html);
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    console.log('Saved theme:', savedTheme);
+    html.setAttribute('data-theme', savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            console.log('Theme toggle clicked!');
+            console.log('Current theme:', currentTheme);
+            console.log('New theme:', newTheme);
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            console.log('Theme changed to:', newTheme);
+        });
+        console.log('Theme toggle event listener added successfully');
+    } else {
+        console.error('Theme toggle button not found');
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.key === 'm') {
+            e.preventDefault();
+            toggleMusic();
+        }
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            toggleSfx();
+        }
+    });
+
+    // Prevent auto-scrolling
+    window.scrollTo(0, 0);
+
+    // Force the page to stay at the top
+    function preventScroll() {
+        if (window.pageYOffset > 0) {
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // Check for scroll every 100ms
+    setInterval(preventScroll, 100);
+
     rulesModal.addEventListener('click', function (e) {
         if (e.target === rulesModal) {
             rulesModal.style.display = 'none';
