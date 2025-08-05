@@ -1,75 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lakīr - Homepage</title>
+    <title>KK Board Games</title>
     <link rel="stylesheet" href="homepage-styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+
+    <!-- Squid Game Audio -->
+    <audio id="squid-game-theme" loop preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-04.wav" type="audio/wav">
+    </audio>
+    <audio id="red-light-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
+    </audio>
+    <audio id="green-light-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
 </head>
 
 <body>
-    <!-- Parallax Background Elements -->
-    <div class="parallax-bg">
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-        <div class="floating-shape shape-4"></div>
-        <div class="floating-shape shape-5"></div>
-        <div class="floating-shape shape-6"></div>
-    </div>
+    <!-- Interactive Background Elements -->
+    <div class="parallax-container">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+        <div class="parallax-layer layer-4"></div>
+        <div class="parallax-layer layer-5"></div>
 
-    <div class="container">
-        <header class="parallax-header">
-            <h1>🎮 KK Games' Collection</h1>
-            <p class="subtitle">Choose your favorite strategic game to play!</p>
-        </header>
-
-        <div class="games-grid">
-            <div class="game-card">
-                <div class="game-icon">🕹️</div>
-                <h2>Sālĕr</h2>
-                <p>A strategic two-player game played on a graph shaped like the digit "4". Trap your opponent by
-                    blocking their escape routes!</p>
-                <div class="game-features">
-                    <span class="feature">2 Players</span>
-                    <span class="feature">Strategy</span>
-                    <span class="feature">Quick Play</span>
-                </div>
-                <button class="play-button" onclick="window.location.href='saler.html'">Play Now</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-icon">⚪</div>
-                <h2>Tinḳä</h2>
-                <p>A 3×3 grid capture game where players jump over opponents to remove their stones. Think strategically
-                    and plan your captures!</p>
-                <div class="game-features">
-                    <span class="feature">2 Players</span>
-                    <span class="feature">Capture</span>
-                    <span class="feature">Tactical</span>
-                </div>
-                <button class="play-button" onclick="window.location.href='tinka.html'">Play Now</button>
-            </div>
-
-            <div class="game-card">
-                <div class="game-icon">🔲</div>
-                <h2>Läḳīr</h2>
-                <p>A complex layered square frame game with 24 positions. Form lines of 3 to capture opponent stones
-                    and dominate the board!</p>
-                <div class="game-features">
-                    <span class="feature">2 Players</span>
-                    <span class="feature">Complex</span>
-                    <span class="feature">Strategic</span>
-                </div>
-                <button class="play-button" onclick="window.location.href='lakir.html'">Play Now</button>
-            </div>
+        <!-- Floating Particles -->
+        <div class="floating-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
         </div>
 
-        <footer class="parallax-footer">
-            <p>🎮 Enjoy playing these strategic games with friends and family!</p>
-        </footer>
+        <!-- Interactive Grid -->
+        <div class="interactive-grid"></div>
+
+        <!-- Aurora Effect -->
+        <div class="aurora-effect"></div>
+
+        <!-- Nebula Clouds -->
+        <div class="nebula-clouds"></div>
+
+        <!-- Energy Rings -->
+        <div class="energy-rings"></div>
+
+        <!-- Cosmic Dust -->
+        <div class="cosmic-dust"></div>
+
+        <!-- Stellar Particles -->
+        <div class="stellar-particles">
+            <div class="stellar-particle" style="top: 15%; left: 25%; animation-delay: 0s;"></div>
+            <div class="stellar-particle" style="top: 35%; left: 75%; animation-delay: 1s;"></div>
+            <div class="stellar-particle" style="top: 65%; left: 15%; animation-delay: 2s;"></div>
+            <div class="stellar-particle" style="top: 85%; left: 85%; animation-delay: 3s;"></div>
+            <div class="stellar-particle" style="top: 45%; left: 45%; animation-delay: 4s;"></div>
+        </div>
+
+        <!-- Quantum Waves -->
+        <div class="quantum-waves"></div>
+
+        <!-- Plasma Orbs -->
+        <div class="plasma-orbs">
+            <div class="plasma-orb" style="width: 60px; height: 60px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+            <div class="plasma-orb" style="width: 40px; height: 40px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+            <div class="plasma-orb" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: 4s;"></div>
+        </div>
+
+        <!-- Neural Network -->
+        <div class="neural-network"></div>
+
+        <!-- Holographic Grid -->
+        <div class="holographic-grid"></div>
+
+        <!-- Time Portals -->
+        <div class="time-portals">
+            <div class="time-portal" style="top: 30%; left: 20%;"></div>
+            <div class="time-portal" style="top: 70%; left: 70%;"></div>
+        </div>
+
+        <!-- Crystal Shards -->
+        <div class="crystal-shards">
+            <div class="crystal-shard" style="top: 25%; left: 15%;"></div>
+            <div class="crystal-shard" style="top: 75%; left: 75%;"></div>
+            <div class="crystal-shard" style="top: 45%; left: 85%;"></div>
+        </div>
+
+        <!-- Energy Beams -->
+        <div class="energy-beams">
+            <div class="energy-beam" style="top: 20%; left: 30%;"></div>
+            <div class="energy-beam" style="top: 60%; left: 60%;"></div>
+        </div>
+
+        <!-- Cosmic Strings -->
+        <div class="cosmic-strings"></div>
+
+        <!-- Dimensional Rifts -->
+        <div class="dimensional-rifts">
+            <div class="dimensional-rift" style="top: 40%; left: 10%;"></div>
+            <div class="dimensional-rift" style="top: 80%; left: 60%;"></div>
+        </div>
+
+        <!-- Quantum Foam -->
+        <div class="quantum-foam"></div>
+
+        <!-- Stellar Wind -->
+        <div class="stellar-wind"></div>
+
+        <!-- Squid Game Elements -->
+        <div class="squid-game-elements">
+            <!-- Circle, Triangle, Square shapes -->
+            <div class="squid-shape circle-shape"></div>
+            <div class="squid-shape triangle-shape"></div>
+            <div class="squid-shape square-shape"></div>
+            <div class="squid-shape circle-shape-2"></div>
+            <div class="squid-shape triangle-shape-2"></div>
+            <div class="squid-shape square-shape-2"></div>
+
+            <!-- Pink Soldiers -->
+            <div class="pink-soldier soldier-1"></div>
+            <div class="pink-soldier soldier-2"></div>
+            <div class="pink-soldier soldier-3"></div>
+
+            <!-- Game Masks -->
+            <div class="game-mask mask-1"></div>
+            <div class="game-mask mask-2"></div>
+            <div class="game-mask mask-3"></div>
+
+            <!-- Glass Bridge Panels -->
+            <div class="glass-panel panel-1"></div>
+            <div class="glass-panel panel-2"></div>
+            <div class="glass-panel panel-3"></div>
+            <div class="glass-panel panel-4"></div>
+            <div class="glass-panel panel-5"></div>
+            <div class="glass-panel panel-6"></div>
+
+            <!-- Honeycomb Game -->
+            <div class="honeycomb-game">
+                <div class="honeycomb-cell cell-1"></div>
+                <div class="honeycomb-cell cell-2"></div>
+                <div class="honeycomb-cell cell-3"></div>
+                <div class="honeycomb-cell cell-4"></div>
+                <div class="honeycomb-cell cell-5"></div>
+                <div class="honeycomb-cell cell-6"></div>
+            </div>
+
+            <!-- Tug of War Rope -->
+            <div class="tug-rope">
+                <div class="rope-segment segment-1"></div>
+                <div class="rope-segment segment-2"></div>
+                <div class="rope-segment segment-3"></div>
+                <div class="rope-segment segment-4"></div>
+            </div>
+
+            <!-- Marbles Game -->
+            <div class="marbles-container">
+                <div class="marble marble-1"></div>
+                <div class="marble marble-2"></div>
+                <div class="marble marble-3"></div>
+                <div class="marble marble-4"></div>
+                <div class="marble marble-5"></div>
+                <div class="marble marble-6"></div>
+            </div>
+
+            <!-- Red Light Green Light Doll -->
+            <div class="doll-container">
+                <div class="doll-head"></div>
+                <div class="doll-body"></div>
+                <div class="doll-arm arm-left"></div>
+                <div class="doll-arm arm-right"></div>
+                <div class="doll-eye eye-left"></div>
+                <div class="doll-eye eye-right"></div>
+            </div>
+
+            <!-- VIP Chairs -->
+            <div class="vip-chair chair-1"></div>
+            <div class="vip-chair chair-2"></div>
+            <div class="vip-chair chair-3"></div>
+
+            <!-- Money Piles -->
+            <div class="money-pile pile-1"></div>
+            <div class="money-pile pile-2"></div>
+            <div class="money-pile pile-3"></div>
+
+            <!-- Game Arena Lights -->
+            <div class="arena-light light-1"></div>
+            <div class="arena-light light-2"></div>
+            <div class="arena-light light-3"></div>
+            <div class="arena-light light-4"></div>
+
+            <!-- Squid Game Logo -->
+            <div class="squid-logo">
+                <div class="logo-circle"></div>
+                <div class="logo-triangle"></div>
+                <div class="logo-square"></div>
+            </div>
+
+            <!-- Player Numbers -->
+            <div class="player-number number-456"></div>
+            <div class="player-number number-067"></div>
+            <div class="player-number number-001"></div>
+
+            <!-- Game Instructions -->
+            <div class="game-instruction instruction-1">Red Light</div>
+            <div class="game-instruction instruction-2">Green Light</div>
+            <div class="game-instruction instruction-3">Move Forward</div>
+
+            <!-- Elimination Effects -->
+            <div class="elimination-effect elim-1"></div>
+            <div class="elimination-effect elim-2"></div>
+            <div class="elimination-effect elim-3"></div>
+
+            <!-- Prize Money Counter -->
+            <div class="money-counter">
+                <div class="counter-digit digit-1">₩</div>
+                <div class="counter-digit digit-2">4</div>
+                <div class="counter-digit digit-3">5</div>
+                <div class="counter-digit digit-4">6</div>
+                <div class="counter-digit digit-5">0</div>
+                <div class="counter-digit digit-6">0</div>
+                <div class="counter-digit digit-7">0</div>
+                <div class="counter-digit digit-8">0</div>
+                <div class="counter-digit digit-9">0</div>
+                <div class="counter-digit digit-10">0</div>
+                <div class="counter-digit digit-11">0</div>
+                <div class="counter-digit digit-12">0</div>
+            </div>
+
+            <!-- Game Timer -->
+            <div class="game-timer">
+                <div class="timer-display">00:00</div>
+                <div class="timer-progress"></div>
+            </div>
+
+            <!-- Surveillance Cameras -->
+            <div class="camera camera-1">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+            <div class="camera camera-2">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+            <div class="camera camera-3">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+
+            <!-- Guard Towers -->
+            <div class="guard-tower tower-1">
+                <div class="tower-base"></div>
+                <div class="tower-top"></div>
+                <div class="guard-spotlight"></div>
+            </div>
+            <div class="guard-tower tower-2">
+                <div class="tower-base"></div>
+                <div class="tower-top"></div>
+                <div class="guard-spotlight"></div>
+            </div>
+
+            <!-- Game Arena Fence -->
+            <div class="arena-fence fence-top"></div>
+            <div class="arena-fence fence-bottom"></div>
+            <div class="arena-fence fence-left"></div>
+            <div class="arena-fence fence-right"></div>
+
+            <!-- Audio Controls -->
+            <div class="audio-controls">
+                <button class="audio-btn" id="toggle-music">🎵</button>
+                <button class="audio-btn" id="toggle-sfx">🔊</button>
+            </div>
+        </div>
     </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <div class="navbar-start">
+                    <a href="#" class="navbar-brand-name">KK Board Games</a>
+                </div>
+                <div class="navbar-end">
+                    <button class="theme-icon" id="theme-toggle">
+                        <svg class="moon-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg class="sun-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <section class="section animate-in" id="hero-section">
+            <div class="parallax-header">
+                <h1 class="title has-text-primary is-3">KK Board Games</h1>
+                <p class="subtitle">Experience the thrill of strategic gameplay with our collection of traditional board
+                    games</p>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-card" data-game="saler">
+                    <div class="game-icon">
+                        <i class="fas fa-chess-board"></i>
+                    </div>
+                    <h2>Sālĕr</h2>
+                    <p>A strategic 3×3 grid capture game inspired by Pashto traditions</p>
+                    <div class="game-features">
+                        <span class="feature">Strategic</span>
+                        <span class="feature">Fast-paced</span>
+                    </div>
+                    <a href="saler.html" class="play-button">Play Now</a>
+                </div>
+
+                <div class="game-card" data-game="tinka">
+                    <div class="game-icon">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <h2>Tinḳä</h2>
+                    <p>A minimalist 3×3 grid game with Urdu-inspired gameplay</p>
+                    <div class="game-features">
+                        <span class="feature">Minimalist</span>
+                        <span class="feature">Strategic</span>
+                    </div>
+                    <a href="tinka.html" class="play-button">Play Now</a>
+                </div>
+
+                <div class="game-card" data-game="lakir">
+                    <div class="game-icon">
+                        <i class="fas fa-dot-circle"></i>
+                    </div>
+                    <h2>Läḳīr</h2>
+                    <p>An advanced strategic game with complex movement and capture mechanics</p>
+                    <div class="game-features">
+                        <span class="feature">Advanced</span>
+                        <span class="feature">Complex</span>
+                    </div>
+                    <a href="lakir.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section animate-in" id="footer-section">
+            <div class="enhanced-footer">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <h3 class="footer-title">KK Board Games</h3>
+                        <p class="footer-subtitle">Strategic gameplay meets cultural heritage</p>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-section">
+                            <h4>Games</h4>
+                            <ul>
+                                <li><a href="saler.html">Sālĕr</a></li>
+                                <li><a href="tinka.html">Tinḳä</a></li>
+                                <li><a href="lakir.html">Läḳīr</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>About</h4>
+                            <ul>
+                                <li><a href="#about">Our Story</a></li>
+                                <li><a href="#rules">Game Rules</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Connect</h4>
+                            <ul>
+                                <li><a href="https://github.com/abdulbaesit" target="_blank">GitHub</a></li>
+                                <li><a href="https://linkedin.com/in/abdulbaesit" target="_blank">LinkedIn</a></li>
+                                <li><a href="mailto:abdulbaesit13@gmail.com">Email</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="copyright">© 2025 KK Board Games. All rights reserved.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/abdulbaesit" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/abdulbaesit" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:abdulbaesit13@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Mouse Trail Effect -->
+    <div class="mouse-trail" id="mouse-trail"></div>
 
     <script src="homepage-script.js"></script>
 </body>
