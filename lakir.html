@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Läḳīr</title>
+    <link rel="stylesheet" href="lakir-styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Läḳīr</h1>
+            <p class="subtitle">A strategic 24-position concentric squares game</p>
+            <p class="etymology">From Urdu "Lakīr" meaning "line" - forming lines of three aligned stones</p>
+        </header>
+
+        <div class="game-info">
+            <div class="player-info">
+                <div class="player player1 active" id="player1">
+                    <div class="stone stone1"></div>
+                    <span>Player 1</span>
+                    <div class="stone-count" id="player1-count">9</div>
+                </div>
+                <div class="player player2" id="player2">
+                    <div class="stone stone2"></div>
+                    <span>Player 2</span>
+                    <div class="stone-count" id="player2-count">9</div>
+                </div>
+            </div>
+            <div class="game-status" id="gameStatus">
+                <span id="statusText">Place your stones to begin!</span>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="graph-container">
+                <!-- 25 Nodes: 12 corners + 12 midpoints + 1 center -->
+                <!-- Outer Square (8 nodes) -->
+                <div class="node" id="outer-tl" data-position="outer-corner-top-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-tm" data-position="outer-mid-top">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-tr" data-position="outer-corner-top-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-rm" data-position="outer-mid-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-br" data-position="outer-corner-bottom-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-bm" data-position="outer-mid-bottom">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-bl" data-position="outer-corner-bottom-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="outer-lm" data-position="outer-mid-left">
+                    <div class="node-content"></div>
+                </div>
+
+                <!-- Middle Square (8 nodes) -->
+                <div class="node" id="middle-tl" data-position="middle-corner-top-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-tm" data-position="middle-mid-top">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-tr" data-position="middle-corner-top-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-rm" data-position="middle-mid-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-br" data-position="middle-corner-bottom-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-bm" data-position="middle-mid-bottom">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-bl" data-position="middle-corner-bottom-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="middle-lm" data-position="middle-mid-left">
+                    <div class="node-content"></div>
+                </div>
+
+                <!-- Inner Square (8 nodes) -->
+                <div class="node" id="inner-tl" data-position="inner-corner-top-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-tm" data-position="inner-mid-top">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-tr" data-position="inner-corner-top-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-rm" data-position="inner-mid-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-br" data-position="inner-corner-bottom-right">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-bm" data-position="inner-mid-bottom">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-bl" data-position="inner-corner-bottom-left">
+                    <div class="node-content"></div>
+                </div>
+                <div class="node" id="inner-lm" data-position="inner-mid-left">
+                    <div class="node-content"></div>
+                </div>
+
+                <!-- SVG for connecting lines -->
+                <svg class="edges" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer square edges -->
+                    <line x1="35" y1="35" x2="175" y2="35" class="edge" />
+                    <line x1="175" y1="35" x2="315" y2="35" class="edge" />
+                    <line x1="315" y1="35" x2="315" y2="175" class="edge" />
+                    <line x1="315" y1="175" x2="315" y2="315" class="edge" />
+                    <line x1="175" y1="315" x2="315" y2="315" class="edge" />
+                    <line x1="35" y1="315" x2="175" y2="315" class="edge" />
+                    <line x1="35" y1="175" x2="35" y2="315" class="edge" />
+                    <line x1="35" y1="35" x2="35" y2="175" class="edge" />
+
+                    <!-- Middle square edges -->
+                    <line x1="85" y1="85" x2="175" y2="85" class="edge" />
+                    <line x1="175" y1="85" x2="265" y2="85" class="edge" />
+                    <line x1="265" y1="85" x2="265" y2="175" class="edge" />
+                    <line x1="265" y1="175" x2="265" y2="265" class="edge" />
+                    <line x1="175" y1="265" x2="265" y2="265" class="edge" />
+                    <line x1="85" y1="265" x2="175" y2="265" class="edge" />
+                    <line x1="85" y1="175" x2="85" y2="265" class="edge" />
+                    <line x1="85" y1="85" x2="85" y2="175" class="edge" />
+
+                    <!-- Inner square edges -->
+                    <line x1="135" y1="135" x2="175" y2="135" class="edge" />
+                    <line x1="175" y1="135" x2="215" y2="135" class="edge" />
+                    <line x1="215" y1="135" x2="215" y2="175" class="edge" />
+                    <line x1="215" y1="175" x2="215" y2="215" class="edge" />
+                    <line x1="175" y1="215" x2="215" y2="215" class="edge" />
+                    <line x1="135" y1="215" x2="175" y2="215" class="edge" />
+                    <line x1="135" y1="175" x2="135" y2="215" class="edge" />
+                    <line x1="135" y1="135" x2="135" y2="175" class="edge" />
+
+                    <!-- Connecting lines from outer to middle to inner -->
+                    <!-- Top vertical connections -->
+                    <line x1="175" y1="35" x2="175" y2="85" class="edge" />
+                    <line x1="175" y1="85" x2="175" y2="135" class="edge" />
+
+                    <!-- Right horizontal connections -->
+                    <line x1="315" y1="175" x2="265" y2="175" class="edge" />
+                    <line x1="265" y1="175" x2="215" y2="175" class="edge" />
+
+                    <!-- Bottom vertical connections -->
+                    <line x1="175" y1="315" x2="175" y2="265" class="edge" />
+                    <line x1="175" y1="265" x2="175" y2="215" class="edge" />
+
+                    <!-- Left horizontal connections -->
+                    <line x1="35" y1="175" x2="85" y2="175" class="edge" />
+                    <line x1="85" y1="175" x2="135" y2="175" class="edge" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="homeBtn" class="btn btn-home">🏠 Home</button>
+            <button id="resetBtn" class="btn btn-reset">🔄 New Game</button>
+            <button id="rulesBtn" class="btn btn-rules">📖 Rules</button>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <button class="close close-rules-btn" aria-label="Close">×</button>
+            <h2>🪨 Läḳīr – Rules</h2>
+            <div class="rules-content">
+                <p class="etymology-note"><em>From Urdu "Lakīr" meaning "line" — the core mechanic of forming lines of
+                        three aligned stones</em></p>
+
+                <h3>🎯 Objective</h3>
+                <p>Be the first to reduce your opponent to fewer than 3 stones on the board, so they can no longer form
+                    a straight line of 3. This ends the game in your victory.</p>
+
+                <h3>🧱 Game Components</h3>
+                <ul>
+                    <li>A custom board shaped like a layered geometric frame</li>
+                    <li>2 Players: Each with 9 identical stones</li>
+                    <li>A record of which lines have been claimed by each player</li>
+                </ul>
+
+                <h3>🪨 Phase 1: Stone Placement</h3>
+                <ul>
+                    <li><strong>Alternate Turns:</strong> Players take turns placing one stone at a time on any empty
+                        node</li>
+                    <li><strong>No Immediate Line Completion:</strong> No player is allowed to place stones that form a
+                        line of 3 (a "lakīr") during this phase</li>
+                    <li><strong>Example:</strong> If you already have stones at 2 and 3, you cannot place at 1 to
+                        complete 1–2–3 during this phase</li>
+                </ul>
+
+                <h3>⚔️ Phase 2: Movement & Captures</h3>
+                <p>Once both players have placed all 9 stones (including any recaptured ones), movement begins.</p>
+
+                <h4>🎲 Turn Structure:</h4>
+                <ul>
+                    <li>Players alternate turns</li>
+                    <li>On your turn, move one of your stones to any adjacent unoccupied point via a valid path</li>
+                    <li>No diagonal jumps, no stacking, no jumping over stones</li>
+                    <li>You cannot move a stone to a position that's not directly connected</li>
+                </ul>
+
+                <h4>📏 Capturing Mechanic</h4>
+                <ul>
+                    <li>Form a straight, unclaimed line with exactly 3 of your stones</li>
+                    <li>When this happens:
+                        <ul>
+                            <li>You capture one opponent stone of your choice (it is removed from the board)</li>
+                            <li>You claim that line as yours (you can't score from that same line again)</li>
+                            <li>You get another turn immediately, but only to move a stone (not place)</li>
+                        </ul>
+                    </li>
+                    <li>A player can only capture one stone per successful line formation</li>
+                    <li>The same line cannot be used again for capture by the same player</li>
+                </ul>
+
+                <h3>🧠 Strategic Consideration</h3>
+                <p>While placing, you might place stones at 2 and 3, and not at 1 (since forming 1–2–3 is illegal during
+                    placement). However, once movement begins, you can move a stone to 1 and complete the line 1–2–3,
+                    enabling a capture. This opens the game to trap-setting and anticipation.</p>
+
+                <h3>🚫 Movement Restrictions</h3>
+                <ul>
+                    <li>Players may only move along valid paths (defined by the lines on the board)</li>
+                    <li>No jumping, stacking, or teleportation</li>
+                    <li>Movement is only allowed to immediately adjacent empty circles</li>
+                </ul>
+
+                <h3>🏁 Winning the Game</h3>
+                <ul>
+                    <li>A player wins if the opponent has less than 3 stones left</li>
+                    <li>Or, if the opponent cannot make a valid move (e.g., all stones are blocked), the player wins by
+                        stalemate</li>
+                </ul>
+
+                <h3>📝 Optional Add-ons:</h3>
+                <ul>
+                    <li>Maintain a record of claimed lines per player</li>
+                    <li>Agree beforehand on what counts as a valid straight line (usually visually connected by drawn
+                        paths)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="lakir-script.js"></script>
+</body>
+
+</html>

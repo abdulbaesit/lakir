@@ -1,6 +1,6 @@
-class Lakir1Game {
+class Saler1Game {
     constructor() {
-        console.log('Lakir1Game constructor called');
+        console.log('Saler1Game constructor called');
         this.nodes = ['A', 'B', 'C', 'D', 'E'];
         this.edges = [
             ['A', 'B'], ['A', 'C'], ['B', 'C'],
@@ -17,7 +17,7 @@ class Lakir1Game {
 
         this.initializeGame();
         this.setupEventListeners();
-        console.log('Lakir1Game initialization complete');
+        console.log('Saler1Game initialization complete');
     }
 
     initializeGame() {
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('DOMContentLoaded event fired');
 
     // Initialize the game
-    const game = new Lakir1Game();
+    const game = new Saler1Game();
     console.log('Game instance created:', game);
 
     // Set up rules modal

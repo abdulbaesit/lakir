@@ -1,4 +1,4 @@
-class Lakir3Game {
+class TinkaGame {
     constructor() {
         this.board = [
             [null, null, null],
@@ -370,7 +370,7 @@ class Lakir3Game {
 // Initialize the game when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize the game
-    const game = new Lakir3Game();
+    const game = new TinkaGame();
 
     // Set up rules modal
     const rulesBtn = document.getElementById('rulesBtn');
