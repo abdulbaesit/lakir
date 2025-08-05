@@ -60,14 +60,20 @@ class Lakir3Game {
         // Control buttons
         document.getElementById('homeBtn').addEventListener('click', () => window.location.href = 'index.html');
         document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-        document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
+        document.getElementById('rulesBtn').addEventListener('click', () => {
+            document.getElementById('rulesModal').style.display = 'block';
+        });
 
-        // Modal close
+        // Modal close (support both .close and .close-rules-btn)
         const modal = document.getElementById('rulesModal');
-        const closeBtn = modal.querySelector('.close');
-        closeBtn.addEventListener('click', () => this.hideRules());
+        const closeBtn = modal.querySelector('.close') || modal.querySelector('.close-rules-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
         window.addEventListener('click', (e) => {
-            if (e.target === modal) this.hideRules();
+            if (e.target === modal) modal.style.display = 'none';
         });
     }
 
@@ -362,6 +368,15 @@ class Lakir3Game {
 }
 
 // Initialize the game when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new Lakir3Game();
+document.addEventListener('DOMContentLoaded', function () {
+    const rulesBtn = document.getElementById('rulesBtn');
+    const rulesModal = document.getElementById('rulesModal');
+    rulesBtn.addEventListener('click', function () {
+        rulesModal.style.display = 'block';
+    });
+    rulesModal.addEventListener('click', function (e) {
+        if (e.target.classList.contains('close') || e.target.classList.contains('close-rules-btn') || e.target === rulesModal) {
+            rulesModal.style.display = 'none';
+        }
+    });
 }); 

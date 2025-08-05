@@ -4,17 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lakīr-3 - 3×3 Capture Game</title>
+    <title>Lakir-3</title>
     <link rel="stylesheet" href="lakir3-styles.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>⚪ Lakīr-3</h1>
+            <h1>⚪ Lakir-3</h1>
             <p class="subtitle">A strategic 3×3 grid capture game</p>
         </header>
-
         <div class="game-info">
             <div class="player-info">
                 <div class="player player1 active" id="player1">
@@ -32,7 +31,6 @@
                 <span id="statusText">Place your stones to begin!</span>
             </div>
         </div>
-
         <div class="game-board">
             <div class="graph-container">
                 <!-- 3x3 Grid Nodes -->
@@ -63,83 +61,85 @@
                 <div class="node" id="2,2" data-row="2" data-col="2">
                     <div class="node-content"></div>
                 </div>
-
-                <!-- Edges -->
-                <svg class="edges" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Horizontal connections -->
-                    <line x1="80" y1="50" x2="120" y2="50" class="edge" data-edge="0,0-0,1" />
-                    <line x1="180" y1="50" x2="220" y2="50" class="edge" data-edge="0,1-0,2" />
-                    <line x1="80" y1="150" x2="120" y2="150" class="edge" data-edge="1,0-1,1" />
-                    <line x1="180" y1="150" x2="220" y2="150" class="edge" data-edge="1,1-1,2" />
-                    <line x1="80" y1="250" x2="120" y2="250" class="edge" data-edge="2,0-2,1" />
-                    <line x1="180" y1="250" x2="220" y2="250" class="edge" data-edge="2,1-2,2" />
-
-                    <!-- Vertical connections -->
-                    <line x1="50" y1="80" x2="50" y2="120" class="edge" data-edge="0,0-1,0" />
-                    <line x1="50" y1="180" x2="50" y2="220" class="edge" data-edge="1,0-2,0" />
-                    <line x1="150" y1="80" x2="150" y2="120" class="edge" data-edge="0,1-1,1" />
-                    <line x1="150" y1="180" x2="150" y2="220" class="edge" data-edge="1,1-2,1" />
-                    <line x1="250" y1="80" x2="250" y2="120" class="edge" data-edge="0,2-1,2" />
-                    <line x1="250" y1="180" x2="250" y2="220" class="edge" data-edge="1,2-2,2" />
+                <!-- SVG for grid lines -->
+                <svg class="edges" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Horizontal lines -->
+                    <line x1="20" y1="20" x2="100" y2="20" class="edge" />
+                    <line x1="100" y1="20" x2="180" y2="20" class="edge" />
+                    <line x1="20" y1="100" x2="100" y2="100" class="edge" />
+                    <line x1="100" y1="100" x2="180" y2="100" class="edge" />
+                    <line x1="20" y1="180" x2="100" y2="180" class="edge" />
+                    <line x1="100" y1="180" x2="180" y2="180" class="edge" />
+                    <!-- Vertical lines -->
+                    <line x1="20" y1="20" x2="20" y2="100" class="edge" />
+                    <line x1="20" y1="100" x2="20" y2="180" class="edge" />
+                    <line x1="100" y1="20" x2="100" y2="100" class="edge" />
+                    <line x1="100" y1="100" x2="100" y2="180" class="edge" />
+                    <line x1="180" y1="20" x2="180" y2="100" class="edge" />
+                    <line x1="180" y1="100" x2="180" y2="180" class="edge" />
                 </svg>
             </div>
         </div>
-
         <div class="controls">
             <button id="homeBtn" class="btn btn-home">🏠 Home</button>
             <button id="resetBtn" class="btn btn-reset">🔄 New Game</button>
             <button id="rulesBtn" class="btn btn-rules">📖 Rules</button>
         </div>
-
-        <!-- Rules Modal -->
-        <div id="rulesModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>🎮 Lakīr-3 Game Rules</h2>
-                <div class="rules-content">
-                    <h3>📋 Objective</h3>
-                    <p>Remove all of your opponent's stones. A player loses when they have no stones left on the board.
-                    </p>
-
-                    <h3>🎯 Setup</h3>
-                    <p>Players take turns placing one stone at a time on any empty cell. After both players have placed
-                        their 3 stones, movement begins.</p>
-
-                    <h3>🚶 Movement Rules</h3>
+    </div>
+    <!-- Rules Modal as popup overlay -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <button class="close close-rules-btn" aria-label="Close">×</button>
+            <h2>🎮 Game Rules</h2>
+            <div class="rules-content">
+                <h3>🎯 Objective</h3>
+                <ul>
+                    <li>Each player has <b>3 stones</b>.</li>
+                    <li>The goal is to <b>remove all of the opponent’s stones</b>.</li>
+                    <li>A player loses when they have <b>no stones left on the board</b>.</li>
+                </ul>
+                <h3>⚙️ Game Setup</h3>
+                <ul>
+                    <li>Players take turns <b>placing one stone at a time</b> on any ⚪ (empty spot).</li>
+                    <li>After both players have placed their 3 stones (<b>6 total on board</b>), <b>movement begins</b>.
+                    </li>
+                </ul>
+                <h3>🚶 Movement Rules</h3>
+                <ul>
+                    <li>Stones can move to an <b>orthogonally adjacent empty ⚪</b>: up, down, left, or right.</li>
+                    <li><b>Diagonal movement is not allowed</b>.</li>
+                    <li>You <b>cannot move through or onto a space that is already occupied</b>.</li>
+                </ul>
+                <h3>🎯 Capture Rule</h3>
+                <ul>
+                    <li>You can <b>capture an opponent's stone</b> if:</li>
                     <ul>
-                        <li>Stones can move to an orthogonally adjacent empty cell (up, down, left, or right)</li>
-                        <li>Diagonal movement is not allowed</li>
-                        <li>You cannot move through or onto an occupied space</li>
+                        <li>Your stone is on one side of a line of 3 ⚪ in a straight row or column.</li>
+                        <li>The <b>middle ⚪ is occupied by an opponent’s stone</b>.</li>
+                        <li>The <b>far-end ⚪ is empty</b>.</li>
                     </ul>
-
-                    <h3>🎯 Capture Rule</h3>
-                    <ul>
-                        <li>You can capture an opponent's stone if your stone is on one side of a line of 3 cells in a
-                            straight row or column</li>
-                        <li>The middle cell must be occupied by an opponent's stone</li>
-                        <li>The far-end cell must be empty</li>
-                        <li>Jump over the opponent's stone into the far cell</li>
-                        <li>The opponent's stone is removed from the board</li>
-                    </ul>
-
-                    <h3>🔁 Extra Turn After Capture</h3>
-                    <p>A successful capture grants an extra turn. If another capture is immediately possible, the player
-                        may continue jumping.</p>
-
-                    <h3>⛔ Blocked Moves</h3>
-                    <ul>
-                        <li>If a player has no valid moves, they must skip their turn</li>
-                        <li>You cannot jump over two stones at once or make diagonal captures</li>
-                    </ul>
-
-                    <h3>🏆 Winning</h3>
-                    <p>The game ends when one player has no stones left on the board. The opponent is then declared the
-                        winner!</p>
-                </div>
+                    <li>Then, you may <b>jump over the opponent’s stone into the far ⚪</b>.</li>
+                    <li>The opponent’s stone is <b>removed from the board</b>.</li>
+                    <li>✅ This move is like jumping in checkers, but <b>only allowed orthogonally</b>.</li>
+                </ul>
+                <h3>🔁 Extra Turn After Capture</h3>
+                <ul>
+                    <li>A <b>successful capture grants an extra turn</b>.</li>
+                    <li>If another capture is immediately possible, the player may <b>continue jumping</b>.</li>
+                </ul>
+                <h3>⛔ Blocked Moves</h3>
+                <ul>
+                    <li>If a player has <b>no valid moves</b>, they must <b>skip their turn</b>.</li>
+                    <li>You <b>cannot jump over two stones at once</b> or make diagonal captures.</li>
+                </ul>
+                <h3>🏆 Winning</h3>
+                <ul>
+                    <li>The game ends when <b>one player has no stones left on the board</b>.</li>
+                    <li>The opponent is then <b>declared the winner</b>.</li>
+                </ul>
             </div>
         </div>
     </div>
-
     <script src="lakir3-script.js" defer></script>
 </body>
 

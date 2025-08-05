@@ -107,37 +107,33 @@
             <button id="resetBtn" class="btn btn-reset">🔄 New Game</button>
             <button id="rulesBtn" class="btn btn-rules">📖 Rules</button>
         </div>
+    </div>
 
-        <!-- Rules Modal -->
-        <div id="rulesModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>🎮 Game Rules</h2>
-                <div class="rules-content">
-                    <h3>📋 Objective</h3>
-                    <p>Trap your opponent so they cannot make a move on their turn.</p>
-
-                    <h3>🎯 Setup</h3>
-                    <p>Players take turns placing their stones on unoccupied nodes of the digit "4" shaped graph.</p>
-
-                    <h3>🔄 Gameplay</h3>
-                    <ul>
-                        <li>Players alternate turns moving their stones</li>
-                        <li>Move your stone to any adjacent node connected by a path</li>
-                        <li>You cannot move into or through the opponent's node</li>
-                        <li>You must move if you have a legal move</li>
-                    </ul>
-
-                    <h3>❌ Restrictions</h3>
-                    <ul>
-                        <li>Stones cannot share a node</li>
-                        <li>Cannot move over opponent's stone</li>
-                        <li>Only move to directly connected nodes</li>
-                    </ul>
-
-                    <h3>🏆 Winning</h3>
-                    <p>The game ends when a player has no valid move — that player loses!</p>
-                </div>
+    <!-- Rules Modal as popup overlay -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <button class="close close-rules-btn" aria-label="Close">×</button>
+            <h2>🎮 Game Rules</h2>
+            <div class="rules-content">
+                <h3>📋 Objective</h3>
+                <p>Trap your opponent so they cannot make a move on their turn.</p>
+                <h3>🎯 Setup</h3>
+                <p>Players take turns placing their stones on unoccupied nodes of the digit "4" shaped graph.</p>
+                <h3>🔄 Gameplay</h3>
+                <ul>
+                    <li>Players alternate turns moving their stones</li>
+                    <li>Move your stone to any adjacent node connected by a path</li>
+                    <li>You cannot move into or through the opponent's node</li>
+                    <li>You must move if you have a legal move</li>
+                </ul>
+                <h3>⛔ Restrictions</h3>
+                <ul>
+                    <li>Stones cannot share a node</li>
+                    <li>Cannot move over opponent's stone</li>
+                    <li>Only move to directly connected nodes</li>
+                </ul>
+                <h3>🏆 Winning</h3>
+                <p>The game ends when a player has no valid move — that player loses!</p>
             </div>
         </div>
     </div>

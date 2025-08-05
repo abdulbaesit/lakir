@@ -289,6 +289,15 @@ class Lakir1Game {
 }
 
 // Initialize the game when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new Lakir1Game();
+document.addEventListener('DOMContentLoaded', function () {
+    const rulesBtn = document.getElementById('rulesBtn');
+    const rulesModal = document.getElementById('rulesModal');
+    rulesBtn.addEventListener('click', function () {
+        rulesModal.style.display = 'block';
+    });
+    rulesModal.addEventListener('click', function (e) {
+        if (e.target.classList.contains('close') || e.target.classList.contains('close-rules-btn') || e.target === rulesModal) {
+            rulesModal.style.display = 'none';
+        }
+    });
 }); 

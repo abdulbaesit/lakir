@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -25,7 +19,6 @@ header {
 header h1 {
     font-size: 2.5rem;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
 }
 
@@ -42,7 +35,6 @@ header h1 {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 15px;
-    backdrop-filter: blur(10px);
 }
 
 .player-info {
@@ -61,18 +53,19 @@ header h1 {
     font-weight: bold;
 }
 
-.player-stone {
+.player-stone,
+.stone {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 2px solid white;
 }
 
-.player1 .player-stone {
+.stone1 {
     background: linear-gradient(45deg, #ff6b6b, #ee5a24);
 }
 
-.player2 .player-stone {
+.stone2 {
     background: linear-gradient(45deg, #4ecdc4, #44a08d);
 }
 
@@ -96,14 +89,13 @@ header h1 {
     margin-bottom: 30px;
 }
 
-.board-container {
+.graph-container {
     position: relative;
     width: 400px;
     height: 400px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 20px;
-    backdrop-filter: blur(10px);
 }
 
 .node {
@@ -111,7 +103,7 @@ header h1 {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    background: linear-gradient(145deg, #fff, #e6e6e6);
     border: 3px solid #ddd;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -119,16 +111,7 @@ header h1 {
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.node:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.node.selected {
-    border-color: #ffd700;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    transform: translate(-50%, -50%);
 }
 
 .node.player1 {
@@ -141,156 +124,129 @@ header h1 {
     border-color: #26a69a;
 }
 
-/* Node positioning for Nine Men's Morris layout (24 positions) */
-/* Outer square corners and midpoints */
-[id="1"] {
-    top: 30px;
-    left: 30px;
+/* --- Node positions for 3 concentric squares (outer, middle, inner) --- */
+/* Outer square (1-8) */
+#1 {
+    top: 20px;
+    left: 20px;
 }
 
-/* Top-left corner */
-[id="2"] {
-    top: 30px;
-    left: 140px;
+#2 {
+    top: 20px;
+    left: 200px;
 }
 
-/* Top midpoint */
-[id="3"] {
-    top: 30px;
-    left: 260px;
+#3 {
+    top: 20px;
+    left: 380px;
 }
 
-/* Top-right corner */
-[id="4"] {
-    top: 140px;
-    left: 260px;
+#4 {
+    top: 110px;
+    left: 380px;
 }
 
-/* Right midpoint */
-[id="5"] {
-    top: 260px;
-    left: 260px;
+#5 {
+    top: 200px;
+    left: 380px;
 }
 
-/* Bottom-right corner */
-[id="6"] {
-    top: 260px;
-    left: 140px;
+#6 {
+    top: 380px;
+    left: 380px;
 }
 
-/* Bottom midpoint */
-[id="7"] {
-    top: 260px;
-    left: 30px;
+#7 {
+    top: 380px;
+    left: 200px;
 }
 
-/* Bottom-left corner */
-[id="8"] {
-    top: 140px;
-    left: 30px;
+#8 {
+    top: 380px;
+    left: 20px;
 }
 
-/* Left midpoint */
-
-/* Middle square corners and midpoints */
-[id="9"] {
+/* Middle square (9-16) */
+#9 {
     top: 70px;
     left: 70px;
 }
 
-/* Top-left corner */
-[id="10"] {
+#10 {
     top: 70px;
-    left: 140px;
+    left: 200px;
 }
 
-/* Top midpoint */
-[id="11"] {
+#11 {
     top: 70px;
-    left: 220px;
+    left: 330px;
 }
 
-/* Top-right corner */
-[id="12"] {
-    top: 140px;
-    left: 220px;
+#12 {
+    top: 200px;
+    left: 330px;
 }
 
-/* Right midpoint */
-[id="13"] {
-    top: 220px;
-    left: 220px;
+#13 {
+    top: 330px;
+    left: 330px;
 }
 
-/* Bottom-right corner */
-[id="14"] {
-    top: 220px;
-    left: 140px;
+#14 {
+    top: 330px;
+    left: 200px;
 }
 
-/* Bottom midpoint */
-[id="15"] {
-    top: 220px;
+#15 {
+    top: 330px;
     left: 70px;
 }
 
-/* Bottom-left corner */
-[id="16"] {
-    top: 140px;
+#16 {
+    top: 200px;
     left: 70px;
 }
 
-/* Left midpoint */
-
-/* Inner square corners and midpoints */
-[id="17"] {
-    top: 110px;
-    left: 110px;
+/* Inner square (17-24) */
+#17 {
+    top: 120px;
+    left: 120px;
 }
 
-/* Top-left corner */
-[id="18"] {
-    top: 110px;
-    left: 140px;
+#18 {
+    top: 120px;
+    left: 200px;
 }
 
-/* Top midpoint */
-[id="19"] {
-    top: 110px;
-    left: 180px;
+#19 {
+    top: 120px;
+    left: 280px;
 }
 
-/* Top-right corner */
-[id="20"] {
-    top: 140px;
-    left: 180px;
+#20 {
+    top: 200px;
+    left: 280px;
 }
 
-/* Right midpoint */
-[id="21"] {
-    top: 180px;
-    left: 180px;
+#21 {
+    top: 280px;
+    left: 280px;
 }
 
-/* Bottom-right corner */
-[id="22"] {
-    top: 180px;
-    left: 140px;
+#22 {
+    top: 280px;
+    left: 200px;
 }
 
-/* Bottom midpoint */
-[id="23"] {
-    top: 180px;
-    left: 110px;
+#23 {
+    top: 280px;
+    left: 120px;
 }
 
-/* Bottom-left corner */
-[id="24"] {
-    top: 140px;
-    left: 110px;
+#24 {
+    top: 200px;
+    left: 120px;
 }
-
-/* Left midpoint */
 
 .edges {
     position: absolute;
@@ -302,422 +258,66 @@ header h1 {
     z-index: -1;
 }
 
-.edge {
-    stroke: #666;
-    stroke-width: 3;
-    fill: none;
-    opacity: 0.6;
-}
-
-.edge.highlighted {
-    stroke: #ffd700;
-    stroke-width: 4;
-    opacity: 1;
-    animation: edgePulse 1s infinite;
-}
-
-@keyframes edgePulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: linear-gradient(145deg, #ffffff, #e6e6e6);
-    color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.btn-home {
-    background: linear-gradient(145deg, #74b9ff, #0984e3);
-    color: white;
-}
-
-.btn-reset {
-    background: linear-gradient(145deg, #fd79a8, #e84393);
-    color: white;
-}
-
-.btn-rules {
-    background: linear-gradient(145deg, #55a3ff, #2d3436);
-    color: white;
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    margin: 5% auto;
-    padding: 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 600px;
-    color: white;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 15px;
-    right: 20px;
-}
-
-.close:hover {
-    opacity: 0.7;
-}
-
-.rules-content h3 {
-    margin: 20px 0 10px 0;
-    color: #ffd700;
-}
-
-.rules-content p,
-.rules-content ul {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.rules-content ul {
-    padding-left: 20px;
-}
-
-.rules-content li {
-    margin-bottom: 8px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    .game-info {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .player-info {
-        gap: 15px;
-    }
-
-    .board-container {
-        width: 300px;
-        height: 300px;
-        padding: 15px;
-    }
-
-    .node {
-        width: 30px;
-        height: 30px;
-    }
-
-    /* Adjust node positions for smaller screen */
-    [id="1"] {
-        top: 20px;
-        left: 20px;
-    }
-
-    [id="2"] {
-        top: 20px;
-        left: 70px;
-    }
-
-    [id="3"] {
-        top: 20px;
-        left: 120px;
-    }
-
-    [id="4"] {
-        top: 70px;
-        left: 20px;
-    }
-
-    [id="5"] {
-        top: 70px;
-        left: 70px;
-    }
-
-    [id="6"] {
-        top: 70px;
-        left: 120px;
-    }
-
-    [id="7"] {
-        top: 120px;
-        left: 20px;
-    }
-
-    [id="8"] {
-        top: 120px;
-        left: 70px;
-    }
-
-    [id="9"] {
-        top: 120px;
-        left: 120px;
-    }
-
-    [id="10"] {
-        top: 170px;
-        left: 20px;
-    }
-
-    [id="11"] {
-        top: 170px;
-        left: 70px;
-    }
-
-    [id="12"] {
-        top: 170px;
-        left: 120px;
-    }
-
-    [id="13"] {
-        top: 120px;
-        left: 170px;
-    }
-
-    [id="14"] {
-        top: 120px;
-        left: 220px;
-    }
-
-    [id="15"] {
-        top: 120px;
-        left: 270px;
-    }
-
-    [id="16"] {
-        top: 220px;
-        left: 20px;
-    }
-
-    [id="17"] {
-        top: 220px;
-        left: 70px;
-    }
-
-    [id="18"] {
-        top: 220px;
-        left: 120px;
-    }
-
-    [id="19"] {
-        top: 270px;
-        left: 20px;
-    }
-
-    [id="20"] {
-        top: 270px;
-        left: 70px;
-    }
-
-    [id="21"] {
-        top: 270px;
-        left: 120px;
-    }
-
-    [id="22"] {
-        top: 320px;
-        left: 20px;
-    }
-
-    [id="23"] {
-        top: 320px;
-        left: 70px;
-    }
-
-    [id="24"] {
-        top: 320px;
-        left: 120px;
-    }
-
-    .controls {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn {
-        width: 200px;
-    }
-}
-
 @media (max-width: 480px) {
-    .board-container {
-        width: 250px;
-        height: 250px;
-        padding: 10px;
+    .graph-container {
+        width: 200px;
+        height: 200px;
     }
 
     .node {
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
     }
 
-    /* Further adjust positions for very small screens */
-    [id="1"] {
+    .node-content {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Correct node positions for 3x3 grid on 200x200 board */
+    [id="0,0"] {
         top: 10px;
         left: 10px;
     }
 
-    [id="2"] {
+    [id="0,1"] {
         top: 10px;
-        left: 60px;
+        left: 80px;
     }
 
-    [id="3"] {
+    [id="0,2"] {
         top: 10px;
-        left: 110px;
+        left: 150px;
     }
 
-    [id="4"] {
-        top: 60px;
+    [id="1,0"] {
+        top: 80px;
         left: 10px;
     }
 
-    [id="5"] {
-        top: 60px;
-        left: 60px;
+    [id="1,1"] {
+        top: 80px;
+        left: 80px;
     }
 
-    [id="6"] {
-        top: 60px;
-        left: 110px;
+    /* Center */
+    [id="1,2"] {
+        top: 80px;
+        left: 150px;
     }
 
-    [id="7"] {
-        top: 110px;
+    [id="2,0"] {
+        top: 150px;
         left: 10px;
     }
 
-    [id="8"] {
-        top: 110px;
-        left: 60px;
+    [id="2,1"] {
+        top: 150px;
+        left: 80px;
     }
 
-    [id="9"] {
-        top: 110px;
-        left: 110px;
-    }
-
-    [id="10"] {
-        top: 160px;
-        left: 10px;
-    }
-
-    [id="11"] {
-        top: 160px;
-        left: 60px;
-    }
-
-    [id="12"] {
-        top: 160px;
-        left: 110px;
-    }
-
-    [id="13"] {
-        top: 110px;
-        left: 160px;
-    }
-
-    [id="14"] {
-        top: 110px;
-        left: 210px;
-    }
-
-    [id="15"] {
-        top: 110px;
-        left: 260px;
-    }
-
-    [id="16"] {
-        top: 210px;
-        left: 10px;
-    }
-
-    [id="17"] {
-        top: 210px;
-        left: 60px;
-    }
-
-    [id="18"] {
-        top: 210px;
-        left: 110px;
-    }
-
-    [id="19"] {
-        top: 260px;
-        left: 10px;
-    }
-
-    [id="20"] {
-        top: 260px;
-        left: 60px;
-    }
-
-    [id="21"] {
-        top: 260px;
-        left: 110px;
-    }
-
-    [id="22"] {
-        top: 310px;
-        left: 10px;
-    }
-
-    [id="23"] {
-        top: 310px;
-        left: 60px;
-    }
-
-    [id="24"] {
-        top: 310px;
-        left: 110px;
+    [id="2,2"] {
+        top: 150px;
+        left: 150px;
     }
 }

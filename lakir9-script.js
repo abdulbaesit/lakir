@@ -1,379 +1,269 @@
-class Lakir9Game {
-    constructor() {
-        this.board = this.createBoard();
-        this.gameState = {
-            currentPlayer: 1,
-            gamePhase: 'placement', // 'placement' or 'movement'
-            selectedNode: null,
-            gameOver: false,
-            winner: null,
-            stonesPlaced: 0,
-            playerStones: { 1: 9, 2: 9 }, // Stones remaining for each player
-            claimedLines: { 1: new Set(), 2: new Set() } // Track which lines each player has claimed
-        };
+// --- Board Graph Definition (25 positions) ---
+// Each node lists its directly connected neighbors (by node id)
+const BOARD_CONNECTIONS = {
+    1: [2, 4, 18, 20],
+    2: [1, 3, 5],
+    3: [2, 6, 19, 21],
+    4: [1, 5, 7],
+    5: [2, 4, 6, 8],
+    6: [3, 5, 9],
+    7: [4, 8, 15, 22],
+    8: [5, 7, 9],
+    9: [6, 8, 10, 23],
+    10: [9, 11, 14],
+    11: [10, 12, 13],
+    12: [11, 16, 24],
+    13: [11, 14, 17],
+    14: [10, 13, 18],
+    15: [7, 16, 22],
+    16: [12, 15, 17],
+    17: [13, 16, 21],
+    18: [1, 14, 19, 25],
+    19: [3, 18, 20],
+    20: [1, 19, 21, 25],
+    21: [3, 17, 20, 25],
+    22: [7, 15, 23, 24],
+    23: [9, 22, 24, 25],
+    24: [12, 22, 23, 25],
+    25: [18, 20, 21, 23, 24]
+};
 
-        this.initializeGame();
-        this.setupEventListeners();
-    }
+// --- Lines for "mills" (rows/columns of 3) ---
+// Each array is a line of 3 positions that can be claimed for a capture
+const LINES = [
+    // Outer square
+    [1, 2, 3], [1, 4, 7], [3, 6, 9], [7, 8, 9],
+    // Middle square
+    [10, 11, 12], [10, 13, 14], [12, 15, 16], [14, 17, 18],
+    // Inner square
+    [19, 20, 21], [19, 22, 23], [21, 24, 25], [23, 24, 25],
+    // Vertical/Horizontal bridges
+    [2, 5, 8], [4, 8, 12], [6, 9, 13], [8, 13, 17],
+    [11, 13, 15], [13, 17, 21], [15, 18, 21], [17, 21, 25],
+    // Center lines
+    [18, 25, 21], [20, 25, 24], [22, 25, 23], [24, 25, 25]
+    // (You may want to adjust/add lines for your exact board logic)
+];
 
-    createBoard() {
-        // Create a board with 24 positions (nodes 1-24)
-        const board = {};
-        for (let i = 1; i <= 24; i++) {
-            board[i] = null; // null = empty, 1 = player1, 2 = player2
-        }
-        return board;
-    }
+// --- Game State ---
+const gameState = {
+    board: {}, // nodeId: null | 1 | 2
+    currentPlayer: 1,
+    phase: 'placement', // or 'movement'
+    stonesPlaced: { 1: 0, 2: 0 },
+    stonesLeft: { 1: 9, 2: 9 },
+    selectedNode: null,
+    claimedLines: { 1: new Set(), 2: new Set() },
+    gameOver: false,
+    winner: null,
+    extraTurn: false
+};
 
-    initializeGame() {
-        // Clear board
-        for (let i = 1; i <= 24; i++) {
-            this.board[i] = null;
-        }
+// --- DOM Elements ---
+const statusDiv = document.getElementById('gameStatus');
+const p1Count = document.getElementById('p1-count');
+const p2Count = document.getElementById('p2-count');
+const nodes = Array.from(document.querySelectorAll('.node'));
 
-        // Reset game state
-        this.gameState = {
-            currentPlayer: 1,
-            gamePhase: 'placement',
-            selectedNode: null,
-            gameOver: false,
-            winner: null,
-            stonesPlaced: 0,
-            playerStones: { 1: 9, 2: 9 },
-            claimedLines: { 1: new Set(), 2: new Set() }
-        };
+// --- Initialize Board ---
+function resetBoard() {
+    for (let i = 1; i <= 25; i++) gameState.board[i] = null;
+    gameState.currentPlayer = 1;
+    gameState.phase = 'placement';
+    gameState.stonesPlaced = { 1: 0, 2: 0 };
+    gameState.stonesLeft = { 1: 9, 2: 9 };
+    gameState.selectedNode = null;
+    gameState.claimedLines = { 1: new Set(), 2: new Set() };
+    gameState.gameOver = false;
+    gameState.winner = null;
+    gameState.extraTurn = false;
+    updateUI();
+}
+resetBoard();
 
-        this.clearNodeStates();
-        this.updatePlayerDisplay();
-        this.updateStatus();
-    }
-
-    setupEventListeners() {
-        // Node events for all 24 nodes
-        for (let i = 1; i <= 24; i++) {
-            const node = document.getElementById(i.toString());
-            if (node) {
-                node.addEventListener('click', () => this.handleNodeClick(i));
-                node.addEventListener('mouseenter', () => this.handleNodeMouseEnter(i));
-                node.addEventListener('mouseleave', () => node.style.cursor = '');
-            }
-        }
-
-        // Control buttons
-        document.getElementById('homeBtn').addEventListener('click', () => window.location.href = 'index.html');
-        document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-        document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
-
-        // Modal close
-        const modal = document.getElementById('rulesModal');
-        const closeBtn = modal.querySelector('.close');
-        closeBtn.addEventListener('click', () => this.hideRules());
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) this.hideRules();
-        });
-    }
-
-    handleNodeMouseEnter(nodeId) {
-        const node = document.getElementById(nodeId.toString());
-        const player = this.board[nodeId];
-
-        if (player) {
-            if (player !== this.gameState.currentPlayer) {
-                node.style.cursor = 'not-allowed';
-            } else {
-                node.style.cursor = 'pointer';
-            }
-        } else {
-            node.style.cursor = 'pointer';
-        }
-    }
-
-    handleNodeClick(nodeId) {
-        if (this.gameState.gameOver) return;
-
-        if (this.gameState.gamePhase === 'placement') {
-            this.handlePlacement(nodeId);
-        } else {
-            this.handleMovement(nodeId);
-        }
-    }
-
-    handlePlacement(nodeId) {
-        if (this.board[nodeId] !== null) return; // Position already occupied
-
-        // Place stone
-        this.board[nodeId] = this.gameState.currentPlayer;
-        this.updateNodeVisual(nodeId, this.gameState.currentPlayer);
-        this.gameState.stonesPlaced++;
-
-        // Check for line formation and capture
-        const linesFormed = this.checkLineFormation(nodeId, this.gameState.currentPlayer);
-        if (linesFormed.length > 0) {
-            this.handleCapture(linesFormed);
-        }
-
-        // Check if placement phase is complete
-        if (this.gameState.stonesPlaced >= 18) { // 9 stones per player
-            this.gameState.gamePhase = 'movement';
-            this.updateStatus();
-        } else {
-            // Switch to next player for placement
-            this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
-            this.updatePlayerDisplay();
-            this.updateStatus();
-        }
-    }
-
-    handleMovement(nodeId) {
-        const currentNode = this.gameState.selectedNode;
-
-        if (!currentNode) {
-            // Select stone to move
-            if (this.board[nodeId] === this.gameState.currentPlayer) {
-                this.selectNode(nodeId);
-            }
-        } else {
-            // Try to move to selected node
-            if (this.isValidMove(currentNode, nodeId)) {
-                this.moveStone(currentNode, nodeId);
-
-                // Check for line formation and capture
-                const linesFormed = this.checkLineFormation(nodeId, this.gameState.currentPlayer);
-                if (linesFormed.length > 0) {
-                    this.handleCapture(linesFormed);
-                } else {
-                    // Switch to next player if no capture
-                    this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
-                    this.updatePlayerDisplay();
-                }
-
-                this.updateStatus();
-            }
-        }
-    }
-
-    selectNode(nodeId) {
-        this.clearSelection();
-        this.gameState.selectedNode = nodeId;
-        document.getElementById(nodeId.toString()).classList.add('selected');
-        this.showValidMoves(nodeId);
-    }
-
-    clearSelection() {
-        if (this.gameState.selectedNode) {
-            document.getElementById(this.gameState.selectedNode.toString()).classList.remove('selected');
-            this.gameState.selectedNode = null;
-        }
-        this.clearValidMoves();
-    }
-
-    isValidMove(fromNodeId, toNodeId) {
-        // Check if destination is empty
-        if (this.board[toNodeId] !== null) return false;
-
-        // Check if positions are adjacent (connected by a line)
-        return this.areAdjacent(fromNodeId, toNodeId);
-    }
-
-    areAdjacent(node1, node2) {
-        // Define valid connections based on Nine Men's Morris layout (24 nodes)
-        const connections = [
-            // Outer square edges
-            [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 1],
-            // Middle square edges
-            [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 15], [15, 16], [16, 9],
-            // Inner square edges
-            [17, 18], [18, 19], [19, 20], [20, 21], [21, 22], [22, 23], [23, 24], [24, 17],
-            // Midpoint connections (bridges between squares)
-            [2, 10], [10, 18], [18, 22], [22, 14], [14, 6],
-            [8, 16], [16, 24], [24, 20], [20, 12], [12, 4]
-        ];
-
-        return connections.some(conn =>
-            (conn[0] === node1 && conn[1] === node2) ||
-            (conn[0] === node2 && conn[1] === node1)
-        );
-    }
-
-    showValidMoves(fromNodeId) {
-        // Highlight valid moves
-        for (let i = 1; i <= 24; i++) {
-            if (this.board[i] === null && this.areAdjacent(fromNodeId, i)) {
-                const node = document.getElementById(i.toString());
-                if (node) {
-                    node.style.borderColor = '#ffd700';
-                    node.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.6)';
-                }
-            }
-        }
-    }
-
-    clearValidMoves() {
-        const nodes = document.querySelectorAll('.node');
-        nodes.forEach(node => {
-            node.style.borderColor = '';
-            node.style.boxShadow = '';
-        });
-    }
-
-    moveStone(fromNodeId, toNodeId) {
-        // Move the stone
-        this.board[toNodeId] = this.board[fromNodeId];
-        this.board[fromNodeId] = null;
-
-        // Update visual
-        this.updateNodeVisual(fromNodeId, null);
-        this.updateNodeVisual(toNodeId, this.gameState.currentPlayer);
-
-        this.clearSelection();
-    }
-
-    checkLineFormation(nodeId, player) {
-        const linesFormed = [];
-
-        // Check all possible lines of 3 that include this node
-        const possibleLines = this.getPossibleLines(nodeId);
-
-        possibleLines.forEach(line => {
-            if (this.checkLine(line, player)) {
-                const lineKey = line.sort().join('-');
-                if (!this.gameState.claimedLines[player].has(lineKey)) {
-                    linesFormed.push({ nodes: line, lineKey });
-                }
-            }
-        });
-
-        return linesFormed;
-    }
-
-    getPossibleLines(nodeId) {
-        // Define all possible lines of 3 nodes based on Nine Men's Morris layout (24 nodes)
-        const allLines = [
-            // Horizontal lines on each square
-            [1, 2, 3], [9, 10, 11], [17, 18, 19], // Top edges
-            [7, 6, 5], [15, 14, 13], [23, 22, 21], // Bottom edges
-
-            // Vertical lines on each square
-            [1, 8, 7], [9, 16, 15], [17, 24, 23], // Left edges
-            [3, 4, 5], [11, 12, 13], [19, 20, 21], // Right edges
-
-            // Diagonal lines through midpoints
-            [2, 10, 18], [10, 18, 22], [18, 22, 14], [22, 14, 6],
-            [8, 16, 24], [16, 24, 20], [24, 20, 12], [20, 12, 4]
-        ];
-
-        // Return only lines that contain the given node
-        return allLines.filter(line => line.includes(nodeId));
-    }
-
-    checkLine(line, player) {
-        // Check if all three positions are occupied by the player
-        return line.every(nodeId => this.board[nodeId] === player);
-    }
-
-    handleCapture(linesFormed) {
-        // Mark lines as claimed
-        linesFormed.forEach(line => {
-            this.gameState.claimedLines[this.gameState.currentPlayer].add(line.lineKey);
-        });
-
-        // Allow player to choose which opponent stone to capture
-        const opponent = this.gameState.currentPlayer === 1 ? 2 : 1;
-        const opponentStones = this.getOpponentStones(opponent);
-
-        if (opponentStones.length > 0) {
-            // For simplicity, capture the first available opponent stone
-            const captureNodeId = opponentStones[0];
-            this.board[captureNodeId] = null;
-            this.updateNodeVisual(captureNodeId, null);
-            this.gameState.playerStones[opponent]--;
-
-            // Update stone count display
-            this.updatePlayerDisplay();
-        }
-
-        // Player gets an extra turn (no player switch)
-        this.updateStatus();
-    }
-
-    getOpponentStones(opponent) {
-        const stones = [];
-        for (let i = 1; i <= 24; i++) {
-            if (this.board[i] === opponent) {
-                stones.push(i);
-            }
-        }
-        return stones;
-    }
-
-    updateNodeVisual(nodeId, player) {
-        const node = document.getElementById(nodeId.toString());
-        if (!node) return;
-
-        node.className = 'node';
-        if (player === 1) {
-            node.classList.add('player1');
-        } else if (player === 2) {
-            node.classList.add('player2');
-        }
-    }
-
-    clearNodeStates() {
-        const nodes = document.querySelectorAll('.node');
-        nodes.forEach(node => {
-            node.className = 'node';
-        });
-    }
-
-    updatePlayerDisplay() {
-        // Update stone counts
-        document.querySelector('.player1 .stone-count').textContent = `Stones: ${this.gameState.playerStones[1]}`;
-        document.querySelector('.player2 .stone-count').textContent = `Stones: ${this.gameState.playerStones[2]}`;
-
-        // Update active player highlighting
-        document.querySelectorAll('.player').forEach(player => {
-            player.style.opacity = '0.7';
-        });
-
-        const activePlayer = document.querySelector(`.player${this.gameState.currentPlayer}`);
-        if (activePlayer) {
-            activePlayer.style.opacity = '1';
-        }
-    }
-
-    updateStatus() {
-        const statusElement = document.getElementById('gameStatus');
-
-        if (this.gameState.gameOver) {
-            statusElement.textContent = `Game Over! ${this.gameState.winner ? `Player ${this.gameState.winner} wins!` : "It's a tie!"}`;
-            return;
-        }
-
-        if (this.gameState.gamePhase === 'placement') {
-            statusElement.textContent = `Player ${this.gameState.currentPlayer}, place your stone!`;
-        } else {
-            if (this.gameState.selectedNode) {
-                statusElement.textContent = `Player ${this.gameState.currentPlayer}, select destination for your stone!`;
-            } else {
-                statusElement.textContent = `Player ${this.gameState.currentPlayer}, select your stone to move!`;
-            }
-        }
-    }
-
-    resetGame() {
-        this.initializeGame();
-    }
-
-    showRules() {
-        document.getElementById('rulesModal').style.display = 'block';
-    }
-
-    hideRules() {
-        document.getElementById('rulesModal').style.display = 'none';
+// --- UI Update ---
+function updateUI() {
+    nodes.forEach(node => {
+        const id = parseInt(node.dataset.node);
+        node.classList.remove('player1', 'player2', 'selected');
+        if (gameState.board[id] === 1) node.classList.add('player1');
+        if (gameState.board[id] === 2) node.classList.add('player2');
+        if (gameState.selectedNode === id) node.classList.add('selected');
+    });
+    p1Count.textContent = `Stones: ${gameState.stonesLeft[1]}`;
+    p2Count.textContent = `Stones: ${gameState.stonesLeft[2]}`;
+    if (gameState.gameOver) {
+        statusDiv.textContent = `Game Over! Player ${gameState.winner} wins!`;
+    } else if (gameState.phase === 'placement') {
+        statusDiv.textContent = `Player ${gameState.currentPlayer}, place your stone!`;
+    } else {
+        statusDiv.textContent = `Player ${gameState.currentPlayer}, move your stone!`;
     }
 }
 
-// Initialize the game when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new Lakir9Game();
-}); 
+// --- Placement Handler ---
+function handlePlacement(nodeId) {
+    if (gameState.board[nodeId] !== null) return;
+    const player = gameState.currentPlayer;
+    gameState.board[nodeId] = player;
+    gameState.stonesPlaced[player]++;
+    gameState.stonesLeft[player]--;
+    // Check for mill
+    const lines = getLinesForNode(nodeId).filter(line => isLineFormed(line, player));
+    let captured = false;
+    for (const line of lines) {
+        const key = line.join('-');
+        if (!gameState.claimedLines[player].has(key)) {
+            gameState.claimedLines[player].add(key);
+            captured = true;
+        }
+    }
+    if (captured) {
+        captureOpponentStone();
+        gameState.extraTurn = true;
+    } else {
+        gameState.extraTurn = false;
+    }
+    // Check if placement phase ends for this player
+    if (gameState.stonesPlaced[player] === 9) {
+        if (gameState.stonesPlaced[3 - player] === 9) {
+            gameState.phase = 'movement';
+        }
+    }
+    updateUI();
+    if (!gameState.extraTurn) switchPlayer();
+}
+
+// --- Movement Handler ---
+function handleMovement(fromId, toId) {
+    if (gameState.board[fromId] !== gameState.currentPlayer) return;
+    if (gameState.board[toId] !== null) return;
+    if (!BOARD_CONNECTIONS[fromId].includes(toId)) return;
+    gameState.board[fromId] = null;
+    gameState.board[toId] = gameState.currentPlayer;
+    // Check for mill
+    const lines = getLinesForNode(toId).filter(line => isLineFormed(line, gameState.currentPlayer));
+    let captured = false;
+    for (const line of lines) {
+        const key = line.join('-');
+        if (!gameState.claimedLines[gameState.currentPlayer].has(key)) {
+            gameState.claimedLines[gameState.currentPlayer].add(key);
+            captured = true;
+        }
+    }
+    if (captured) {
+        captureOpponentStone();
+        gameState.extraTurn = true;
+    } else {
+        gameState.extraTurn = false;
+    }
+    updateUI();
+    if (!gameState.extraTurn) switchPlayer();
+}
+
+// --- Capture Handler ---
+function captureOpponentStone() {
+    // Let the player click an opponent's stone to remove
+    statusDiv.textContent = `Player ${gameState.currentPlayer}, capture an opponent's stone!`;
+    nodes.forEach(node => {
+        const id = parseInt(node.dataset.node);
+        if (gameState.board[id] === 3 - gameState.currentPlayer) {
+            node.classList.add('capture-target');
+            node.onclick = () => {
+                gameState.board[id] = null;
+                gameState.stonesLeft[3 - gameState.currentPlayer]--;
+                nodes.forEach(n => n.classList.remove('capture-target'));
+                updateUI();
+                checkGameEnd();
+                if (!gameState.gameOver) {
+                    if (gameState.phase === 'placement') {
+                        if (!gameState.extraTurn) switchPlayer();
+                    } else {
+                        if (!gameState.extraTurn) switchPlayer();
+                    }
+                }
+            };
+        }
+    });
+}
+
+// --- Switch Player ---
+function switchPlayer() {
+    gameState.selectedNode = null;
+    gameState.currentPlayer = 3 - gameState.currentPlayer;
+    updateUI();
+}
+
+// --- Node Click Handler ---
+nodes.forEach(node => {
+    node.onclick = () => {
+        if (gameState.gameOver) return;
+        const id = parseInt(node.dataset.node);
+        if (gameState.phase === 'placement') {
+            if (gameState.board[id] === null) handlePlacement(id);
+        } else {
+            if (gameState.selectedNode === null) {
+                if (gameState.board[id] === gameState.currentPlayer) {
+                    gameState.selectedNode = id;
+                    updateUI();
+                }
+            } else {
+                if (id === gameState.selectedNode) {
+                    gameState.selectedNode = null;
+                    updateUI();
+                } else {
+                    handleMovement(gameState.selectedNode, id);
+                    gameState.selectedNode = null;
+                    updateUI();
+                }
+            }
+        }
+    };
+});
+
+// --- Get Lines for a Node ---
+function getLinesForNode(nodeId) {
+    return LINES.filter(line => line.includes(nodeId));
+}
+
+// --- Is Line Formed ---
+function isLineFormed(line, player) {
+    return line.every(id => gameState.board[id] === player);
+}
+
+// --- Check Game End ---
+function checkGameEnd() {
+    [1, 2].forEach(player => {
+        if (gameState.stonesLeft[player] === 0) {
+            gameState.gameOver = true;
+            gameState.winner = 3 - player;
+        }
+        // Blocked: no valid moves
+        if (gameState.phase === 'movement') {
+            const hasMove = Object.entries(gameState.board)
+                .filter(([id, p]) => p === player)
+                .some(([id]) => BOARD_CONNECTIONS[id].some(n => gameState.board[n] === null));
+            if (!hasMove) {
+                gameState.gameOver = true;
+                gameState.winner = 3 - player;
+            }
+        }
+    });
+    updateUI();
+}
+
+// --- Reset Button ---
+document.getElementById('resetBtn').onclick = () => {
+    resetBoard();
+};
+
+// --- Rules Modal ---
+const rulesBtn = document.getElementById('rulesBtn');
+const rulesModal = document.getElementById('rulesModal');
+const closeBtn = rulesModal.querySelector('.close');
+rulesBtn.onclick = () => rulesModal.style.display = 'block';
+closeBtn.onclick = () => rulesModal.style.display = 'none';
+window.onclick = e => { if (e.target === rulesModal) rulesModal.style.display = 'none'; };
+
+// --- Initial UI ---
+updateUI();

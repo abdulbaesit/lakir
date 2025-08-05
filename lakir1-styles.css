@@ -324,6 +324,8 @@ header h1 {
     position: relative;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 @keyframes modalSlideIn {
@@ -338,19 +340,34 @@ header h1 {
     }
 }
 
-.close {
+.close,
+.close-rules-btn {
     position: absolute;
     right: 1rem;
     top: 1rem;
+    width: 40px;
+    height: 40px;
     font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
     color: #a0aec0;
-    transition: color 0.3s ease;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.3s, background 0.3s, box-shadow 0.3s;
+    z-index: 10;
 }
 
-.close:hover {
-    color: #4a5568;
+.close:hover,
+.close-rules-btn:hover {
+    color: #fff;
+    background: #4a5568;
+    box-shadow: 0 4px 16px rgba(66, 153, 225, 0.15);
 }
 
 .rules-content h3 {
@@ -372,6 +389,18 @@ header h1 {
 
 .rules-content li {
     margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        padding: 1rem;
+        max-width: 98vw;
+        font-size: 0.98rem;
+    }
+
+    .rules-content h3 {
+        font-size: 1rem;
+    }
 }
 
 /* Responsive design */
