@@ -1073,7 +1073,9 @@ header h1 {
 
     /* Mobile theme and audio buttons positioning */
     .theme-icon,
-    .audio-btn {
+    .audio-btn,
+    #musicToggle,
+    #sfxToggle {
         position: fixed;
         top: 20px;
         z-index: 1000;
@@ -1092,15 +1094,21 @@ header h1 {
     }
 
     .theme-icon {
+        right: 140px;
+    }
+
+    #musicToggle {
         right: 80px;
     }
 
-    .audio-btn {
+    #sfxToggle {
         right: 20px;
     }
 
     .theme-icon:hover,
-    .audio-btn:hover {
+    .audio-btn:hover,
+    #musicToggle:hover,
+    #sfxToggle:hover {
         background: rgba(255, 255, 255, 0.2);
         transform: scale(1.1);
     }
