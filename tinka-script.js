@@ -1,3 +1,195 @@
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+
+console.log('Theme toggle button found:', !!themeToggle);
+console.log('HTML element found:', !!html);
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme') || 'light';
+console.log('Saved theme:', savedTheme);
+html.setAttribute('data-theme', savedTheme);
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        console.log('Theme toggle clicked!');
+        console.log('Current theme:', currentTheme);
+        console.log('New theme:', newTheme);
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        console.log('Theme changed to:', newTheme);
+    });
+    console.log('Theme toggle event listener added successfully');
+} else {
+    console.error('Theme toggle button not found');
+}
+
+// Audio Controls
+let musicEnabled = false;
+let sfxEnabled = true;
+
+const musicToggle = document.getElementById('musicToggle');
+const sfxToggle = document.getElementById('sfxToggle');
+const squidGameTheme = document.getElementById('squidGameTheme');
+const redLightSound = document.getElementById('redLightSound');
+const greenLightSound = document.getElementById('greenLightSound');
+
+// Enable audio on first user interaction
+document.addEventListener('click', enableAudio, { once: true });
+
+function enableAudio() {
+    musicEnabled = true;
+    if (musicToggle) musicToggle.classList.add('active');
+    if (squidGameTheme) squidGameTheme.play().catch(e => console.log('Audio play failed:', e));
+}
+
+function toggleMusic() {
+    musicEnabled = !musicEnabled;
+    if (musicToggle) {
+        musicToggle.classList.toggle('active', musicEnabled);
+    }
+    if (squidGameTheme) {
+        if (musicEnabled) {
+            squidGameTheme.play().catch(e => console.log('Music play failed:', e));
+        } else {
+            squidGameTheme.pause();
+        }
+    }
+}
+
+function toggleSfx() {
+    sfxEnabled = !sfxEnabled;
+    if (sfxToggle) {
+        sfxToggle.classList.toggle('active', sfxEnabled);
+    }
+}
+
+if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic);
+}
+
+if (sfxToggle) {
+    sfxToggle.addEventListener('click', toggleSfx);
+}
+
+// Squid Game Effects
+function startRedLightGreenLight() {
+    // Disabled to prevent layout issues
+    return;
+}
+
+function animateMoneyCounter() {
+    const counter = document.querySelector('.money-counter');
+    if (counter) {
+        counter.style.animation = 'counter-flicker 2s infinite ease-in-out';
+    }
+}
+
+function updateGameTimer() {
+    const timer = document.querySelector('.game-timer .timer-display');
+    if (timer) {
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timer.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+}
+
+function setupCameraInteractions() {
+    const cameras = document.querySelectorAll('.camera');
+    cameras.forEach(camera => {
+        camera.addEventListener('mouseenter', () => {
+            camera.style.transform = 'scale(1.2)';
+        });
+        camera.addEventListener('mouseleave', () => {
+            camera.style.transform = 'scale(1)';
+        });
+    });
+}
+
+function triggerEliminationEffects() {
+    const eliminations = document.querySelectorAll('.elimination-effect');
+    eliminations.forEach((elim, index) => {
+        setTimeout(() => {
+            elim.style.animation = 'elimination-blast 1s ease-in-out';
+            setTimeout(() => {
+                elim.style.animation = '';
+            }, 1000);
+        }, index * 2000);
+    });
+}
+
+function setupGuardTowerEffects() {
+    const towers = document.querySelectorAll('.guard-tower');
+    towers.forEach(tower => {
+        tower.addEventListener('mouseenter', () => {
+            const spotlight = tower.querySelector('.guard-spotlight');
+            if (spotlight) {
+                spotlight.style.animation = 'spotlight-sweep 2s infinite linear';
+            }
+        });
+        tower.addEventListener('mouseleave', () => {
+            const spotlight = tower.querySelector('.guard-spotlight');
+            if (spotlight) {
+                spotlight.style.animation = '';
+            }
+        });
+    });
+}
+
+function setupPlayerNumberInteractions() {
+    const numbers = document.querySelectorAll('.player-number');
+    numbers.forEach(num => {
+        num.addEventListener('mouseenter', () => {
+            num.style.animation = 'number-pulse 1s infinite ease-in-out';
+        });
+        num.addEventListener('mouseleave', () => {
+            num.style.animation = '';
+        });
+    });
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey) {
+        switch (e.key) {
+            case 'm':
+                e.preventDefault();
+                toggleMusic();
+                break;
+            case 's':
+                e.preventDefault();
+                toggleSfx();
+                break;
+        }
+    }
+});
+
+// Scroll prevention
+function preventScroll() {
+    window.scrollTo(0, 0);
+}
+
+window.scrollTo(0, 0);
+setInterval(preventScroll, 100);
+
+// Initialize Squid Game effects
+animateMoneyCounter();
+updateGameTimer();
+setupCameraInteractions();
+setupGuardTowerEffects();
+setupPlayerNumberInteractions();
+
 class TinkaGame {
     constructor() {
         this.board = [

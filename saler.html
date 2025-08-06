@@ -236,28 +236,34 @@
         <div class="arena-fence fence-left"></div>
         <div class="arena-fence fence-right"></div>
 
-        <div class="audio-controls">
-            <button class="theme-icon" id="themeToggle">
-                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
-            <button class="audio-btn" id="toggleMusic">🔇</button>
-            <button class="audio-btn" id="toggleSfx">🔇</button>
-        </div>
+    </div>
+
+    <!-- Top Controls -->
+    <div class="top-controls">
+        <button id="themeToggle" class="theme-icon" aria-label="Toggle theme">
+            <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <button id="musicToggle" class="audio-btn" aria-label="Toggle music">
+            <i class="fas fa-music"></i>
+        </button>
+        <button id="sfxToggle" class="audio-btn active" aria-label="Toggle sound effects">
+            <i class="fas fa-volume-up"></i>
+        </button>
     </div>
 
 
@@ -265,7 +271,7 @@
     <div class="container">
         <header>
             <h1>Sālĕr</h1>
-            <p class="subtitle">Trap your opponent on the digit "4" shaped graph!</p>
+            <p class="subtitle">Trap your opponent on the digit "4"!</p>
             <p class="etymology">From Pashto "Sālōr" (four) - a unique board where path-blocking is the main strategy
             </p>
         </header>
@@ -316,15 +322,15 @@
                 <!-- Edges -->
                 <svg class="edges desktop-edges" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
                     <!-- A to B -->
-                    <line x1="250" y1="60" x2="125" y2="187" class="edge" data-edge="A-B" />
+                    <line x1="250" y1="40" x2="85" y2="187" class="edge" data-edge="A-B" />
                     <!-- A to C -->
-                    <line x1="250" y1="60" x2="250" y2="187" class="edge" data-edge="A-C" />
+                    <line x1="250" y1="40" x2="250" y2="187" class="edge" data-edge="A-C" />
                     <!-- B to C -->
-                    <line x1="125" y1="187" x2="250" y2="187" class="edge" data-edge="B-C" />
+                    <line x1="85" y1="187" x2="250" y2="187" class="edge" data-edge="B-C" />
                     <!-- C to E -->
-                    <line x1="250" y1="187" x2="375" y2="187" class="edge" data-edge="C-E" />
+                    <line x1="250" y1="187" x2="415" y2="187" class="edge" data-edge="C-E" />
                     <!-- C to D -->
-                    <line x1="250" y1="187" x2="250" y2="312" class="edge" data-edge="C-D" />
+                    <line x1="250" y1="187" x2="250" y2="332" class="edge" data-edge="C-D" />
                 </svg>
 
                 <!-- Mobile Edges -->
@@ -344,15 +350,15 @@
                 <!-- Small Mobile Edges -->
                 <svg class="edges small-mobile-edges" viewBox="0 0 250 187" xmlns="http://www.w3.org/2000/svg">
                     <!-- A to B -->
-                    <line x1="125" y1="31.25" x2="62.5" y2="93.75" class="edge" data-edge="A-B" />
+                    <line x1="125" y1="5" x2="25" y2="93.75" class="edge" data-edge="A-B" />
                     <!-- A to C -->
-                    <line x1="125" y1="31.25" x2="125" y2="93.75" class="edge" data-edge="A-C" />
+                    <line x1="125" y1="5" x2="125" y2="93.75" class="edge" data-edge="A-C" />
                     <!-- B to C -->
-                    <line x1="62.5" y1="93.75" x2="125" y2="93.75" class="edge" data-edge="B-C" />
+                    <line x1="25" y1="93.75" x2="125" y2="93.75" class="edge" data-edge="B-C" />
                     <!-- C to E -->
-                    <line x1="125" y1="93.75" x2="187.5" y2="93.75" class="edge" data-edge="C-E" />
+                    <line x1="125" y1="93.75" x2="225" y2="93.75" class="edge" data-edge="C-E" />
                     <!-- C to D -->
-                    <line x1="125" y1="93.75" x2="125" y2="156.25" class="edge" data-edge="C-D" />
+                    <line x1="125" y1="93.75" x2="125" y2="182" class="edge" data-edge="C-D" />
                 </svg>
             </div>
         </div>

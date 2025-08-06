@@ -384,17 +384,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const squidGameTheme = document.getElementById('squid-game-theme');
     const redLightSound = document.getElementById('red-light-sound');
     const greenLightSound = document.getElementById('green-light-sound');
-    const toggleMusicBtn = document.getElementById('toggleMusic');
-    const toggleSfxBtn = document.getElementById('toggleSfx');
 
     function toggleMusic() {
         musicEnabled = !musicEnabled;
+        const musicToggle = document.getElementById('musicToggle');
         if (musicEnabled) {
             // Set volume and play
             squidGameTheme.volume = 0.3;
             squidGameTheme.play().then(() => {
-                toggleMusicBtn.classList.add('active');
-                toggleMusicBtn.textContent = '🎵';
+                musicToggle.classList.add('active');
+                musicToggle.innerHTML = '<i class="fas fa-music"></i>';
                 console.log('Music started successfully');
             }).catch(e => {
                 console.log('Audio play failed:', e);
@@ -405,26 +404,35 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } else {
             squidGameTheme.pause();
-            toggleMusicBtn.classList.remove('active');
-            toggleMusicBtn.textContent = '🔇';
+            musicToggle.classList.remove('active');
+            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
             console.log('Music paused');
         }
     }
 
     function toggleSfx() {
         sfxEnabled = !sfxEnabled;
+        const sfxToggle = document.getElementById('sfxToggle');
         if (sfxEnabled) {
-            toggleSfxBtn.classList.add('active');
-            toggleSfxBtn.textContent = '🔊';
+            sfxToggle.classList.add('active');
+            sfxToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
         } else {
-            toggleSfxBtn.classList.remove('active');
-            toggleSfxBtn.textContent = '🔇';
+            sfxToggle.classList.remove('active');
+            sfxToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
         }
     }
 
     // Audio Control Event Listeners
-    toggleMusicBtn.addEventListener('click', toggleMusic);
-    toggleSfxBtn.addEventListener('click', toggleSfx);
+    const musicToggle = document.getElementById('musicToggle');
+    const sfxToggle = document.getElementById('sfxToggle');
+
+    if (musicToggle) {
+        musicToggle.addEventListener('click', toggleMusic);
+    }
+
+    if (sfxToggle) {
+        sfxToggle.addEventListener('click', toggleSfx);
+    }
 
     // Enable audio on first user interaction
     document.addEventListener('click', function enableAudio() {
