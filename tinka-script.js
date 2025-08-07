@@ -175,13 +175,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Scroll prevention
-function preventScroll() {
-    window.scrollTo(0, 0);
-}
 
-window.scrollTo(0, 0);
-setInterval(preventScroll, 100);
 
 // Initialize Squid Game effects
 animateMoneyCounter();

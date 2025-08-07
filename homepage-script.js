@@ -510,14 +510,15 @@ document.addEventListener('DOMContentLoaded', function () {
     window.scrollTo(0, 0);
 
     // Force the page to stay at the top
-    function preventScroll() {
-        if (window.pageYOffset > 0) {
-            window.scrollTo(0, 0);
-        }
-    }
+    // Removed preventScroll function that was causing jumping behavior
+    // function preventScroll() {
+    //     if (window.pageYOffset > 0) {
+    //         window.scrollTo(0, 0);
+    //     }
+    // }
 
-    // Check for scroll every 100ms
-    setInterval(preventScroll, 100);
+    // Removed setInterval that was forcing scroll to top every 100ms
+    // setInterval(preventScroll, 100);
 
     // Disable scroll-based navbar hiding
     /*
@@ -620,6 +621,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showNotification('Explore our collection of strategic board games!', 'info');
     }, 2000);
 
-    // Refresh ScrollTrigger
-    ScrollTrigger.refresh();
+    // Removed ScrollTrigger refresh that could cause layout issues
+    // ScrollTrigger.refresh();
 }); 

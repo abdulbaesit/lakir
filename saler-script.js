@@ -633,18 +633,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Prevent auto-scrolling
-    window.scrollTo(0, 0);
 
-    // Force the page to stay at the top
-    function preventScroll() {
-        if (window.pageYOffset > 0) {
-            window.scrollTo(0, 0);
-        }
-    }
-
-    // Check for scroll every 100ms
-    setInterval(preventScroll, 100);
 
     rulesModal.addEventListener('click', function (e) {
         if (e.target === rulesModal) {

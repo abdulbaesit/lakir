@@ -1,3 +1,86 @@
+// Define global functions immediately to ensure they're available
+window.toggleThemeGlobal = function () {
+    console.log('Global theme toggle called');
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('lakir-theme', newTheme);
+    console.log('Theme changed to:', newTheme);
+};
+
+window.toggleMusicGlobal = function () {
+    console.log('Global music toggle called');
+    const musicBtn = document.getElementById('musicToggle');
+    if (musicBtn) {
+        const isActive = musicBtn.classList.contains('active');
+        musicBtn.classList.toggle('active', !isActive);
+        const musicIcon = musicBtn.querySelector('i');
+        if (musicIcon) {
+            musicIcon.className = !isActive ? 'fas fa-music' : 'fas fa-music-slash';
+        }
+        localStorage.setItem('lakir-music', (!isActive).toString());
+    }
+};
+
+window.toggleSfxGlobal = function () {
+    console.log('Global SFX toggle called');
+    const sfxBtn = document.getElementById('sfxToggle');
+    if (sfxBtn) {
+        const isActive = sfxBtn.classList.contains('active');
+        sfxBtn.classList.toggle('active', !isActive);
+        const sfxIcon = sfxBtn.querySelector('i');
+        if (sfxIcon) {
+            sfxIcon.className = !isActive ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+        localStorage.setItem('lakir-sfx', (!isActive).toString());
+    }
+};
+
+// Global functions for button clicks
+let gameInstance = null;
+
+// Initialize button states immediately
+window.initializeGlobalControls = function () {
+    // Initialize theme
+    const savedTheme = localStorage.getItem('lakir-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const themeIcon = document.querySelector('#themeToggle i');
+    if (themeIcon) {
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // Initialize music button
+    const savedMusic = localStorage.getItem('lakir-music') || 'false';
+    const musicEnabled = savedMusic === 'true';
+    const musicBtn = document.getElementById('musicToggle');
+    if (musicBtn) {
+        musicBtn.classList.toggle('active', musicEnabled);
+        const musicIcon = musicBtn.querySelector('i');
+        if (musicIcon) {
+            musicIcon.className = musicEnabled ? 'fas fa-music' : 'fas fa-music-slash';
+        }
+    }
+
+    // Initialize SFX button
+    const savedSfx = localStorage.getItem('lakir-sfx') || 'true';
+    const sfxEnabled = savedSfx === 'true';
+    const sfxBtn = document.getElementById('sfxToggle');
+    if (sfxBtn) {
+        sfxBtn.classList.toggle('active', sfxEnabled);
+        const sfxIcon = sfxBtn.querySelector('i');
+        if (sfxIcon) {
+            sfxIcon.className = sfxEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+    }
+};
+
+// Initialize controls immediately when script loads
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGlobalControls);
+} else {
+    initializeGlobalControls();
+}
+
 class LakirGame {
     constructor() {
         this.gameState = {
@@ -14,6 +97,9 @@ class LakirGame {
             captureMode: false, // New: indicates if we're in capture selection mode
             pendingCapture: null // New: stores the line that was formed for capture
         };
+
+        // Initialize theme
+        this.initializeTheme();
 
         // Define board connections (adjacency list)
         this.connections = {
@@ -74,6 +160,119 @@ class LakirGame {
 
         this.initializeGame();
         this.setupEventListeners();
+        this.setupGameEventListeners();
+        this.initializeSquidGameEffects(); // New enhanced features
+
+        // Store global reference
+        gameInstance = this;
+    }
+
+    initializeTheme() {
+        const savedTheme = localStorage.getItem('lakir-theme') || 'dark';
+        const savedMusic = localStorage.getItem('lakir-music') || 'false';
+        const savedSfx = localStorage.getItem('lakir-sfx') || 'true';
+
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        this.musicEnabled = savedMusic === 'true';
+        this.sfxEnabled = savedSfx === 'true';
+
+        this.updateThemeIcon(savedTheme);
+        this.updateAudioButtons();
+    }
+
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        console.log('Theme toggle clicked!');
+        console.log('Current theme:', currentTheme);
+        console.log('New theme:', newTheme);
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('lakir-theme', newTheme);
+
+        console.log('Theme changed to:', newTheme);
+        this.playThemeChangeSound();
+    }
+
+    updateAudioButtons() {
+        const musicBtn = document.getElementById('musicToggle');
+        const sfxBtn = document.getElementById('sfxToggle');
+
+        if (musicBtn) {
+            musicBtn.classList.toggle('active', this.musicEnabled);
+            const musicIcon = musicBtn.querySelector('i');
+            if (musicIcon) {
+                musicIcon.className = this.musicEnabled ? 'fas fa-music' : 'fas fa-music-slash';
+            }
+        }
+
+        if (sfxBtn) {
+            sfxBtn.classList.toggle('active', this.sfxEnabled);
+            const sfxIcon = sfxBtn.querySelector('i');
+            if (sfxIcon) {
+                sfxIcon.className = this.sfxEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+            }
+        }
+    }
+
+    toggleMusic() {
+        this.musicEnabled = !this.musicEnabled;
+        localStorage.setItem('lakir-music', this.musicEnabled.toString());
+        this.updateAudioButtons();
+
+        const bgMusic = document.getElementById('squid-game-theme');
+        if (bgMusic) {
+            if (this.musicEnabled) {
+                bgMusic.play().catch(e => console.log('Audio play failed:', e));
+            } else {
+                bgMusic.pause();
+            }
+        }
+    }
+
+    toggleSfx() {
+        this.sfxEnabled = !this.sfxEnabled;
+        localStorage.setItem('lakir-sfx', this.sfxEnabled.toString());
+        this.updateAudioButtons();
+    }
+
+    playSound(soundId) {
+        if (!this.sfxEnabled) return;
+
+        const sound = document.getElementById(soundId);
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play().catch(e => console.log('Sound play failed:', e));
+        }
+    }
+
+    setupEventListeners() {
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => this.toggleTheme());
+        }
+
+        // Music toggle
+        const musicToggle = document.getElementById('musicToggle');
+        if (musicToggle) {
+            musicToggle.addEventListener('click', () => this.toggleMusic());
+        }
+
+        // SFX toggle
+        const sfxToggle = document.getElementById('sfxToggle');
+        if (sfxToggle) {
+            sfxToggle.addEventListener('click', () => this.toggleSfx());
+        }
+    }
+
+    playThemeChangeSound() {
+        // Optional sound effect for theme change
+        const audio = new Audio();
+        audio.volume = 0.3;
+        // You can add a sound file here if desired
     }
 
     initializeGame() {
@@ -105,7 +304,7 @@ class LakirGame {
         this.updateInvalidPlacementIndicators();
     }
 
-    setupEventListeners() {
+    setupGameEventListeners() {
         // Node click events
         const nodes = document.querySelectorAll('.node');
         nodes.forEach(node => {
@@ -167,18 +366,21 @@ class LakirGame {
         // Check if placement would form a line of 3 (forbidden during placement)
         if (this.wouldFormLine(nodeId, this.gameState.currentPlayer)) {
             console.log('Cannot place here - would form a line of 3');
+            this.playSound('red-light-sound');
             return;
         }
 
         // Check if this is an invalid placement position
         if (node.classList.contains('invalid-placement')) {
             console.log('Cannot place here - invalid placement position');
+            this.playSound('red-light-sound');
             return;
         }
 
         // Place stone
         this.gameState.board[nodeId] = this.gameState.currentPlayer;
         node.classList.add('player' + this.gameState.currentPlayer, 'occupied');
+        this.playSound('green-light-sound');
 
         this.gameState.stonesPlaced[this.gameState.currentPlayer]++;
         this.gameState.stonesLeft[this.gameState.currentPlayer]--;
@@ -543,10 +745,273 @@ class LakirGame {
             modal.style.display = 'none';
         }
     }
+
+    // Enhanced Squid Game Interactive Features
+    initializeSquidGameEffects() {
+        this.initializeGiantEyeTracking();
+        this.initializeGameCardInteractions();
+        this.initializeEliminationCounter();
+        this.initializePrizeMoneyCounter();
+        this.initializeGuardPatrols();
+        this.initializeBloodSplatters();
+        this.initializeSquidShapeInteractions();
+    }
+
+    initializeGiantEyeTracking() {
+        const gameContainer = document.querySelector('.game-container');
+        const leftPupil = document.querySelector('.giant-eye.eye-left .pupil');
+        const rightPupil = document.querySelector('.giant-eye.eye-right .pupil');
+
+        if (!gameContainer || !leftPupil || !rightPupil) return;
+
+        gameContainer.addEventListener('mousemove', (e) => {
+            const rect = gameContainer.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const deltaX = (mouseX - centerX) / rect.width;
+            const deltaY = (mouseY - centerY) / rect.height;
+
+            const maxMovement = 8;
+            const moveX = deltaX * maxMovement;
+            const moveY = deltaY * maxMovement;
+
+            leftPupil.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            rightPupil.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+        });
+    }
+
+    initializeGameCardInteractions() {
+        const gameCards = document.querySelectorAll('.game-card');
+        gameCards.forEach((card, index) => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.1) rotateZ(0deg)';
+                card.style.opacity = '0.8';
+                card.style.zIndex = '10';
+                this.playSquidGameSound('card-hover');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.opacity = '';
+                card.style.zIndex = '';
+            });
+
+            card.addEventListener('click', () => {
+                this.triggerGameCardEffect(index);
+            });
+        });
+    }
+
+    initializeEliminationCounter() {
+        // Placeholder for elimination counter functionality
+        const counter = document.querySelector('.elimination-counter');
+        if (counter) {
+            setInterval(() => {
+                const currentCount = parseInt(counter.textContent) || 0;
+                if (currentCount < 456) {
+                    counter.textContent = currentCount + Math.floor(Math.random() * 3);
+                }
+            }, 5000);
+        }
+    }
+
+    initializePrizeMoneyCounter() {
+        // Placeholder for prize money counter functionality
+        const prizeDisplay = document.querySelector('.prize-money-display');
+        if (prizeDisplay) {
+            let currentAmount = 0;
+            const targetAmount = 45600000000; // 45.6 billion won
+            const increment = targetAmount / 1000;
+
+            const countUp = () => {
+                if (currentAmount < targetAmount) {
+                    currentAmount += increment;
+                    prizeDisplay.textContent = `₩${Math.floor(currentAmount).toLocaleString()}`;
+                    setTimeout(countUp, 50);
+                }
+            };
+
+            setTimeout(countUp, 2000);
+        }
+    }
+
+    initializeGuardPatrols() {
+        // Placeholder for guard patrol animations
+        const soldiers = document.querySelectorAll('.pink-soldier');
+        soldiers.forEach((soldier, index) => {
+            soldier.style.animationDelay = `${index * 0.5}s`;
+        });
+    }
+
+    initializeBloodSplatters() {
+        // Placeholder for blood splatter effects
+        const bloodSplatters = document.querySelectorAll('.blood-splatter');
+        bloodSplatters.forEach((splatter, index) => {
+            splatter.addEventListener('mouseenter', () => {
+                splatter.style.transform = 'scale(1.2)';
+                splatter.style.opacity = '0.8';
+            });
+            splatter.addEventListener('mouseleave', () => {
+                splatter.style.transform = '';
+                splatter.style.opacity = '';
+            });
+        });
+    }
+
+    initializeSquidShapeInteractions() {
+        // Placeholder for squid shape interactions
+        const shapes = document.querySelectorAll('.squid-shape');
+        shapes.forEach((shape, index) => {
+            shape.addEventListener('click', () => {
+                this.playSquidGameSound('shape-hover');
+                shape.style.animation = 'bounce 0.5s ease-in-out';
+                setTimeout(() => {
+                    shape.style.animation = '';
+                }, 500);
+            });
+        });
+    }
+
+    playSquidGameSound(type) {
+        if (!this.sfxEnabled) return;
+
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            const frequencies = {
+                'card-hover': 800,
+                'shape-hover': 600,
+                'red-light': 200,
+                'honeycomb-crack': 400,
+                'rope-strain': 150,
+                'marble-clink': 1000,
+                'glass-break': 1200,
+                'elimination': 100
+            };
+
+            oscillator.frequency.setValueAtTime(frequencies[type] || 500, audioContext.currentTime);
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        } catch (e) {
+            console.log('Audio context not available');
+        }
+    }
+
+    triggerGameCardEffect(cardIndex) {
+        const effects = [
+            () => this.redLightGreenLightEffect(),
+            () => this.honeycombEffect(),
+            () => this.tugOfWarEffect(),
+            () => this.marblesEffect(),
+            () => this.glassBridgeEffect(),
+            () => this.squidGameEffect()
+        ];
+
+        if (effects[cardIndex]) {
+            effects[cardIndex]();
+        }
+    }
+
+    redLightGreenLightEffect() {
+        const doll = document.querySelector('.doll-container');
+        if (doll) {
+            doll.style.animation = 'doll-turn 2s ease-in-out';
+            this.flashScreen('#ff0000', 500);
+            this.playSquidGameSound('red-light');
+        }
+    }
+
+    honeycombEffect() {
+        const honeycomb = document.querySelector('.honeycomb-piece');
+        if (honeycomb) {
+            honeycomb.style.animation = 'honeycomb-crack 1s ease-in-out';
+            this.playSquidGameSound('honeycomb-crack');
+        }
+    }
+
+    tugOfWarEffect() {
+        const rope = document.querySelector('.tug-of-war-rope');
+        if (rope) {
+            rope.style.animation = 'rope-tension 2s ease-in-out';
+            this.playSquidGameSound('rope-strain');
+        }
+    }
+
+    marblesEffect() {
+        const marbles = document.querySelectorAll('.marble');
+        marbles.forEach((marble, index) => {
+            setTimeout(() => {
+                marble.style.animation = 'marble-roll 1s ease-in-out';
+                this.playSquidGameSound('marble-clink');
+            }, index * 200);
+        });
+    }
+
+    glassBridgeEffect() {
+        const glasses = document.querySelectorAll('.glass-panel');
+        glasses.forEach((glass, index) => {
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    glass.style.animation = 'glass-shatter 0.5s ease-in-out';
+                    this.playSquidGameSound('glass-break');
+                }
+            }, index * 100);
+        });
+    }
+
+    squidGameEffect() {
+        const shapes = document.querySelectorAll('.squid-shape');
+        shapes.forEach((shape, index) => {
+            setTimeout(() => {
+                shape.style.animation = 'shape-glow 2s ease-in-out';
+                this.playSquidGameSound('shape-hover');
+            }, index * 300);
+        });
+    }
+
+    flashScreen(color, duration) {
+        const flash = document.createElement('div');
+        flash.style.position = 'fixed';
+        flash.style.top = '0';
+        flash.style.left = '0';
+        flash.style.width = '100%';
+        flash.style.height = '100%';
+        flash.style.background = color;
+        flash.style.opacity = '0.3';
+        flash.style.pointerEvents = 'none';
+        flash.style.zIndex = '9999';
+        flash.style.transition = `opacity ${duration}ms ease-in-out`;
+
+        document.body.appendChild(flash);
+
+        setTimeout(() => {
+            flash.style.opacity = '0';
+            setTimeout(() => {
+                flash.remove();
+            }, duration);
+        }, 100);
+    }
 }
 
 // Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize global controls first
+    initializeGlobalControls();
+
     const game = new LakirGame();
 
     // Additional rules modal event listeners
@@ -566,5 +1031,60 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
+    });
+
+    // Initialize particle animation with delay variations
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach((particle, index) => {
+        particle.style.setProperty('--delay', `${index * 0.8}s`);
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+    });
+
+    // Add some interactive hover effects to grid cells
+    const gridCells = document.querySelectorAll('.grid-cell');
+    gridCells.forEach(cell => {
+        cell.addEventListener('mouseenter', () => {
+            cell.style.borderColor = 'rgba(27, 184, 189, 0.4)';
+            cell.style.background = 'rgba(27, 184, 189, 0.05)';
+        });
+        cell.addEventListener('mouseleave', () => {
+            cell.style.borderColor = '';
+            cell.style.background = '';
+        });
+    });
+});
+
+// Initialize game when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize global controls first
+    initializeGlobalControls();
+
+    const game = new LakirGame();
+
+    // Additional rules modal event listeners
+    const closeRulesBtn = document.querySelector('.close-rules-btn');
+    if (closeRulesBtn) {
+        closeRulesBtn.addEventListener('click', () => {
+            const modal = document.getElementById('rulesModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        const modal = document.getElementById('rulesModal');
+        if (modal && event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Enhance cosmic effects
+    const particles = document.querySelectorAll('.particle');
+    particles.forEach(particle => {
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (6 + Math.random() * 4) + 's';
     });
 });
