@@ -548,22 +548,36 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize the game
     const game = new TinkaGame();
 
-    // Set up rules modal
-    const rulesBtn = document.getElementById('rulesBtn');
-    const rulesModal = document.getElementById('rulesModal');
-    const closeBtn = rulesModal.querySelector('.close-rules-btn');
-
-    rulesBtn.addEventListener('click', function () {
-        rulesModal.style.display = 'block';
-    });
-
-    closeBtn.addEventListener('click', function () {
-        rulesModal.style.display = 'none';
-    });
-
-    rulesModal.addEventListener('click', function (e) {
-        if (e.target === rulesModal) {
-            rulesModal.style.display = 'none';
+    // Auto-show rules - multiple attempts to ensure it works
+    console.log('Setting up auto-show for Tinka...');
+    
+    // Immediate attempt
+    setTimeout(() => {
+        console.log('Tinka: First attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal) {
+            modal.style.display = 'block';
+            console.log('Tinka: Rules modal shown (first attempt)');
         }
-    });
+    }, 100);
+    
+    // Secondary attempt
+    setTimeout(() => {
+        console.log('Tinka: Second attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal && modal.style.display !== 'block') {
+            modal.style.display = 'block';
+            console.log('Tinka: Rules modal shown (second attempt)');
+        }
+    }, 800);
+    
+    // Final attempt
+    setTimeout(() => {
+        console.log('Tinka: Final attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal && modal.style.display !== 'block') {
+            modal.style.display = 'block';
+            console.log('Tinka: Rules modal shown (final attempt)');
+        }
+    }, 1500);
 }); 

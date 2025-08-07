@@ -18,6 +18,17 @@ html[data-theme="light"] {
     color-scheme: light;
 }
 
+/* Theme-specific body styles */
+html[data-theme="light"] body {
+    background: #f0f8ff;
+    color: #2d3748;
+}
+
+html[data-theme="dark"] body {
+    background: #0a2a2d;
+    color: #e0e0e0;
+}
+
 body {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
@@ -921,29 +932,24 @@ header {
 
 header h1 {
     font-size: 2.5rem;
-    color: #e0e0e0;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-html[data-theme="light"] header h1 {
     color: #4a5568;
+    margin-bottom: 0.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+html[data-theme="dark"] header h1 {
+    color: #e0e0e0;
+}
+
 .subtitle {
-    color: #a0aec0;
+    color: #718096;
     font-size: 1.1rem;
     margin-top: 0.5rem;
     font-style: italic;
 }
 
-html[data-theme="light"] .subtitle {
-    color: #718096;
-}
-
 .etymology {
-    color: #718096;
+    color: #a0aec0;
     font-size: 0.9rem;
     margin-top: 0.25rem;
     font-style: italic;
@@ -953,7 +959,7 @@ html[data-theme="light"] .subtitle {
     margin-right: auto;
 }
 
-html[data-theme="light"] .etymology {
+html[data-theme="dark"] .etymology {
     color: #a0aec0;
 }
 
@@ -1082,6 +1088,8 @@ html[data-theme="dark"] .game-board {
     width: 300px;
     height: 300px;
     margin: 0 auto;
+    z-index: 50;
+    pointer-events: auto;
 }
 
 html[data-theme="light"] .graph-container {
@@ -1318,7 +1326,8 @@ html[data-theme="light"] .graph-container {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    z-index: 100;
+    pointer-events: auto;
 }
 
 .node:hover {
@@ -1351,6 +1360,7 @@ html[data-theme="light"] .graph-container {
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    pointer-events: none;
 }
 
 .node.player1 .node-content {
@@ -1499,6 +1509,8 @@ html[data-theme="dark"] .edge.highlighted {
     top: 81.2%;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
+    pointer-events: auto;
 }
 
 .btn {
@@ -1510,6 +1522,9 @@ html[data-theme="dark"] .edge.highlighted {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+    position: relative;
+    pointer-events: auto;
 }
 
 .btn:hover {
@@ -1702,21 +1717,41 @@ html[data-theme="light"] .rules-content ul {
 /* Responsive design */
 
 @media (max-width: 480px) {
-    body {
+    * {
         margin: 0;
         padding: 0;
+    }
+
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
         min-height: 100vh;
+        display: block !important;
+        align-items: unset !important;
+        justify-content: unset !important;
     }
 
     .container {
-        margin: 0.5rem;
-        padding: 1rem;
+        margin: 0 0.5rem 0.5rem 0.5rem !important;
+        padding: 0 1rem 1rem 1rem !important;
         width: auto;
         height: auto;
         min-height: auto;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        position: relative;
+        top: 0;
+    }
+
+    header {
+        margin-top: 3rem;
+        margin-bottom: 1rem;
     }
 
     header h1 {
@@ -1748,6 +1783,9 @@ html[data-theme="light"] .rules-content ul {
         background: #edf2f7;
         border-radius: 10px;
         margin-top: 0.5rem;
+        /* min-width: auto; */
+        width: 100%;
+        /* flex: 1; */
     }
 
     html[data-theme="dark"] .game-status {
@@ -1763,141 +1801,187 @@ html[data-theme="light"] .rules-content ul {
     }
 
     .graph-container {
-        width: 250px;
-        height: 250px;
-        padding: 10px;
+        width: 180px;
+        height: 180px;
+        padding: 8px;
         margin: 0 auto;
     }
 
     .node {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
     }
 
     .node-content {
-        width: 23px;
-        height: 23px;
+        width: 20px;
+        height: 20px;
     }
 
-    /* Correct node positions for 250x250 mobile board */
-    [id="outer-tl"] {
+    /* Correct node positions for 180x180 mobile board */
+    [id="0,0"] {
         top: 0px;
         left: 0px;
     }
 
-    [id="outer-tm"] {
+    [id="0,1"] {
         top: 0px;
-        left: 108px;
+        left: 75px;
     }
 
-    [id="outer-tr"] {
+    [id="0,2"] {
         top: 0px;
-        left: 215px;
+        left: 150px;
     }
 
-    [id="outer-rm"] {
-        top: 108px;
-        left: 215px;
-    }
-
-    [id="outer-br"] {
-        top: 215px;
-        left: 215px;
-    }
-
-    [id="outer-bm"] {
-        top: 215px;
-        left: 108px;
-    }
-
-    [id="outer-bl"] {
-        top: 215px;
+    [id="1,0"] {
+        top: 75px;
         left: 0px;
     }
 
-    [id="outer-lm"] {
-        top: 108px;
+    [id="1,1"] {
+        top: 75px;
+        left: 75px;
+    }
+
+    [id="1,2"] {
+        top: 75px;
+        left: 150px;
+    }
+
+    [id="2,0"] {
+        top: 150px;
         left: 0px;
     }
 
-    [id="middle-tl"] {
-        top: 36px;
-        left: 36px;
+    [id="2,1"] {
+        top: 150px;
+        left: 75px;
     }
 
-    [id="middle-tm"] {
-        top: 36px;
-        left: 108px;
+    [id="2,2"] {
+        top: 150px;
+        left: 150px;
     }
 
-    [id="middle-tr"] {
-        top: 36px;
-        left: 179px;
+    /* Override desktop positions with mobile positions for complex nodes */
+    #outer-tl {
+        top: -12px !important;
+        left: -12px !important;
     }
 
-    [id="middle-rm"] {
-        top: 108px;
-        left: 179px;
+    #outer-tm {
+        top: -12px !important;
+        left: 110px !important;
     }
 
-    [id="middle-br"] {
-        top: 179px;
-        left: 179px;
+    #outer-tr {
+        top: -12px !important;
+        left: 232px !important;
     }
 
-    [id="middle-bm"] {
-        top: 179px;
-        left: 108px;
+    #outer-rm {
+        top: 110px !important;
+        left: 232px !important;
     }
 
-    [id="middle-bl"] {
-        top: 179px;
-        left: 36px;
+    #outer-br {
+        top: 232px !important;
+        left: 232px !important;
     }
 
-    [id="middle-lm"] {
-        top: 108px;
-        left: 36px;
+    #outer-bm {
+        top: 232px !important;
+        left: 110px !important;
     }
 
-    [id="inner-tl"] {
-        top: 72px;
-        left: 72px;
+    #outer-bl {
+        top: 232px !important;
+        left: -12px !important;
     }
 
-    [id="inner-tm"] {
-        top: 72px;
-        left: 108px;
+    #outer-lm {
+        top: 110px !important;
+        left: -12px !important;
     }
 
-    [id="inner-tr"] {
-        top: 72px;
-        left: 143px;
+    #middle-tl {
+        top: 38px !important;
+        left: 38px !important;
     }
 
-    [id="inner-rm"] {
-        top: 108px;
-        left: 143px;
+    #middle-tm {
+        top: 38px !important;
+        left: 110px !important;
     }
 
-    [id="inner-br"] {
-        top: 143px;
-        left: 143px;
+    #middle-tr {
+        top: 38px !important;
+        left: 182px !important;
     }
 
-    [id="inner-bm"] {
-        top: 143px;
-        left: 108px;
+    #middle-rm {
+        top: 110px !important;
+        left: 182px !important;
     }
 
-    [id="inner-bl"] {
-        top: 143px;
-        left: 72px;
+    #middle-br {
+        top: 182px !important;
+        left: 182px !important;
     }
 
-    [id="inner-lm"] {
-        top: 108px;
-        left: 72px;
+    #middle-bm {
+        top: 182px !important;
+        left: 110px !important;
+    }
+
+    #middle-bl {
+        top: 182px !important;
+        left: 38px !important;
+    }
+
+    #middle-lm {
+        top: 110px !important;
+        left: 38px !important;
+    }
+
+    #inner-tl {
+        top: 70px !important;
+        left: 70px !important;
+    }
+
+    #inner-tm {
+        top: 70px !important;
+        left: 110px !important;
+    }
+
+    #inner-tr {
+        top: 70px !important;
+        left: 150px !important;
+    }
+
+    #inner-rm {
+        top: 110px !important;
+        left: 150px !important;
+    }
+
+    #inner-br {
+        top: 150px !important;
+        left: 150px !important;
+    }
+
+    #inner-bm {
+        top: 150px !important;
+        left: 110px !important;
+    }
+
+    #inner-bl {
+        top: 150px !important;
+        left: 70px !important;
+    }
+
+    #inner-lm {
+        top: 110px !important;
+        left: 70px !important;
     }
 
     .controls {
@@ -1967,6 +2051,24 @@ html[data-theme="light"] .rules-content ul {
     }
 }
 
+@media (max-width: 600px) {
+    .game-info {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        /* gap: 0.75rem; */
+        align-items: center;
+    }
+
+    .player-info {
+        flex-shrink: 0;
+    }
+
+    .game-status {
+        flex: 1;
+        min-width: auto;
+    }
+}
+
 /* Responsive positioning for mobile */
 @media (max-width: 768px) {
     .container {
@@ -1988,8 +2090,8 @@ html[data-theme="light"] .rules-content ul {
     }
 
     .graph-container {
-        width: 300px;
-        height: 300px;
+        width: 250px;
+        height: 250px;
     }
 
     .node {

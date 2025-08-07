@@ -191,6 +191,7 @@ class LakirGame {
 
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('lakir-theme', newTheme);
+        this.updateThemeIcon(newTheme);
 
         console.log('Theme changed to:', newTheme);
         this.playThemeChangeSound();
@@ -215,6 +216,12 @@ class LakirGame {
                 sfxIcon.className = this.sfxEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
             }
         }
+    }
+
+    updateThemeIcon(theme) {
+        // Theme icons are now controlled by CSS data-theme attribute
+        // No need to manually show/hide icons as CSS handles this automatically
+        console.log('Theme icon updated for theme:', theme);
     }
 
     toggleMusic() {
@@ -1014,6 +1021,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const game = new LakirGame();
 
+    // Auto-show rules on page load
+    setTimeout(() => {
+        console.log('Auto-showing rules modal for Lakir...');
+        const modal = document.getElementById('rulesModal');
+        if (modal) {
+            modal.style.display = 'block';
+            console.log('Lakir rules modal displayed');
+        }
+    }, 800);
+
     // Additional rules modal event listeners
     const closeRulesBtn = document.querySelector('.close-rules-btn');
     if (closeRulesBtn) {
@@ -1052,39 +1069,5 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.style.borderColor = '';
             cell.style.background = '';
         });
-    });
-});
-
-// Initialize game when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize global controls first
-    initializeGlobalControls();
-
-    const game = new LakirGame();
-
-    // Additional rules modal event listeners
-    const closeRulesBtn = document.querySelector('.close-rules-btn');
-    if (closeRulesBtn) {
-        closeRulesBtn.addEventListener('click', () => {
-            const modal = document.getElementById('rulesModal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (event) => {
-        const modal = document.getElementById('rulesModal');
-        if (modal && event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    // Enhance cosmic effects
-    const particles = document.querySelectorAll('.particle');
-    particles.forEach(particle => {
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDuration = (6 + Math.random() * 4) + 's';
     });
 });

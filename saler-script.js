@@ -360,22 +360,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const game = new Saler1Game();
     console.log('Game instance created:', game);
 
-    // Set up rules modal
-    const rulesBtn = document.getElementById('rulesBtn');
-    const rulesModal = document.getElementById('rulesModal');
-    const closeBtn = rulesModal.querySelector('.close-rules-btn');
-
-    console.log('Rules button found:', rulesBtn);
-    console.log('Rules modal found:', rulesModal);
-    console.log('Close button found:', closeBtn);
-
-    rulesBtn.addEventListener('click', function () {
-        rulesModal.style.display = 'block';
-    });
-
-    closeBtn.addEventListener('click', function () {
-        rulesModal.style.display = 'none';
-    });
+    // Auto-show rules - multiple attempts to ensure it works
+    console.log('Setting up auto-show for Saler...');
+    
+    // Immediate attempt
+    setTimeout(() => {
+        console.log('Saler: First attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal) {
+            modal.style.display = 'block';
+            console.log('Saler: Rules modal shown (first attempt)');
+        }
+    }, 100);
+    
+    // Secondary attempt
+    setTimeout(() => {
+        console.log('Saler: Second attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal && modal.style.display !== 'block') {
+            modal.style.display = 'block';
+            console.log('Saler: Rules modal shown (second attempt)');
+        }
+    }, 800);
+    
+    // Final attempt
+    setTimeout(() => {
+        console.log('Saler: Final attempt to show rules...');
+        const modal = document.getElementById('rulesModal');
+        if (modal && modal.style.display !== 'block') {
+            modal.style.display = 'block';
+            console.log('Saler: Rules modal shown (final attempt)');
+        }
+    }, 1500);
 
     // Squid Game Audio Controls
     let musicEnabled = false;
@@ -630,14 +646,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.ctrlKey && e.key === 's') {
             e.preventDefault();
             toggleSfx();
-        }
-    });
-
-
-
-    rulesModal.addEventListener('click', function (e) {
-        if (e.target === rulesModal) {
-            rulesModal.style.display = 'none';
         }
     });
 

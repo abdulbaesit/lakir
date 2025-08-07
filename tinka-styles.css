@@ -641,7 +641,7 @@ html[data-theme="dark"] .moon-icon {
     color: white;
 }
 
-/* Modal styles omitted for brevity */
+/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -650,24 +650,33 @@ html[data-theme="dark"] .moon-icon {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
-    /* Prevent layout recalculation on mobile */
-    transform: translateZ(0);
 }
 
 .modal-content {
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
     margin: 5% auto;
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: 20px;
     width: 90%;
     max-width: 600px;
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    animation: modalSlideIn 0.3s ease;
     max-height: 80vh;
     overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: modalSlideIn 0.3s ease-out;
+    color: #e0e0e0;
+}
+
+html[data-theme="light"] .modal-content {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    backdrop-filter: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    color: #2d3748;
 }
 
 @keyframes modalSlideIn {
@@ -786,6 +795,11 @@ html[data-theme="dark"] .moon-icon {
         justify-content: center;
     }
 
+    header {
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
     header h1 {
         font-size: 1.8rem;
     }
@@ -887,7 +901,7 @@ html[data-theme="dark"] .moon-icon {
     }
 
     .controls {
-        margin-top: 1rem;
+        margin-top: -0.5rem;
         gap: 0.5rem;
         position: relative;
         top: auto;
@@ -1044,25 +1058,6 @@ html[data-theme="dark"] .controls button:hover {
     background: linear-gradient(45deg, #4ecdc4, #3bafb3);
     box-shadow: 0 6px 12px rgba(59, 175, 179, 0.4);
 }
-
-html[data-theme="dark"] .modal {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-html[data-theme="dark"] .modal-content {
-    background: #2d2d2d;
-    color: #e0e0e0;
-    border: 1px solid rgba(59, 175, 179, 0.3);
-}
-
-html[data-theme="dark"] .modal-content h2 {
-    color: #ffffff;
-}
-
-html[data-theme="dark"] .modal-content p {
-    color: #cbd5e0;
-}
-
 html[data-theme="dark"] .close-rules-btn {
     background: #2d2d2d;
     color: #a0aec0;
