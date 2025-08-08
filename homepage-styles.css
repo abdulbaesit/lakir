@@ -44,17 +44,27 @@ html[data-theme="dark"] body {
 
 /* Global Controls */
 .global-controls {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    z-index: 9999;
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    display: flex !important;
+    gap: 10px !important;
+    z-index: 9999 !important;
+    width: 100px !important;
+    height: 45px !important;
+    max-width: 100px !important;
+    max-height: 45px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
 .control-btn {
-    width: 45px;
-    height: 45px;
+    width: 45px !important;
+    height: 45px !important;
+    min-width: 45px !important;
+    min-height: 45px !important;
+    max-width: 45px !important;
+    max-height: 45px !important;
     border: 2px solid rgba(231, 76, 60, 0.3);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.9);
@@ -62,11 +72,16 @@ html[data-theme="dark"] body {
     color: #e74c3c;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .control-btn:hover {
@@ -81,20 +96,40 @@ html[data-theme="dark"] body {
 }
 
 /* Theme Button Icons */
-.theme-btn .sun-icon {
+.global-controls .theme-btn .sun-icon,
+.global-controls .theme-btn .moon-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+}
+
+.global-controls .theme-btn .sun-icon {
     display: block;
 }
 
-.theme-btn .moon-icon {
+.global-controls .theme-btn .moon-icon {
     display: none;
 }
 
-html[data-theme="dark"] .theme-btn .sun-icon {
+html[data-theme="dark"] .global-controls .theme-btn .sun-icon {
     display: none;
 }
 
-html[data-theme="dark"] .theme-btn .moon-icon {
+html[data-theme="dark"] .global-controls .theme-btn .moon-icon {
     display: block;
+}
+
+/* Music Button Icon */
+.global-controls .music-btn i {
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 /* Music Button States */
@@ -129,7 +164,8 @@ html[data-theme="dark"] .music-btn.muted {
 .close-rules-btn {
     font-size: 20px;
     font-weight: bold;
-    display: none !important; /* Hidden by default */
+    display: none !important;
+    /* Hidden by default */
 }
 
 /* Only show on mobile when rules modal is open */

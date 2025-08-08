@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="vi        .rules-content > h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1bb8bd;
+                        .contact-info>p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            font-family: 'DM Sans', sans-serif;
+            text-align: left;
+        }gin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .rules-content > p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+        }width=device-width, initial-scale=1.0">
+    <title>About - SALER x SQUID GAME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../lakir-styles.css">
+
+    <!-- Apply saved theme immediately to prevent flash -->
+    <script>
+        (function () {
+            let savedTheme = localStorage.getItem('global-theme');
+            if (!savedTheme) {
+                savedTheme = localStorage.getItem('theme') || 'light';
+                localStorage.setItem('global-theme', savedTheme);
+                localStorage.removeItem('theme');
+            }
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <!-- Custom styles for about page -->
+    <style>
+        /* About page specific styles */
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 100px;
+            /* Account for fixed navbar */
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        html[data-theme="dark"] .content-section {
+            background: rgba(26, 26, 26, 0.05);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1bb8bd 0%, #16a5a9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(27, 184, 189, 0.3);
+        }
+
+        /* Our Story Section */
+        .story-content {
+            width: 100%;
+            margin: 0;
+        }
+
+        .story-text h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1bb8bd;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        html[data-theme="dark"] .story-text h3 {
+            color: #1bb8bd;
+        }
+
+        .story-text p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .story-text p {
+            color: #e0e0e0;
+        }
+
+        /* Game Rules Section */
+        .rules-content {
+            width: 100%;
+            margin: 0;
+        }
+
+        .rules-content>h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1bb8bd;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .rules-content>p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .rules-content>h3 {
+            color: #1bb8bd;
+        }
+
+        html[data-theme="dark"] .rules-content>p {
+            color: #e0e0e0;
+        }
+
+        .game-rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rule-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(27, 184, 189, 0.2);
+            border-color: rgba(27, 184, 189, 0.3);
+        }
+
+        html[data-theme="dark"] .rule-card {
+            background: rgba(26, 26, 26, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        html[data-theme="dark"] .rule-card:hover {
+            border-color: rgba(27, 184, 189, 0.4);
+            box-shadow: 0 15px 35px rgba(27, 184, 189, 0.3);
+        }
+
+        .rule-header h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1bb8bd;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .rule-content p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 0.8rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .rule-content p {
+            color: #b0b0b0;
+        }
+
+        .rule-content strong {
+            color: #1bb8bd;
+            font-weight: 600;
+        }
+
+        .universal-principles {
+            background: rgba(27, 184, 189, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(27, 184, 189, 0.2);
+        }
+
+        html[data-theme="dark"] .universal-principles {
+            background: rgba(27, 184, 189, 0.08);
+            border-color: rgba(27, 184, 189, 0.3);
+        }
+
+        .universal-principles h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1bb8bd;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .principles-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .principles-list li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .principles-list li {
+            color: #e0e0e0;
+        }
+
+        .principles-list li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #1bb8bd;
+            font-size: 1.2rem;
+        }
+
+        .principles-list strong {
+            color: #1bb8bd;
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            width: 100%;
+            margin: 0;
+            text-align: left;
+        }
+
+        .contact-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1bb8bd;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        html[data-theme="dark"] .contact-info h3 {
+            color: #1bb8bd;
+        }
+
+        .contact-info>p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .contact-info>p {
+            color: #e0e0e0;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(27, 184, 189, 0.2);
+            border-color: rgba(27, 184, 189, 0.3);
+        }
+
+        html[data-theme="dark"] .contact-method {
+            background: rgba(26, 26, 26, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        html[data-theme="dark"] .contact-method:hover {
+            border-color: rgba(27, 184, 189, 0.4);
+            box-shadow: 0 10px 25px rgba(27, 184, 189, 0.3);
+        }
+
+        .contact-method i {
+            font-size: 1.5rem;
+            color: #1bb8bd;
+            min-width: 30px;
+        }
+
+        .contact-method h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0 0 0.3rem 0;
+        }
+
+        html[data-theme="dark"] .contact-method h4 {
+            color: #e0e0e0;
+        }
+
+        .contact-method a {
+            color: #1bb8bd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-method a:hover {
+            color: #16a5a9;
+            text-decoration: underline;
+        }
+
+        .contact-note {
+            background: rgba(27, 184, 189, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(27, 184, 189, 0.2);
+        }
+
+        html[data-theme="dark"] .contact-note {
+            background: rgba(27, 184, 189, 0.08);
+            border-color: rgba(27, 184, 189, 0.3);
+        }
+
+        .contact-note p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html[data-theme="dark"] .contact-note p {
+            color: #e0e0e0;
+        }
+
+        /* Navigation back button */
+        .back-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(27, 184, 189, 0.9);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(27, 184, 189, 0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(27, 184, 189, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(27, 184, 189, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 1rem;
+                margin-top: 80px;
+            }
+
+            .content-section {
+                padding: 2rem 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .story-text h3 {
+                font-size: 1.5rem;
+            }
+
+            .story-text p {
+                font-size: 1rem;
+                text-align: left;
+            }
+
+            .game-rules-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .rule-card {
+                padding: 1.5rem;
+            }
+
+            .universal-principles {
+                padding: 1.5rem;
+            }
+
+            .contact-methods {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .contact-method {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-container {
+                padding: 0.5rem;
+            }
+
+            .content-section {
+                padding: 1.5rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .story-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .story-text p {
+                font-size: 0.95rem;
+            }
+
+            .rule-header h4 {
+                font-size: 1.1rem;
+            }
+
+            .rule-content p {
+                font-size: 0.9rem;
+            }
+
+            .universal-principles h4 {
+                font-size: 1.3rem;
+            }
+
+            .principles-list li {
+                font-size: 0.95rem;
+                padding-left: 1.5rem;
+            }
+
+            .contact-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .contact-info>p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Global Controls -->
+    <div class="global-controls">
+        <button class="close close-rules-btn control-btn mobile-only" aria-label="Close">×</button>
+        <button id="global-theme-toggle" class="control-btn theme-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <button id="global-music-toggle" class="control-btn music-btn" aria-label="Toggle music">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+
+    <!-- Back Navigation -->
+    <div class="back-nav">
+        <a href="../index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Home</span>
+        </a>
+    </div>
+
+    <!-- Interactive Background Elements -->
+    <div class="parallax-container">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+        <div class="parallax-layer layer-4"></div>
+        <div class="parallax-layer layer-5"></div>
+
+        <!-- Squid Game Elements (Primary Focus) -->
+        <div class="squid-game-elements">
+            <!-- Circle, Triangle, Square shapes in different positions -->
+            <div class="squid-shape circle-shape" style="top: 10%; left: 80%; animation-delay: 0s;"></div>
+            <div class="squid-shape triangle-shape" style="top: 25%; left: 5%; animation-delay: 1s;"></div>
+            <div class="squid-shape square-shape" style="top: 40%; left: 90%; animation-delay: 2s;"></div>
+            <div class="squid-shape circle-shape-2" style="top: 55%; left: 15%; animation-delay: 3s;"></div>
+            <div class="squid-shape triangle-shape-2" style="top: 70%; left: 75%; animation-delay: 4s;"></div>
+            <div class="squid-shape square-shape-2" style="top: 85%; left: 40%; animation-delay: 5s;"></div>
+
+            <!-- Additional Game Symbols -->
+            <div class="squid-shape circle-shape"
+                style="top: 15%; left: 50%; animation-delay: 6s; transform: scale(0.7);"></div>
+            <div class="squid-shape triangle-shape"
+                style="top: 60%; left: 60%; animation-delay: 7s; transform: scale(1.2);"></div>
+            <div class="squid-shape square-shape"
+                style="top: 30%; left: 25%; animation-delay: 8s; transform: scale(0.9);"></div>
+
+            <!-- Pink Soldiers in new positions -->
+            <div class="pink-soldier soldier-1" style="top: 20%; left: 70%; animation-delay: 1s;"></div>
+            <div class="pink-soldier soldier-2" style="top: 50%; left: 35%; animation-delay: 3s;"></div>
+            <div class="pink-soldier soldier-3" style="top: 80%; left: 85%; animation-delay: 5s;"></div>
+
+            <!-- Additional Pink Soldiers -->
+            <div class="pink-soldier soldier-1"
+                style="top: 35%; left: 10%; animation-delay: 7s; transform: scale(0.8);"></div>
+            <div class="pink-soldier soldier-2"
+                style="top: 65%; left: 95%; animation-delay: 9s; transform: scale(1.1);"></div>
+
+            <!-- Game Masks -->
+            <div class="game-mask mask-1" style="top: 12%; left: 30%; animation-delay: 2s;"></div>
+            <div class="game-mask mask-2" style="top: 45%; left: 65%; animation-delay: 4s;"></div>
+            <div class="game-mask mask-3" style="top: 75%; left: 20%; animation-delay: 6s;"></div>
+
+            <!-- Additional Masks -->
+            <div class="game-mask mask-1" style="top: 25%; left: 85%; animation-delay: 8s; transform: scale(0.7);">
+            </div>
+            <div class="game-mask mask-2" style="top: 55%; left: 5%; animation-delay: 10s; transform: scale(1.3);">
+            </div>
+
+            <!-- Glass Bridge Panels scattered around -->
+            <div class="glass-panel panel-1" style="top: 18%; left: 45%; animation-delay: 1s;"></div>
+            <div class="glass-panel panel-2" style="top: 38%; left: 75%; animation-delay: 2s;"></div>
+            <div class="glass-panel panel-3" style="top: 58%; left: 25%; animation-delay: 3s;"></div>
+            <div class="glass-panel panel-4" style="top: 78%; left: 55%; animation-delay: 4s;"></div>
+            <div class="glass-panel panel-5" style="top: 28%; left: 15%; animation-delay: 5s;"></div>
+            <div class="glass-panel panel-6" style="top: 68%; left: 85%; animation-delay: 6s;"></div>
+
+            <!-- Honeycomb Game Elements -->
+            <div class="honeycomb-game" style="top: 22%; left: 60%; animation-delay: 2s;">
+                <div class="honeycomb-cell cell-1"></div>
+                <div class="honeycomb-cell cell-2"></div>
+                <div class="honeycomb-cell cell-3"></div>
+                <div class="honeycomb-cell cell-4"></div>
+                <div class="honeycomb-cell cell-5"></div>
+                <div class="honeycomb-cell cell-6"></div>
+            </div>
+
+            <!-- Tug of War Rope -->
+            <div class="tug-rope" style="top: 42%; left: 40%; animation-delay: 3s;">
+                <div class="rope-segment segment-1"></div>
+                <div class="rope-segment segment-2"></div>
+                <div class="rope-segment segment-3"></div>
+                <div class="rope-segment segment-4"></div>
+            </div>
+
+            <!-- Marbles Game scattered -->
+            <div class="marbles-container" style="top: 62%; left: 70%; animation-delay: 4s;">
+                <div class="marble marble-1"></div>
+                <div class="marble marble-2"></div>
+                <div class="marble marble-3"></div>
+                <div class="marble marble-4"></div>
+                <div class="marble marble-5"></div>
+                <div class="marble marble-6"></div>
+            </div>
+
+            <!-- Red Light Green Light Doll -->
+            <div class="doll-container" style="top: 15%; left: 90%; animation-delay: 5s;">
+                <div class="doll-head"></div>
+                <div class="doll-body"></div>
+                <div class="doll-arm arm-left"></div>
+                <div class="doll-arm arm-right"></div>
+                <div class="doll-eye eye-left"></div>
+                <div class="doll-eye eye-right"></div>
+            </div>
+
+            <!-- VIP Chairs repositioned -->
+            <div class="vip-chair chair-1" style="top: 35%; left: 80%; animation-delay: 6s;"></div>
+            <div class="vip-chair chair-2" style="top: 65%; left: 10%; animation-delay: 7s;"></div>
+            <div class="vip-chair chair-3" style="top: 85%; left: 70%; animation-delay: 8s;"></div>
+
+            <!-- Money Piles -->
+            <div class="money-pile pile-1" style="top: 25%; left: 35%; animation-delay: 9s;"></div>
+            <div class="money-pile pile-2" style="top: 55%; left: 85%; animation-delay: 10s;"></div>
+            <div class="money-pile pile-3" style="top: 75%; left: 45%; animation-delay: 11s;"></div>
+
+            <!-- Game Arena Lights -->
+            <div class="arena-light light-1" style="top: 5%; left: 20%; animation-delay: 1s;"></div>
+            <div class="arena-light light-2" style="top: 5%; left: 60%; animation-delay: 2s;"></div>
+            <div class="arena-light light-3" style="top: 95%; left: 30%; animation-delay: 3s;"></div>
+            <div class="arena-light light-4" style="top: 95%; left: 80%; animation-delay: 4s;"></div>
+
+            <!-- Squid Game Logo centered -->
+            <div class="squid-logo" style="top: 50%; left: 50%; animation-delay: 12s;">
+                <div class="logo-circle"></div>
+                <div class="logo-triangle"></div>
+                <div class="logo-square"></div>
+            </div>
+
+            <!-- Player Numbers scattered -->
+            <div class="player-number number-456" style="top: 18%; left: 65%; animation-delay: 13s;">456</div>
+            <div class="player-number number-067" style="top: 48%; left: 20%; animation-delay: 14s;">067</div>
+            <div class="player-number number-001" style="top: 78%; left: 90%; animation-delay: 15s;">001</div>
+
+            <!-- Additional Player Numbers -->
+            <div class="player-number" style="top: 32%; left: 55%; animation-delay: 16s;">218</div>
+            <div class="player-number" style="top: 62%; left: 30%; animation-delay: 17s;">199</div>
+            <div class="player-number" style="top: 82%; left: 65%; animation-delay: 18s;">324</div>
+
+            <!-- Game Instructions floating -->
+            <div class="game-instruction instruction-1" style="top: 28%; left: 75%; animation-delay: 19s;">Red Light
+            </div>
+            <div class="game-instruction instruction-2" style="top: 58%; left: 15%; animation-delay: 20s;">Green Light
+            </div>
+            <div class="game-instruction instruction-3" style="top: 88%; left: 25%; animation-delay: 21s;">Move Forward
+            </div>
+
+            <!-- Additional Instructions -->
+            <div class="game-instruction" style="top: 38%; left: 5%; animation-delay: 22s;">Stop Moving</div>
+            <div class="game-instruction" style="top: 68%; left: 95%; animation-delay: 23s;">Eliminate</div>
+
+            <!-- Elimination Effects -->
+            <div class="elimination-effect elim-1" style="top: 22%; left: 85%; animation-delay: 24s;"></div>
+            <div class="elimination-effect elim-2" style="top: 52%; left: 45%; animation-delay: 25s;"></div>
+            <div class="elimination-effect elim-3" style="top: 72%; left: 15%; animation-delay: 26s;"></div>
+
+            <!-- Prize Money Counter positioned -->
+            <div class="money-counter" style="top: 8%; left: 40%; animation-delay: 27s;">
+                <div class="counter-digit digit-1">₩</div>
+                <div class="counter-digit digit-2">4</div>
+                <div class="counter-digit digit-3">5</div>
+                <div class="counter-digit digit-4">6</div>
+                <div class="counter-digit digit-5">0</div>
+                <div class="counter-digit digit-6">0</div>
+                <div class="counter-digit digit-7">0</div>
+                <div class="counter-digit digit-8">0</div>
+                <div class="counter-digit digit-9">0</div>
+                <div class="counter-digit digit-10">0</div>
+                <div class="counter-digit digit-11">0</div>
+                <div class="counter-digit digit-12">0</div>
+            </div>
+
+            <!-- Game Timer -->
+            <div class="game-timer" style="top: 92%; left: 50%; animation-delay: 28s;">
+                <div class="timer-display">00:00</div>
+                <div class="timer-progress"></div>
+            </div>
+
+            <!-- Surveillance Cameras -->
+            <div class="camera camera-1" style="top: 2%; left: 10%; animation-delay: 29s;">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+            <div class="camera camera-2" style="top: 2%; left: 90%; animation-delay: 30s;">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+            <div class="camera camera-3" style="top: 98%; left: 70%; animation-delay: 31s;">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-light"></div>
+            </div>
+
+            <!-- Guard Towers -->
+            <div class="guard-tower tower-1" style="top: 10%; left: 2%; animation-delay: 32s;">
+                <div class="tower-base"></div>
+                <div class="tower-top"></div>
+                <div class="guard-spotlight"></div>
+            </div>
+            <div class="guard-tower tower-2" style="top: 90%; left: 98%; animation-delay: 33s;">
+                <div class="tower-base"></div>
+                <div class="tower-top"></div>
+                <div class="guard-spotlight"></div>
+            </div>
+
+            <!-- Game Arena Fence -->
+            <div class="arena-fence fence-top" style="animation-delay: 34s;"></div>
+            <div class="arena-fence fence-bottom" style="animation-delay: 35s;"></div>
+            <div class="arena-fence fence-left" style="animation-delay: 36s;"></div>
+            <div class="arena-fence fence-right" style="animation-delay: 37s;"></div>
+
+            <!-- NEW ADDITIONAL SQUID GAME ELEMENTS -->
+            <!-- Coffins for eliminated players -->
+            <div class="coffin" style="top: 45%; left: 2%; animation-delay: 38s;"></div>
+            <div class="coffin" style="top: 75%; left: 98%; animation-delay: 39s;"></div>
+
+            <!-- Piggy Bank (Money container) -->
+            <div class="piggy-bank" style="top: 15%; left: 45%; animation-delay: 40s;"></div>
+
+            <!-- Front Man Mask -->
+            <div class="front-man-mask" style="top: 35%; left: 92%; animation-delay: 41s;"></div>
+
+            <!-- Bunk Beds -->
+            <div class="bunk-bed" style="top: 25%; left: 8%; animation-delay: 42s;"></div>
+            <div class="bunk-bed" style="top: 65%; left: 88%; animation-delay: 43s;"></div>
+
+            <!-- Meal Trays -->
+            <div class="meal-tray" style="top: 40%; left: 78%; animation-delay: 44s;"></div>
+            <div class="meal-tray" style="top: 70%; left: 12%; animation-delay: 45s;"></div>
+
+            <!-- Voting Boxes -->
+            <div class="voting-box" style="top: 30%; left: 95%; animation-delay: 46s;"></div>
+            <div class="voting-box" style="top: 80%; left: 5%; animation-delay: 47s;"></div>
+
+            <!-- Tracksuits hanging -->
+            <div class="tracksuit green" style="top: 20%; left: 22%; animation-delay: 48s;"></div>
+            <div class="tracksuit green" style="top: 60%; left: 82%; animation-delay: 49s;"></div>
+
+            <!-- Doctor's Tools -->
+            <div class="doctor-tools" style="top: 50%; left: 92%; animation-delay: 50s;"></div>
+
+            <!-- Squid Game Arena -->
+            <div class="squid-arena" style="top: 85%; left: 15%; animation-delay: 51s;"></div>
+
+            <!-- Cigarette Packs -->
+            <div class="cigarette-pack" style="top: 55%; left: 8%; animation-delay: 52s;"></div>
+
+            <!-- Business Cards -->
+            <div class="business-card" style="top: 12%; left: 75%; animation-delay: 53s;"></div>
+            <div class="business-card" style="top: 88%; left: 35%; animation-delay: 54s;"></div>
+
+            <!-- Ddakji Cards -->
+            <div class="ddakji-card blue" style="top: 33%; left: 18%; animation-delay: 55s;"></div>
+            <div class="ddakji-card red" style="top: 77%; left: 78%; animation-delay: 56s;"></div>
+
+            <!-- Gganbu Marbles -->
+            <div class="gganbu-marble" style="top: 38%; left: 88%; animation-delay: 57s;"></div>
+            <div class="gganbu-marble" style="top: 68%; left: 2%; animation-delay: 58s;"></div>
+        </div>
+
+        <!-- Cosmic Elements (Secondary) -->
+        <!-- Stellar Particles -->
+        <div class="stellar-particles">
+            <div class="stellar-particle" style="top: 17%; left: 37%; animation-delay: 1.5s;"></div>
+            <div class="stellar-particle" style="top: 43%; left: 87%; animation-delay: 2.5s;"></div>
+            <div class="stellar-particle" style="top: 73%; left: 27%; animation-delay: 3.5s;"></div>
+            <div class="stellar-particle" style="top: 93%; left: 93%; animation-delay: 4.5s;"></div>
+            <div class="stellar-particle" style="top: 53%; left: 53%; animation-delay: 5.5s;"></div>
+        </div>
+
+        <!-- Floating Particles reordered -->
+        <div class="floating-particles">
+            <div class="particle" style="left: 12%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 28%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 42%; animation-delay: 6s;"></div>
+            <div class="particle" style="left: 58%; animation-delay: 8s;"></div>
+            <div class="particle" style="left: 72%; animation-delay: 10s;"></div>
+            <div class="particle" style="left: 88%; animation-delay: 12s;"></div>
+            <div class="particle" style="left: 96%; animation-delay: 14s;"></div>
+        </div>
+
+        <!-- Plasma Orbs repositioned -->
+        <div class="plasma-orbs">
+            <div class="plasma-orb" style="width: 45px; height: 45px; top: 28%; left: 18%; animation-delay: 2s;"></div>
+            <div class="plasma-orb" style="width: 65px; height: 65px; top: 68%; left: 78%; animation-delay: 4s;"></div>
+            <div class="plasma-orb" style="width: 85px; height: 85px; top: 88%; left: 28%; animation-delay: 6s;"></div>
+        </div>
+
+        <!-- Energy Effects -->
+        <div class="energy-rings"></div>
+        <div class="quantum-waves"></div>
+        <div class="cosmic-dust"></div>
+
+        <!-- Time Portals repositioned -->
+        <div class="time-portals">
+            <div class="time-portal" style="top: 38%; left: 28%;"></div>
+            <div class="time-portal" style="top: 78%; left: 68%;"></div>
+        </div>
+
+        <!-- Crystal Shards -->
+        <div class="crystal-shards">
+            <div class="crystal-shard" style="top: 33%; left: 23%;"></div>
+            <div class="crystal-shard" style="top: 83%; left: 73%;"></div>
+            <div class="crystal-shard" style="top: 53%; left: 93%;"></div>
+        </div>
+
+        <!-- Energy Beams -->
+        <div class="energy-beams">
+            <div class="energy-beam" style="top: 28%; left: 38%;"></div>
+            <div class="energy-beam" style="top: 68%; left: 58%;"></div>
+        </div>
+
+        <!-- Background Effects -->
+        <div class="interactive-grid"></div>
+        <div class="aurora-effect"></div>
+        <div class="nebula-clouds"></div>
+        <div class="dimensional-rifts">
+            <div class="dimensional-rift" style="top: 48%; left: 18%;"></div>
+            <div class="dimensional-rift" style="top: 88%; left: 58%;"></div>
+        </div>
+        <div class="quantum-foam"></div>
+        <div class="stellar-wind"></div>
+        <div class="neural-network"></div>
+        <div class="holographic-grid"></div>
+        <div class="cosmic-strings"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="about-container">
+        <!-- Our Story Section -->
+        <section class="content-section" id="about">
+            <h2 class="section-title">Our Story</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <h3>SALER x SQUID GAME: From Childhood Memories to Digital Reality</h3>
+                    <p>Growing up in the mountainous regions of KPK, Pakistan, I spent countless
+                        hours playing traditional games that had been passed down through generations. Among these
+                        cherished childhood memories, one game stood out—Saler. This wasn't just any game; it was the
+                        heart of our playground culture, a strategic battle that could captivate us for hours under the
+                        open sky.</p>
+
+                    <p>Saler was everywhere in our community. We'd draw the distinctive four-shaped board in the dirt,
+                        on school desks, even in the sand. I played this game obsessively—morning, noon, and evening. It
+                        taught me patience, strategy, and the thrill of outwitting an opponent with nothing but careful
+                        movement and foresight.</p>
+
+                    <p>Years later, while watching the global phenomenon that was Squid Game, a profound realization
+                        struck me. The show's genius lay in transforming simple childhood games into intense, strategic
+                        competitions. That's when it hit me—why not breathe new life into the games that shaped my own
+                        childhood?</p>
+
+                    <p>Saler was the first game that came to mind, and for good reason. The countless hours I'd spent
+                        mastering its intricacies had left an indelible mark on my strategic thinking. But I didn't want
+                        to stop there. I expanded the collection to include Tinḳä and Läḳīr, each rooted in the rich
+                        linguistic and cultural heritage of South Asia.</p>
+
+                    <p>This project isn't just about gaming—it's about preserving cultural heritage while creating
+                        something universally engaging. Every move in these games carries the weight of tradition, every
+                        strategy echoes the wisdom of generations, and every victory honors the timeless appeal of pure,
+                        skill-based competition.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Rules Section -->
+        <section class="content-section" id="rules">
+            <h2 class="section-title">Game Rules</h2>
+            <div class="rules-content">
+                <h3>Master Three Distinct Strategic Challenges</h3>
+                <p>Our collection features three carefully crafted games, each offering a unique path to victory:</p>
+
+                <div class="game-rules-grid">
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <h4>🔷 Sālĕr - <em>"The Trapper"</em></h4>
+                        </div>
+                        <div class="rule-content">
+                            <p><strong>Origin:</strong> Named after the Pashto word "Sālōr" (four), reflecting the
+                                distinctive four-shaped board design</p>
+                            <p><strong>Objective:</strong> Strategically maneuver to trap your opponent, leaving them
+                                with no legal moves</p>
+                            <p><strong>Board:</strong> A unique four-shaped grid with interconnected pathways</p>
+                            <p><strong>Gameplay:</strong> Each player controls one stone, taking turns to move along
+                                connected lines</p>
+                            <p><strong>Strategy:</strong> Pure movement-based tactics—no captures, only positioning and
+                                blocking</p>
+                            <p><strong>Win Condition:</strong> Victory goes to the player who successfully traps their
+                                opponent</p>
+                        </div>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <h4>⚪ Tinḳä - <em>"The Eliminator"</em></h4>
+                        </div>
+                        <div class="rule-content">
+                            <p><strong>Origin:</strong> Derived from the Urdu word "Teen" (three), emphasizing the
+                                three-stone setup</p>
+                            <p><strong>Objective:</strong> Systematically eliminate all of your opponent's stones from
+                                the board</p>
+                            <p><strong>Players:</strong> Two players, each starting with exactly three stones</p>
+                            <p><strong>Gameplay:</strong> Form strategic lines of three to capture enemy stones, or jump
+                                over opponent pieces to eliminate them</p>
+                            <p><strong>Strategy:</strong> Fast-paced tactical elimination combining line formation with
+                                aggressive jumping moves</p>
+                            <p><strong>Win Condition:</strong> First player to remove all opponent stones claims victory
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-header">
+                            <h4>🪨 Läḳīr - <em>"The Line Master"</em></h4>
+                        </div>
+                        <div class="rule-content">
+                            <p><strong>Origin:</strong> From the Urdu word "Lakīr" meaning "line," highlighting the core
+                                line-formation mechanic</p>
+                            <p><strong>Objective:</strong> Reduce your opponent's forces until they cannot form a
+                                straight line of three</p>
+                            <p><strong>Players:</strong> Two players, each commanding nine stones in epic strategic
+                                warfare</p>
+                            <p><strong>Gameplay:</strong> Form precise lines of three stones to capture enemy pieces one
+                                by one</p>
+                            <p><strong>Strategy:</strong> Deep strategic planning involving placement, movement, and
+                                line formation across multiple game phases</p>
+                            <p><strong>Win Condition:</strong> Victory achieved when opponent has fewer than three
+                                stones remaining</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="universal-principles">
+                    <h4>🎮 Universal Strategic Principles:</h4>
+                    <ul class="principles-list">
+                        <li><strong>Pure Skill:</strong> All games rely entirely on strategic thinking—no luck, no
+                            chance, just intellect</li>
+                        <li><strong>Turn-Based Excellence:</strong> Each move matters; every decision shapes the
+                            battlefield</li>
+                        <li><strong>Optimal Duration:</strong> Engaging 5-15 minute sessions perfect for quick strategic
+                            battles</li>
+                        <li><strong>Universal Appeal:</strong> Accessible to players aged 8 and above, yet challenging
+                            enough for strategic masters</li>
+                        <li><strong>Diverse Thinking:</strong> Each game demands completely different tactical
+                            approaches and mental frameworks</li>
+                        <li><strong>Cultural Heritage:</strong> Every rule, every move, every victory honors centuries
+                            of strategic gaming tradition</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="content-section" id="contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Have questions about the games? Want to share your strategic insights? Or simply want to connect
+                        with fellow game enthusiasts? We'd love to hear from you!</p>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <a href="mailto:abdulbaesit13@gmail.com">abdulbaesit13@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fab fa-github"></i>
+                            <div>
+                                <h4>GitHub</h4>
+                                <a href="https://github.com/abdulbaesit" target="_blank">@abdulbaesit</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fab fa-linkedin"></i>
+                            <div>
+                                <h4>LinkedIn</h4>
+                                <a href="https://linkedin.com/in/abdulbaesit" target="_blank">Abdul Basit</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-note">
+                        <p><em>Whether you're a casual player or a strategic master, your feedback helps us preserve and
+                                evolve these traditional games for future generations.</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../global-controls.js"></script>
+</body>
+
+</html>

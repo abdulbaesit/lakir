@@ -837,17 +837,6 @@ html[data-theme="dark"] .grid-cell {
     }
 }
 
-/* Theme Toggle Controls */
-/* .top-controls {
-    position: fixed;
-    top: 3rem;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 9999;
-    pointer-events: auto;
-} */
 
 .top-controls {
     position: fixed;
