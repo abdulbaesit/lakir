@@ -108,18 +108,16 @@ class LakirGame {
     }
 
     toggleMusic() {
+        // Use global music manager if available
+        if (window.musicManager) {
+            window.musicManager.toggle();
+            return;
+        }
+        
+        // Fallback (shouldn't be needed with new system)
         this.musicEnabled = !this.musicEnabled;
         localStorage.setItem('lakir-music', this.musicEnabled.toString());
         this.updateAudioButtons();
-
-        const bgMusic = document.getElementById('squid-game-theme');
-        if (bgMusic) {
-            if (this.musicEnabled) {
-                bgMusic.play().catch(e => { });
-            } else {
-                bgMusic.pause();
-            }
-        }
     }
 
     toggleSfx() {

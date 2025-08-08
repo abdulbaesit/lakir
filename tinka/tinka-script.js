@@ -6,30 +6,27 @@ let sfxEnabled = true;
 
 const musicToggle = document.getElementById('musicToggle');
 const sfxToggle = document.getElementById('sfxToggle');
-const squidGameTheme = document.getElementById('squidGameTheme');
-const redLightSound = document.getElementById('redLightSound');
-const greenLightSound = document.getElementById('greenLightSound');
 
 // Enable audio on first user interaction
 document.addEventListener('click', enableAudio, { once: true });
 
 function enableAudio() {
+    // Music now handled by global music manager
     musicEnabled = true;
     if (musicToggle) musicToggle.classList.add('active');
-    if (squidGameTheme) squidGameTheme.play().catch(e => { });
 }
 
 function toggleMusic() {
+    // Use global music manager if available
+    if (window.musicManager) {
+        window.musicManager.toggle();
+        return;
+    }
+    
+    // Fallback
     musicEnabled = !musicEnabled;
     if (musicToggle) {
         musicToggle.classList.toggle('active', musicEnabled);
-    }
-    if (squidGameTheme) {
-        if (musicEnabled) {
-            squidGameTheme.play().catch(e => { });
-        } else {
-            squidGameTheme.pause();
-        }
     }
 }
 

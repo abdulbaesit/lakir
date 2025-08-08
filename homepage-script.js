@@ -1,22 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Homepage Script v4 - Fixed broken audio base64
+    console.log('Homepage script loaded successfully - v4');
+
     // Initialize GSAP plugins
     gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-    // Audio Elements
-    const squidGameTheme = document.getElementById('squid-game-theme');
-    const redLightSound = document.getElementById('red-light-sound');
-    const greenLightSound = document.getElementById('green-light-sound');
+    // Sound effects enabled flag
+    let sfxEnabled = true;
 
     // Global controls now handled by global-controls.js
-
-    // Enable audio on first user interaction
-    document.addEventListener('click', function enableAudio() {
-        // This ensures audio can play after user interaction
-        squidGameTheme.load();
-        redLightSound.load();
-        greenLightSound.load();
-        document.removeEventListener('click', enableAudio);
-    }, { once: true });
 
     // Red Light Green Light Game Logic - DISABLED to prevent layout issues
     let isRedLight = false;
@@ -24,24 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startRedLightGreenLight() {
         // Disabled to prevent layout shifts and blur effects
-        /*
-        setInterval(() => {
-            isRedLight = !isRedLight;
-            if (isRedLight) {
-                if (sfxEnabled) {
-                    redLightSound.volume = 0.2;
-                    redLightSound.play().catch(e => console.log('Red light sound failed:', e));
-                }
-                document.body.style.filter = 'hue-rotate(0deg)';
-            } else {
-                if (sfxEnabled) {
-                    greenLightSound.volume = 0.2;
-                    greenLightSound.play().catch(e => console.log('Green light sound failed:', e));
-                }
-                document.body.style.filter = 'hue-rotate(120deg)';
-            }
-        }, 5000); // Change every 5 seconds
-        */
+        // This game logic has been completely disabled
+        console.log('Red Light Green Light game is disabled');
     }
 
     // Start the Red Light Green Light game
@@ -116,8 +92,27 @@ document.addEventListener('DOMContentLoaded', function () {
             randomEffect.style.animation = 'elimination-blast 2s ease-out';
 
             if (sfxEnabled) {
-                const elimSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-                elimSound.play().catch(e => console.log('Audio play failed:', e));
+                // Using a simple beep sound effect instead of broken base64
+                try {
+                    // Create a simple sine wave beep sound
+                    if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+
+                        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + 0.1);
+                    }
+                } catch (e) {
+                    console.log('SFX creation failed:', e);
+                }
             }
         }, 8000);
     }

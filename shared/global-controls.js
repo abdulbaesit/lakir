@@ -30,6 +30,13 @@
 
         // Music Control Function
         function toggleMusic() {
+            // Use the new music manager if available
+            if (window.musicManager) {
+                window.musicManager.toggle();
+                return;
+            }
+
+            // Fallback to old method
             musicEnabled = !musicEnabled;
 
             // Find available audio elements

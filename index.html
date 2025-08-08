@@ -30,18 +30,6 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
-
-    <!-- Squid Game Audio -->
-    <audio id="squid-game-theme" loop preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-04.wav" type="audio/wav">
-    </audio>
-    <audio id="red-light-sound" preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
-    </audio>
-    <audio id="green-light-sound" preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
-    </audio>
 </head>
 
 
@@ -363,7 +351,7 @@
                         <span class="feature">Strategic</span>
                         <span class="feature">Fast-paced</span>
                     </div>
-                    <a href="saler.html" class="play-button">Play Now</a>
+                    <a href="saler/" class="play-button">Play Now</a>
                 </div>
 
                 <div class="game-card" data-game="tinka">
@@ -376,7 +364,7 @@
                         <span class="feature">Minimalist</span>
                         <span class="feature">Strategic</span>
                     </div>
-                    <a href="tinka.html" class="play-button">Play Now</a>
+                    <a href="tinka/" class="play-button">Play Now</a>
                 </div>
 
                 <div class="game-card" data-game="lakir">
@@ -389,7 +377,7 @@
                         <span class="feature">Advanced</span>
                         <span class="feature">Complex</span>
                     </div>
-                    <a href="lakir.html" class="play-button">Play Now</a>
+                    <a href="lakir/" class="play-button">Play Now</a>
                 </div>
             </div>
         </section>
@@ -405,9 +393,9 @@
                         <div class="footer-section">
                             <h4>Games</h4>
                             <ul>
-                                <li><a href="saler.html">Sālĕr</a></li>
-                                <li><a href="tinka.html">Tinḳä</a></li>
-                                <li><a href="lakir.html">Läḳīr</a></li>
+                                <li><a href="saler/">Sālĕr</a></li>
+                                <li><a href="tinka/">Tinḳä</a></li>
+                                <li><a href="lakir/">Läḳīr</a></li>
                             </ul>
                         </div>
                         <div class="footer-section">
@@ -457,8 +445,9 @@
     <!-- Mouse Trail Effect -->
     <div class="mouse-trail" id="mouse-trail"></div>
 
-    <script src="global-controls.js"></script>
-    <script src="homepage-script.js"></script>
+    <script src="shared/music-manager.js"></script>
+    <script src="shared/global-controls.js"></script>
+    <script src="homepage-script.js?v=4"></script>
 </body>
 
 </html>

@@ -366,32 +366,28 @@ document.addEventListener('DOMContentLoaded', function () {
     let musicEnabled = false;
     let sfxEnabled = false;
 
-    const squidGameTheme = document.getElementById('squid-game-theme');
-    const redLightSound = document.getElementById('red-light-sound');
-    const greenLightSound = document.getElementById('green-light-sound');
-
     function toggleMusic() {
+        // Use global music manager if available
+        if (window.musicManager) {
+            window.musicManager.toggle();
+            return;
+        }
+
+        // Fallback (shouldn't be needed with new system)
         musicEnabled = !musicEnabled;
         const musicToggle = document.getElementById('musicToggle');
         if (musicEnabled) {
-            // Set volume and play
-            squidGameTheme.volume = 0.3;
-            squidGameTheme.play().then(() => {
+            if (musicToggle) {
                 musicToggle.classList.add('active');
                 musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-                console.log('Music started successfully');
-            }).catch(e => {
-                console.log('Audio play failed:', e);
-                // Fallback: try to enable audio context
-                if (e.name === 'NotAllowedError') {
-                    console.log('Audio not allowed, user interaction required');
-                }
-            });
+                console.log('Music enabled via fallback');
+            }
         } else {
-            squidGameTheme.pause();
-            musicToggle.classList.remove('active');
-            musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-            console.log('Music paused');
+            if (musicToggle) {
+                musicToggle.classList.remove('active');
+                musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                console.log('Music disabled via fallback');
+            }
         }
     }
 

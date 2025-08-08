@@ -28,18 +28,6 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
-
-    <!-- Squid Game Audio -->
-    <audio id="squid-game-theme" loop preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-04.wav" type="audio/wav">
-    </audio>
-    <audio id="red-light-sound" preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
-    </audio>
-    <audio id="green-light-sound" preload="auto">
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
-    </audio>
 </head>
 
 <body>
@@ -413,6 +401,7 @@
         </div>
     </div>
 
-    <script src="global-controls.js"></script>
+    <script src="../shared/music-manager.js"></script>
+    <script src="../shared/global-controls.js"></script>
     <script src="saler-script.js?v=2"></script>
 </body>
