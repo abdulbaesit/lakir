@@ -57,6 +57,46 @@
         </button>
     </div>
 
+    <!-- Music Control Panel -->
+    <div id="music-control-panel" class="music-control-panel hidden">
+        <div class="music-panel-header">
+            <h3>🎵 Squid Game Soundtrack</h3>
+            <button id="close-music-panel" class="close-panel-btn">&times;</button>
+        </div>
+        <div class="music-panel-content">
+            <div class="current-track">
+                <div class="track-info">
+                    <span class="track-label">Now Playing:</span>
+                    <span id="current-track-name" class="track-name">No track selected</span>
+                </div>
+                <div class="track-progress">
+                    <span id="current-time">0:00</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <span id="total-time">0:00</span>
+                </div>
+            </div>
+            <div class="music-controls">
+                <button id="prev-track" class="track-btn" title="Previous Track">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button id="play-pause" class="track-btn play-pause-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="next-track" class="track-btn" title="Next Track">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            <div class="track-list">
+                <h4>Playlist:</h4>
+                <div id="playlist-container" class="playlist-container">
+                    <!-- Tracks will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Cosmic Background -->
     <div class="parallax-container">
         <div class="parallax-layer layer-1"></div>

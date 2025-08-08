@@ -11,9 +11,9 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 
     <!-- Apply saved theme immediately to prevent flash -->
     <script>
@@ -58,6 +58,46 @@
         <button id="global-music-toggle" class="control-btn music-btn" aria-label="Toggle music">
             <i class="fas fa-music"></i>
         </button>
+    </div>
+
+    <!-- Music Control Panel -->
+    <div id="music-control-panel" class="music-control-panel hidden">
+        <div class="music-panel-header">
+            <h3>🎵 Squid Game Soundtrack</h3>
+            <button id="close-music-panel" class="close-panel-btn">&times;</button>
+        </div>
+        <div class="music-panel-content">
+            <div class="current-track">
+                <div class="track-info">
+                    <span class="track-label">Now Playing:</span>
+                    <span id="current-track-name" class="track-name">No track selected</span>
+                </div>
+                <div class="track-progress">
+                    <span id="current-time">0:00</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <span id="total-time">0:00</span>
+                </div>
+            </div>
+            <div class="music-controls">
+                <button id="prev-track" class="track-btn" title="Previous Track">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button id="play-pause" class="track-btn play-pause-btn" title="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="next-track" class="track-btn" title="Next Track">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            <div class="track-list">
+                <h4>Playlist:</h4>
+                <div id="playlist-container" class="playlist-container">
+                    <!-- Tracks will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Interactive Background Elements -->

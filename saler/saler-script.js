@@ -52,7 +52,7 @@ class Saler1Game {
         const rulesBtn = document.getElementById('rulesBtn');
 
         if (homeBtn) {
-            homeBtn.addEventListener('click', () => window.location.href = 'index.html');
+            homeBtn.addEventListener('click', () => window.location.href = '../index.html');
         } else {
             console.error('Home button not found');
         }

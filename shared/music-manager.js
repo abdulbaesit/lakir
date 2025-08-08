@@ -2,20 +2,39 @@
 (function () {
     'use strict';
 
-    // Music playlist configuration
-    const MUSIC_PLAYLIST = [
-        '../assets/audio/dawn.mp3',
-        '../assets/audio/i-remember-my-name.mp3',
-        '../assets/audio/jung-bae-ya.mp3',
-        '../assets/audio/owe.mp3',
-        '../assets/audio/pink-soldiers.mp3',
-        '../assets/audio/round-i.mp3',
-        '../assets/audio/so-it-goes.mp3',
-        '../assets/audio/uh....mp3',
-        '../assets/audio/unfolded.mp3',
-        '../assets/audio/way-back-then.mp3',
-        '../assets/audio/wife-husband-and-4.56-billion.mp3'
-    ];
+    // Determine the correct path to assets based on current location
+    function getAssetsPath() {
+        const currentPath = window.location.pathname;
+
+        // If we're in a subdirectory (like /saler/, /lakir/, /tinka/), use ../assets/
+        if (currentPath.includes('/saler/') ||
+            currentPath.includes('/lakir/') ||
+            currentPath.includes('/tinka/') ||
+            currentPath.includes('/assets/')) {
+            return '../assets/audio/';
+        } else {
+            // If we're at the root, use assets/
+            return 'assets/audio/';
+        }
+    }
+
+    // Music playlist configuration with dynamic paths
+    const getPlaylist = () => {
+        const basePath = getAssetsPath();
+        return [
+            basePath + 'dawn.mp3',
+            basePath + 'i-remember-my-name.mp3',
+            basePath + 'jung-bae-ya.mp3',
+            basePath + 'owe.mp3',
+            basePath + 'pink-soldiers.mp3',
+            basePath + 'round-i.mp3',
+            basePath + 'so-it-goes.mp3',
+            basePath + 'uh....mp3',
+            basePath + 'unfolded.mp3',
+            basePath + 'way-back-then.mp3',
+            basePath + 'wife-husband-and-4.56-billion.mp3'
+        ];
+    };
 
     // Global music state
     const STORAGE_KEYS = {
@@ -36,6 +55,8 @@
             this.volume = 0.3;
             this.fadeInterval = null;
             this.isToggling = false; // Add debounce flag
+            this.playlist = getPlaylist(); // Get dynamic playlist
+            this.saveStateInterval = null; // For periodic state saving
 
             this.init();
         }
@@ -53,8 +74,38 @@
             // Update UI
             this.updateMusicButtonState();
 
-            // Note: Don't auto-resume playback on page load due to browser policies
-            // Music will resume when user clicks the music button
+            // Auto-resume if music was playing and user has interacted before
+            this.attemptAutoResume();
+        }
+
+        attemptAutoResume() {
+            // Only auto-resume if music was enabled and playing
+            if (this.isEnabled && this.isPlaying) {
+                // Try to resume after a short delay to allow page to settle
+                setTimeout(() => {
+                    this.resumePlayback().catch(error => {
+                        console.log('Auto-resume failed, waiting for user interaction:', error);
+                        // If auto-resume fails, set up a one-time click listener
+                        this.setupAutoResumeOnInteraction();
+                    });
+                }, 500);
+            }
+        }
+
+        setupAutoResumeOnInteraction() {
+            const resumeOnInteraction = () => {
+                if (this.isEnabled && this.isPlaying && this.audio.paused) {
+                    this.resumePlayback().catch(console.warn);
+                }
+                // Remove the listeners after first interaction
+                document.removeEventListener('click', resumeOnInteraction);
+                document.removeEventListener('keydown', resumeOnInteraction);
+                document.removeEventListener('touchstart', resumeOnInteraction);
+            };
+
+            document.addEventListener('click', resumeOnInteraction, { once: true });
+            document.addEventListener('keydown', resumeOnInteraction, { once: true });
+            document.addEventListener('touchstart', resumeOnInteraction, { once: true });
         }
 
         createAudioElement() {
@@ -68,11 +119,17 @@
             this.audio.id = 'global-music-player';
             this.audio.volume = this.volume;
             this.audio.preload = 'metadata';
+            this.audio.crossOrigin = 'anonymous'; // Help with CORS if needed
 
             // Add event listeners
             this.audio.addEventListener('ended', () => this.nextTrack());
             this.audio.addEventListener('canplaythrough', () => {
-                if (this.currentTime > 0) {
+                if (this.currentTime > 0 && Math.abs(this.audio.currentTime - this.currentTime) > 1) {
+                    this.audio.currentTime = this.currentTime;
+                }
+            });
+            this.audio.addEventListener('loadedmetadata', () => {
+                if (this.currentTime > 0 && this.audio.duration > this.currentTime) {
                     this.audio.currentTime = this.currentTime;
                 }
             });
@@ -81,7 +138,17 @@
             });
             this.audio.addEventListener('error', (e) => {
                 console.warn('Audio error:', e);
-                this.nextTrack();
+                // Try next track after a delay
+                setTimeout(() => this.nextTrack(), 1000);
+            });
+            this.audio.addEventListener('stalled', () => {
+                console.warn('Audio stalled, retrying...');
+                if (this.isPlaying) {
+                    setTimeout(() => {
+                        this.audio.load();
+                        this.play();
+                    }, 1000);
+                }
             });
 
             document.body.appendChild(this.audio);
@@ -94,7 +161,7 @@
             this.currentTime = parseFloat(localStorage.getItem(STORAGE_KEYS.CURRENT_TIME)) || 0;
 
             // Ensure valid track index
-            if (this.currentTrackIndex >= MUSIC_PLAYLIST.length) {
+            if (this.currentTrackIndex >= this.playlist.length) {
                 this.currentTrackIndex = 0;
             }
         }
@@ -103,7 +170,7 @@
             localStorage.setItem(STORAGE_KEYS.MUSIC_ENABLED, this.isEnabled);
             localStorage.setItem(STORAGE_KEYS.IS_PLAYING, this.isPlaying);
             localStorage.setItem(STORAGE_KEYS.PLAYLIST_INDEX, this.currentTrackIndex);
-            localStorage.setItem(STORAGE_KEYS.CURRENT_TRACK, MUSIC_PLAYLIST[this.currentTrackIndex]);
+            localStorage.setItem(STORAGE_KEYS.CURRENT_TRACK, this.playlist[this.currentTrackIndex]);
         }
 
         saveCurrentTime() {
@@ -116,27 +183,45 @@
             // Listen for page visibility changes to pause/resume
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
-                    // Page is hidden, keep playing but save state
+                    // Page is hidden, save state more frequently
                     this.saveCurrentTime();
+                    this.saveState();
                 } else {
-                    // Page is visible, resume if needed
+                    // Page is visible, try to resume if music should be playing
                     if (this.isEnabled && this.isPlaying && this.audio.paused) {
-                        this.audio.play().catch(e => console.warn('Resume failed:', e));
+                        this.audio.play().catch(e => {
+                            console.warn('Resume on visibility change failed:', e);
+                            this.setupAutoResumeOnInteraction();
+                        });
                     }
                 }
             });
 
-            // Handle page unload
+            // Handle page unload - save state immediately
             window.addEventListener('beforeunload', () => {
                 this.saveCurrentTime();
                 this.saveState();
             });
+
+            // Save state periodically during playback
+            window.addEventListener('pagehide', () => {
+                this.saveCurrentTime();
+                this.saveState();
+            });
+
+            // Additional backup saving on window blur
+            window.addEventListener('blur', () => {
+                if (this.audio && !this.audio.paused) {
+                    this.saveCurrentTime();
+                    this.saveState();
+                }
+            });
         }
 
         loadTrack(index) {
-            if (index >= 0 && index < MUSIC_PLAYLIST.length) {
+            if (index >= 0 && index < this.playlist.length) {
                 this.currentTrackIndex = index;
-                const trackUrl = MUSIC_PLAYLIST[index];
+                const trackUrl = this.playlist[index];
 
                 if (this.audio.src !== trackUrl) {
                     this.audio.src = trackUrl;
@@ -160,6 +245,7 @@
                     this.isPlaying = true;
                     this.saveState();
                     this.updateMusicButtonState();
+                    this.startPeriodicStateSave();
                     return true;
                 } catch (error) {
                     console.warn('Playback failed:', error);
@@ -171,6 +257,7 @@
                 // Already playing
                 this.isPlaying = true;
                 this.saveState();
+                this.startPeriodicStateSave();
                 return true;
             }
         }
@@ -181,6 +268,23 @@
                 this.isPlaying = false;
                 this.saveState();
                 this.updateMusicButtonState();
+                this.stopPeriodicStateSave();
+            }
+        }
+
+        startPeriodicStateSave() {
+            this.stopPeriodicStateSave(); // Clear any existing interval
+            this.saveStateInterval = setInterval(() => {
+                if (this.audio && !this.audio.paused) {
+                    this.saveCurrentTime();
+                }
+            }, 2000); // Save every 2 seconds during playback
+        }
+
+        stopPeriodicStateSave() {
+            if (this.saveStateInterval) {
+                clearInterval(this.saveStateInterval);
+                this.saveStateInterval = null;
             }
         }
 
@@ -200,7 +304,7 @@
             this.currentTime = 0;
             localStorage.removeItem(STORAGE_KEYS.CURRENT_TIME);
 
-            this.currentTrackIndex = (this.currentTrackIndex + 1) % MUSIC_PLAYLIST.length;
+            this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
             this.loadTrack(this.currentTrackIndex);
 
             if (this.isPlaying) {
@@ -214,7 +318,7 @@
 
             this.currentTrackIndex = this.currentTrackIndex > 0 ?
                 this.currentTrackIndex - 1 :
-                MUSIC_PLAYLIST.length - 1;
+                this.playlist.length - 1;
 
             this.loadTrack(this.currentTrackIndex);
 
@@ -279,7 +383,7 @@
 
         showTrackNotification() {
             if (this.isEnabled && typeof showNotification === 'function') {
-                const trackName = MUSIC_PLAYLIST[this.currentTrackIndex]
+                const trackName = this.playlist[this.currentTrackIndex]
                     .split('/').pop()
                     .replace('.mp3', '')
                     .replace(/-/g, ' ')
@@ -292,16 +396,67 @@
         showNotification(message, type) {
             if (typeof showNotification === 'function') {
                 showNotification(message, type);
+            } else {
+                // Simple fallback notification
+                console.log(`Music: ${message}`);
+
+                // Create a simple toast notification if no system exists
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'error' ? '#ff4757' : type === 'success' ? '#2ed573' : '#1bb8bd'};
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-family: 'DM Sans', sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    max-width: 300px;
+                    opacity: 0;
+                    transform: translateX(100%);
+                    transition: all 0.3s ease;
+                `;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                // Animate in
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateX(0)';
+                }, 100);
+
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
             }
         }
 
         // Public API
         getCurrentTrack() {
-            return MUSIC_PLAYLIST[this.currentTrackIndex];
+            return this.playlist[this.currentTrackIndex];
+        }
+
+        getCurrentTrackName() {
+            return this.playlist[this.currentTrackIndex]
+                .split('/').pop()
+                .replace('.mp3', '')
+                .replace(/-/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
         }
 
         getPlaylist() {
-            return [...MUSIC_PLAYLIST];
+            return [...this.playlist];
         }
 
         isCurrentlyPlaying() {

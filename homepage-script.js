@@ -1,12 +1,65 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Homepage Script v4 - Fixed broken audio base64
-    console.log('Homepage script loaded successfully - v4');
+    // console.log('Homepage script loaded successfully - v4');
 
     // Initialize GSAP plugins
     gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-    // Sound effects enabled flag
-    let sfxEnabled = true;
+    // Sound effects enabled flag - tied to music system
+    let sfxEnabled = false; // Default disabled to avoid interference
+
+    // Function to check if sound effects should be enabled
+    function shouldPlaySFX() {
+        // Only play SFX if music is disabled to avoid conflicts
+        return sfxEnabled && (!window.musicManager || !window.musicManager.isCurrentlyPlaying());
+    }
+
+    // Optional: Add keyboard shortcut to toggle SFX (S key)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'S' || e.key === 's') {
+            if (document.activeElement.tagName !== 'INPUT' &&
+                document.activeElement.tagName !== 'TEXTAREA') {
+                sfxEnabled = !sfxEnabled;
+                // console.log(`Homepage SFX ${sfxEnabled ? 'enabled' : 'disabled'}`);
+
+                // Show a simple notification
+                const message = `Homepage sound effects ${sfxEnabled ? 'enabled' : 'disabled'}`;
+                if (typeof showNotification === 'function') {
+                    showNotification(message, 'info');
+                } else {
+                    console.log(message);
+                }
+                e.preventDefault();
+            }
+        }
+
+        // Debug: Press P to toggle music panel
+        if (e.key === 'P' || e.key === 'p') {
+            if (document.activeElement.tagName !== 'INPUT' &&
+                document.activeElement.tagName !== 'TEXTAREA') {
+                const panel = document.getElementById('music-control-panel');
+                if (panel) {
+                    panel.classList.toggle('hidden');
+                    // console.log('Debug: Toggled music panel manually');
+                }
+                e.preventDefault();
+            }
+        }
+
+        // Debug: Press C to test close button functionality
+        if (e.key === 'C' || e.key === 'c') {
+            if (document.activeElement.tagName !== 'INPUT' &&
+                document.activeElement.tagName !== 'TEXTAREA') {
+                const panel = document.getElementById('music-control-panel');
+                if (panel) {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('show');
+                    // console.log('Debug: Closed music panel manually with C key');
+                }
+                e.preventDefault();
+            }
+        }
+    });
 
     // Global controls now handled by global-controls.js
 
@@ -17,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function startRedLightGreenLight() {
         // Disabled to prevent layout shifts and blur effects
         // This game logic has been completely disabled
-        console.log('Red Light Green Light game is disabled');
+        // console.log('Red Light Green Light game is disabled');
     }
 
     // Start the Red Light Green Light game
@@ -65,10 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         cameras.forEach(camera => {
             camera.addEventListener('mouseenter', function () {
-                if (sfxEnabled) {
+                if (shouldPlaySFX()) {
                     // Play camera sound effect
                     const cameraSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-                    cameraSound.play().catch(e => console.log('Audio play failed:', e));
+                    cameraSound.volume = 0.1; // Lower volume
+                    // cameraSound.play().catch(e => console.log('Audio play failed:', e));
                 }
                 this.style.transform = 'scale(1.2)';
             });
@@ -91,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
             randomEffect.offsetHeight; // Trigger reflow
             randomEffect.style.animation = 'elimination-blast 2s ease-out';
 
-            if (sfxEnabled) {
+            if (shouldPlaySFX()) {
                 // Using a simple beep sound effect instead of broken base64
                 try {
                     // Create a simple sine wave beep sound
@@ -104,17 +158,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         gainNode.connect(audioContext.destination);
 
                         oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Reduced volume
                         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
 
                         oscillator.start();
                         oscillator.stop(audioContext.currentTime + 0.1);
                     }
                 } catch (e) {
-                    console.log('SFX creation failed:', e);
+                    // console.log('SFX creation failed:', e);
                 }
             }
-        }, 8000);
+        }, 20000); // Increased interval from 8000ms to 20000ms (20 seconds)
     }
 
     triggerEliminationEffects();
@@ -149,9 +203,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.style.animation = 'number-pulse 4s ease-in-out infinite';
                 }, 500);
 
-                if (sfxEnabled) {
+                if (shouldPlaySFX()) {
                     const numberSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-                    numberSound.play().catch(e => console.log('Audio play failed:', e));
+                    numberSound.volume = 0.1; // Lower volume
+                    // numberSound.play().catch(e => console.log('Audio play failed:', e));
                 }
             });
         });
@@ -379,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 notification.classList.remove('show');
             }, 3000);
         } else {
-            console.log('Notification:', message);
+            // console.log('Notification:', message);
         }
     }
 
@@ -556,9 +611,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     createInteractiveGrid();
 
+    // Music Control Panel functionality is now handled by global-controls.js
     // Welcome message
     setTimeout(() => {
-        showNotification('Explore our collection of strategic board games!', 'info');
+        // showNotification('Explore our collection of strategic board games!', 'info');
     }, 2000);
 
     // Removed ScrollTrigger refresh that could cause layout issues

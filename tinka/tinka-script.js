@@ -210,7 +210,7 @@ class TinkaGame {
         }
 
         // Control buttons
-        document.getElementById('homeBtn').addEventListener('click', () => window.location.href = 'index.html');
+        document.getElementById('homeBtn').addEventListener('click', () => window.location.href = '../index.html');
         document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
         document.getElementById('rulesBtn').addEventListener('click', () => {
             document.getElementById('rulesModal').style.display = 'block';

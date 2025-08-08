@@ -30,11 +30,11 @@ html[data-theme="light"] {
 .control-btn {
     width: 45px;
     height: 45px;
-    border: 2px solid rgba(231, 76, 60, 0.3);
+    border: 2px solid rgba(255, 193, 7, 0.3);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    color: #e74c3c;
+    color: #ffc107;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -46,8 +46,8 @@ html[data-theme="light"] {
 
 .control-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.2);
-    border-color: #e74c3c;
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+    border-color: #ffc107;
     background: rgba(255, 255, 255, 1);
 }
 
@@ -100,14 +100,316 @@ html[data-theme="dark"] .music-btn.muted {
     border-color: rgba(127, 140, 141, 0.3);
 }
 
-/* Close Rules Button - Mobile Only */
-.close-rules-btn {
-    .close-rules-btn.show-mobile {
-        display: flex !important;
+/* Music Control Panel */
+.music-control-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.music-control-panel.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.music-control-panel.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    visibility: visible;
+}
+
+html[data-theme="dark"] .music-control-panel {
+    background: rgba(20, 42, 45, 0.95);
+    border-color: rgba(255, 193, 7, 0.2);
+    color: #e0e0e0;
+}
+
+.music-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.music-panel-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffc107;
+}
+
+.close-panel-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.close-panel-btn:hover {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.close-panel-btn:active {
+    transform: scale(0.95);
+    background: rgba(255, 193, 7, 0.2);
+}
+
+.music-panel-content {
+    padding: 20px;
+}
+
+.current-track {
+    margin-bottom: 20px;
+}
+
+.track-info {
+    margin-bottom: 10px;
+}
+
+.track-label {
+    font-size: 0.85rem;
+    color: #666;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.track-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffc107;
+    display: block;
+}
+
+.track-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 193, 7, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffc107, #e0a800);
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+.music-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.track-btn {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ffc107;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.track-btn:hover {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.5);
+    transform: scale(1.05);
+}
+
+.play-pause-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+}
+
+.track-list h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.playlist-container {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 193, 7, 0.3) transparent;
+}
+
+.playlist-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.playlist-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.playlist-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 193, 7, 0.3);
+    border-radius: 3px;
+}
+
+.playlist-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+    margin-bottom: 2px;
+}
+
+.playlist-item:hover {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: rgba(255, 193, 7, 0.2);
+}
+
+.playlist-item.active {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.4);
+    color: #ffc107;
+    font-weight: 600;
+}
+
+/* Dark theme adjustments for music panel */
+html[data-theme="dark"] .track-label,
+html[data-theme="dark"] .track-progress,
+html[data-theme="dark"] .track-list h4 {
+    color: #b0b0b0;
+}
+
+html[data-theme="dark"] .close-panel-btn {
+    color: #b0b0b0;
+}
+
+html[data-theme="dark"] .close-panel-btn:hover {
+    color: #ffc107;
+}
+
+/* Mobile responsive styles for music control panel */
+@media (max-width: 768px) {
+    .music-control-panel {
+        width: calc(100vw - 40px);
+        right: 20px;
+        left: 20px;
+        top: 70px;
+        max-width: 350px;
+    }
+
+    .music-panel-header {
+        padding: 12px 15px;
+    }
+
+    .music-panel-header h3 {
+        font-size: 1rem;
+    }
+
+    .music-panel-content {
+        padding: 15px;
+    }
+
+    .track-name {
+        font-size: 0.9rem;
+    }
+
+    .music-controls {
+        gap: 12px;
+    }
+
+    .track-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+
+    .play-pause-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    .playlist-container {
+        max-height: 150px;
+    }
+
+    .playlist-item {
+        padding: 10px;
+        font-size: 0.8rem;
     }
 }
 
-/* Only show on mobile when rules modal is open */
+@media (max-width: 480px) {
+    .music-control-panel {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+        top: 60px;
+    }
+
+    .track-progress {
+        font-size: 0.75rem;
+    }
+
+    .music-controls {
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Close Rules Button - Mobile Only */
+.close-rules-btn {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    /* Show by default on all devices */
+}
+
+/* Ensure visibility on mobile when rules modal is open */
 @media (max-width: 768px) {
     .close-rules-btn.show-mobile {
         display: flex !important;
@@ -159,67 +461,67 @@ html[data-theme="dark"] body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(27, 184, 189, 0.1) 0%, rgba(10, 42, 45, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(10, 42, 45, 0.8) 100%);
 }
 
 .layer-1 {
-    background: linear-gradient(135deg, rgba(27, 184, 189, 0.05) 0%, rgba(10, 42, 45, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, rgba(10, 42, 45, 0.9) 100%);
 }
 
 .layer-2 {
-    background: linear-gradient(45deg, rgba(27, 184, 189, 0.03) 0%, rgba(10, 42, 45, 0.85) 100%);
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.03) 0%, rgba(10, 42, 45, 0.85) 100%);
 }
 
 .layer-3 {
-    background: linear-gradient(225deg, rgba(27, 184, 189, 0.02) 0%, rgba(10, 42, 45, 0.8) 100%);
+    background: linear-gradient(225deg, rgba(255, 193, 7, 0.02) 0%, rgba(10, 42, 45, 0.8) 100%);
 }
 
 .layer-4 {
-    background: linear-gradient(315deg, rgba(27, 184, 189, 0.01) 0%, rgba(10, 42, 45, 0.75) 100%);
+    background: linear-gradient(315deg, rgba(255, 193, 7, 0.01) 0%, rgba(10, 42, 45, 0.75) 100%);
 }
 
 .layer-5 {
-    background: linear-gradient(180deg, rgba(27, 184, 189, 0.005) 0%, rgba(10, 42, 45, 0.7) 100%);
+    background: linear-gradient(180deg, rgba(255, 193, 7, 0.005) 0%, rgba(10, 42, 45, 0.7) 100%);
 }
 
 html[data-theme="light"] .layer-1 {
-    background: linear-gradient(135deg, rgba(27, 184, 189, 0.1) 0%, rgba(240, 248, 255, 0.95) 100%);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(240, 248, 255, 0.95) 100%);
 }
 
 html[data-theme="light"] .layer-2 {
-    background: linear-gradient(45deg, rgba(27, 184, 189, 0.08) 0%, rgba(240, 248, 255, 0.9) 100%);
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.08) 0%, rgba(240, 248, 255, 0.9) 100%);
 }
 
 html[data-theme="light"] .layer-3 {
-    background: linear-gradient(225deg, rgba(27, 184, 189, 0.06) 0%, rgba(240, 248, 255, 0.85) 100%);
+    background: linear-gradient(225deg, rgba(255, 193, 7, 0.06) 0%, rgba(240, 248, 255, 0.85) 100%);
 }
 
 html[data-theme="light"] .layer-4 {
-    background: linear-gradient(315deg, rgba(27, 184, 189, 0.04) 0%, rgba(240, 248, 255, 0.8) 100%);
+    background: linear-gradient(315deg, rgba(255, 193, 7, 0.04) 0%, rgba(240, 248, 255, 0.8) 100%);
 }
 
 html[data-theme="light"] .layer-5 {
-    background: linear-gradient(180deg, rgba(27, 184, 189, 0.02) 0%, rgba(240, 248, 255, 0.75) 100%);
+    background: linear-gradient(180deg, rgba(255, 193, 7, 0.02) 0%, rgba(240, 248, 255, 0.75) 100%);
 }
 
 html[data-theme="dark"] .layer-1 {
-    background: linear-gradient(135deg, rgba(27, 184, 189, 0.1) 0%, rgba(10, 42, 45, 0.95) 100%);
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(10, 42, 45, 0.95) 100%);
 }
 
 html[data-theme="dark"] .layer-2 {
-    background: linear-gradient(45deg, rgba(27, 184, 189, 0.08) 0%, rgba(10, 42, 45, 0.9) 100%);
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.08) 0%, rgba(10, 42, 45, 0.9) 100%);
 }
 
 html[data-theme="dark"] .layer-3 {
-    background: linear-gradient(225deg, rgba(27, 184, 189, 0.06) 0%, rgba(10, 42, 45, 0.85) 100%);
+    background: linear-gradient(225deg, rgba(255, 193, 7, 0.06) 0%, rgba(10, 42, 45, 0.85) 100%);
 }
 
 html[data-theme="dark"] .layer-4 {
-    background: linear-gradient(315deg, rgba(27, 184, 189, 0.04) 0%, rgba(10, 42, 45, 0.8) 100%);
+    background: linear-gradient(315deg, rgba(255, 193, 7, 0.04) 0%, rgba(10, 42, 45, 0.8) 100%);
 }
 
 html[data-theme="dark"] .layer-5 {
-    background: linear-gradient(180deg, rgba(27, 184, 189, 0.02) 0%, rgba(10, 42, 45, 0.75) 100%);
+    background: linear-gradient(180deg, rgba(255, 193, 7, 0.02) 0%, rgba(10, 42, 45, 0.75) 100%);
 }
 
 .floating-particles {
@@ -236,14 +538,14 @@ html[data-theme="dark"] .layer-5 {
     position: absolute;
     width: 4px;
     height: 4px;
-    background: rgba(27, 184, 189, 0.6);
+    background: rgba(255, 193, 7, 0.6);
     border-radius: 50%;
     animation: float-particle 8s infinite linear;
     animation-delay: var(--delay);
 }
 
 html[data-theme="dark"] .particle {
-    background: rgba(27, 184, 189, 0.8);
+    background: rgba(255, 193, 7, 0.8);
 }
 
 @keyframes float-particle {
@@ -280,12 +582,12 @@ html[data-theme="dark"] .particle {
 }
 
 .grid-cell {
-    border: 1px solid rgba(27, 184, 189, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.1);
     transition: all 0.3s ease;
 }
 
 html[data-theme="dark"] .grid-cell {
-    border-color: rgba(27, 184, 189, 0.2);
+    border-color: rgba(255, 193, 7, 0.2);
 }
 
 .container {
@@ -377,7 +679,7 @@ html[data-theme="dark"] .etymology {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(27, 184, 189, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.3), transparent);
     transition: left 0.5s ease;
 }
 
@@ -398,7 +700,7 @@ html[data-theme="dark"] .theme-icon svg {
 
 .theme-icon:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(27, 184, 189, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
 .theme-icon:active {
@@ -406,7 +708,7 @@ html[data-theme="dark"] .theme-icon svg {
 }
 
 .theme-icon:hover svg {
-    color: #1bb8bd;
+    color: #ffc107;
 }
 
 .sun-icon {
@@ -550,7 +852,10 @@ html[data-theme="dark"] .moon-icon {
     border-color: #4299e1;
 }
 
-.node.occupied {}
+.node.occupied {
+    background: rgba(255, 193, 7, 0.6);
+    border-color: #ffc107;
+}
 
 .node.occupied:hover {
     transform: none;
@@ -798,24 +1103,26 @@ html[data-theme="light"] .modal-content {
     font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
-    color: #a0aec0;
+    color: #666;
     background: #fff;
-    border: none;
+    border: 1px solid rgba(255, 193, 7, 0.3);
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    transition: color 0.3s, background 0.3s, box-shadow 0.3s;
-    z-index: 10;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    opacity: 1;
+    visibility: visible;
 }
 
 .close:hover,
 .close-rules-btn:hover {
     color: #fff;
-    background: #4a5568;
-    box-shadow: 0 4px 16px rgba(66, 153, 225, 0.15);
+    background: #ffc107;
+    box-shadow: 0 4px 16px rgba(255, 193, 7, 0.15);
 }
 
 .rules-content h3 {
@@ -1146,8 +1453,8 @@ html[data-theme="dark"] .controls {
 }
 
 html[data-theme="dark"] .controls button {
-    background: rgba(27, 184, 189, 0.1);
-    border: 1px solid rgba(27, 184, 189, 0.3);
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
     color: #e0e0e0;
 }
 
@@ -1159,11 +1466,11 @@ html[data-theme="dark"] .controls button:hover {
 html[data-theme="dark"] .close-rules-btn {
     background: #2d2d2d;
     color: #a0aec0;
-    border: 1px solid rgba(59, 175, 179, 0.3);
+    border: 1px solid rgba(255, 193, 7, 0.3);
 }
 
 html[data-theme="dark"] .close-rules-btn:hover {
-    background: #3bafb3;
+    background: #ffc107;
     color: #ffffff;
 }
 
@@ -2375,7 +2682,7 @@ html[data-theme="dark"] .close-rules-btn:hover {
     height: 40px;
     border: none;
     border-radius: 50%;
-    background: rgba(27, 184, 189, 0.1);
+    background: rgba(255, 193, 7, 0.1);
     color: #4a5568;
     font-size: 1.2rem;
     cursor: pointer;
@@ -2386,13 +2693,13 @@ html[data-theme="dark"] .close-rules-btn:hover {
 }
 
 .audio-btn:hover {
-    background: rgba(27, 184, 189, 0.2);
+    background: rgba(255, 193, 7, 0.2);
     transform: scale(1.1);
 }
 
 .audio-btn.active {
-    background: rgba(27, 184, 189, 0.3);
-    color: #1bb8bd;
+    background: rgba(255, 193, 7, 0.3);
+    color: #ffc107;
 }
 
 /* Light Mode Adjustments for Squid Game Elements */
