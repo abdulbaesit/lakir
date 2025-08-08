@@ -1,35 +1,4 @@
-// Theme Toggle
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-
-console.log('Theme toggle button found:', !!themeToggle);
-console.log('HTML element found:', !!html);
-
-// Load saved theme
-const savedTheme = localStorage.getItem('theme') || 'light';
-console.log('Saved theme:', savedTheme);
-html.setAttribute('data-theme', savedTheme);
-
-if (themeToggle) {
-    themeToggle.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        console.log('Theme toggle clicked!');
-        console.log('Current theme:', currentTheme);
-        console.log('New theme:', newTheme);
-
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        console.log('Theme changed to:', newTheme);
-    });
-    console.log('Theme toggle event listener added successfully');
-} else {
-    console.error('Theme toggle button not found');
-}
+// Theme and audio controls now handled by global-controls.js
 
 // Audio Controls
 let musicEnabled = false;
@@ -47,7 +16,7 @@ document.addEventListener('click', enableAudio, { once: true });
 function enableAudio() {
     musicEnabled = true;
     if (musicToggle) musicToggle.classList.add('active');
-    if (squidGameTheme) squidGameTheme.play().catch(e => console.log('Audio play failed:', e));
+    if (squidGameTheme) squidGameTheme.play().catch(e => { });
 }
 
 function toggleMusic() {
@@ -57,7 +26,7 @@ function toggleMusic() {
     }
     if (squidGameTheme) {
         if (musicEnabled) {
-            squidGameTheme.play().catch(e => console.log('Music play failed:', e));
+            squidGameTheme.play().catch(e => { });
         } else {
             squidGameTheme.pause();
         }
@@ -548,36 +517,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize the game
     const game = new TinkaGame();
 
-    // Auto-show rules - multiple attempts to ensure it works
-    console.log('Setting up auto-show for Tinka...');
-    
-    // Immediate attempt
-    setTimeout(() => {
-        console.log('Tinka: First attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal) {
-            modal.style.display = 'block';
-            console.log('Tinka: Rules modal shown (first attempt)');
-        }
-    }, 100);
-    
-    // Secondary attempt
-    setTimeout(() => {
-        console.log('Tinka: Second attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal && modal.style.display !== 'block') {
-            modal.style.display = 'block';
-            console.log('Tinka: Rules modal shown (second attempt)');
-        }
-    }, 800);
-    
-    // Final attempt
-    setTimeout(() => {
-        console.log('Tinka: Final attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal && modal.style.display !== 'block') {
-            modal.style.display = 'block';
-            console.log('Tinka: Rules modal shown (final attempt)');
-        }
-    }, 1500);
+    // Auto-show rules - single attempt with global flag to prevent duplicates
+
+    // Use a global flag to ensure the modal only shows once per page load
+    if (!window.tinkaRulesShown) {
+        window.tinkaRulesShown = false;
+    }
+
+    // Single attempt to show rules modal
+    if (!window.tinkaRulesShown) {
+        setTimeout(() => {
+            if (!window.tinkaRulesShown) {
+                const modal = document.getElementById('rulesModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    window.tinkaRulesShown = true;
+                }
+            }
+        }, 300);
+    }
 }); 

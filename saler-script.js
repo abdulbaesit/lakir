@@ -1,6 +1,5 @@
 class Saler1Game {
     constructor() {
-        console.log('Saler1Game constructor called');
         this.nodes = ['A', 'B', 'C', 'D', 'E'];
         this.edges = [
             ['A', 'B'], ['A', 'C'], ['B', 'C'],
@@ -17,11 +16,9 @@ class Saler1Game {
 
         this.initializeGame();
         this.setupEventListeners();
-        console.log('Saler1Game initialization complete');
     }
 
     initializeGame() {
-        console.log('initializeGame called');
         // Clear board
         this.gameState.board = {};
         this.gameState.currentPlayer = 1;
@@ -34,7 +31,6 @@ class Saler1Game {
         this.clearNodeStates();
         this.updatePlayerDisplay();
         this.updateStatus();
-        console.log('initializeGame complete');
     }
 
     setupEventListeners() {
@@ -280,12 +276,8 @@ class Saler1Game {
     }
 
     updatePlayerDisplay() {
-        console.log('updatePlayerDisplay called, currentPlayer:', this.gameState.currentPlayer);
         const player1Element = document.getElementById('player1');
         const player2Element = document.getElementById('player2');
-
-        console.log('Player 1 element found:', !!player1Element);
-        console.log('Player 2 element found:', !!player2Element);
 
         if (player1Element) {
             const wasActive = player1Element.classList.contains('active');
@@ -294,8 +286,6 @@ class Saler1Game {
             } else {
                 player1Element.classList.remove('active');
             }
-            const isActive = player1Element.classList.contains('active');
-            console.log('Player 1 active state changed:', wasActive, '->', isActive);
         }
 
         if (player2Element) {
@@ -305,8 +295,6 @@ class Saler1Game {
             } else {
                 player2Element.classList.remove('active');
             }
-            const isActive = player2Element.classList.contains('active');
-            console.log('Player 2 active state changed:', wasActive, '->', isActive);
         }
     }
 
@@ -336,9 +324,7 @@ class Saler1Game {
 
     // Test function to manually switch players
     testPlayerSwitch() {
-        console.log('Testing player switch...');
         this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
-        console.log('Switched to player:', this.gameState.currentPlayer);
         this.updatePlayerDisplay();
         this.updateStatus();
     }
@@ -354,44 +340,27 @@ class Saler1Game {
 
 // Initialize the game when the page loads
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOMContentLoaded event fired');
-
     // Initialize the game
     const game = new Saler1Game();
-    console.log('Game instance created:', game);
 
-    // Auto-show rules - multiple attempts to ensure it works
-    console.log('Setting up auto-show for Saler...');
-    
-    // Immediate attempt
-    setTimeout(() => {
-        console.log('Saler: First attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal) {
-            modal.style.display = 'block';
-            console.log('Saler: Rules modal shown (first attempt)');
-        }
-    }, 100);
-    
-    // Secondary attempt
-    setTimeout(() => {
-        console.log('Saler: Second attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal && modal.style.display !== 'block') {
-            modal.style.display = 'block';
-            console.log('Saler: Rules modal shown (second attempt)');
-        }
-    }, 800);
-    
-    // Final attempt
-    setTimeout(() => {
-        console.log('Saler: Final attempt to show rules...');
-        const modal = document.getElementById('rulesModal');
-        if (modal && modal.style.display !== 'block') {
-            modal.style.display = 'block';
-            console.log('Saler: Rules modal shown (final attempt)');
-        }
-    }, 1500);
+    // Auto-show rules - single attempt with global flag to prevent duplicates
+    // Use a global flag to ensure the modal only shows once per page load
+    if (!window.salerRulesShown) {
+        window.salerRulesShown = false;
+    }
+
+    // Single attempt to show rules modal
+    if (!window.salerRulesShown) {
+        setTimeout(() => {
+            if (!window.salerRulesShown) {
+                const modal = document.getElementById('rulesModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    window.salerRulesShown = true;
+                }
+            }
+        }, 300);
+    }
 
     // Squid Game Audio Controls
     let musicEnabled = false;
@@ -604,38 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setupPlayerNumberInteractions();
 
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const html = document.documentElement;
-
-    console.log('Theme toggle button found:', !!themeToggle);
-    console.log('HTML element found:', !!html);
-
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    console.log('Saved theme:', savedTheme);
-    html.setAttribute('data-theme', savedTheme);
-
-    if (themeToggle) {
-        themeToggle.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            console.log('Theme toggle clicked!');
-            console.log('Current theme:', currentTheme);
-            console.log('New theme:', newTheme);
-
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            console.log('Theme changed to:', newTheme);
-        });
-        console.log('Theme toggle event listener added successfully');
-    } else {
-        console.error('Theme toggle button not found');
-    }
+    // Theme controls now handled by global-controls.js
 
     // Keyboard shortcuts
     document.addEventListener('keydown', function (e) {
@@ -648,6 +586,4 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleSfx();
         }
     });
-
-    console.log('All event listeners set up');
 }); 

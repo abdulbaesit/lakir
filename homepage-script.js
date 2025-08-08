@@ -7,52 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const redLightSound = document.getElementById('red-light-sound');
     const greenLightSound = document.getElementById('green-light-sound');
 
-    // Audio Controls
-    const toggleMusicBtn = document.getElementById('toggle-music');
-    const toggleSfxBtn = document.getElementById('toggle-sfx');
-
-    let musicEnabled = false;
-    let sfxEnabled = false;
-
-    // Audio Control Functions
-    function toggleMusic() {
-        musicEnabled = !musicEnabled;
-        if (musicEnabled) {
-            // Set volume and play
-            squidGameTheme.volume = 0.3;
-            squidGameTheme.play().then(() => {
-                toggleMusicBtn.classList.add('active');
-                toggleMusicBtn.textContent = '🎵';
-                console.log('Music started successfully');
-            }).catch(e => {
-                console.log('Audio play failed:', e);
-                // Fallback: try to enable audio context
-                if (e.name === 'NotAllowedError') {
-                    showNotification('Click the music button again to enable audio', 'info');
-                }
-            });
-        } else {
-            squidGameTheme.pause();
-            toggleMusicBtn.classList.remove('active');
-            toggleMusicBtn.textContent = '🔇';
-            console.log('Music paused');
-        }
-    }
-
-    function toggleSfx() {
-        sfxEnabled = !sfxEnabled;
-        if (sfxEnabled) {
-            toggleSfxBtn.classList.add('active');
-            toggleSfxBtn.textContent = '🔊';
-        } else {
-            toggleSfxBtn.classList.remove('active');
-            toggleSfxBtn.textContent = '🔇';
-        }
-    }
-
-    // Audio Control Event Listeners
-    toggleMusicBtn.addEventListener('click', toggleMusic);
-    toggleSfxBtn.addEventListener('click', toggleSfx);
+    // Global controls now handled by global-controls.js
 
     // Enable audio on first user interaction
     document.addEventListener('click', function enableAudio() {
@@ -209,29 +164,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setupPlayerNumberInteractions();
 
-    // Theme Toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
+    // Theme handled by global-controls.js
 
-    // Check for saved theme preference or default to light
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', currentTheme);
-
-    themeToggle.addEventListener('click', function () {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-
-        // Add animation effect
-        themeToggle.style.transform = 'rotate(360deg)';
-        setTimeout(() => {
-            themeToggle.style.transform = 'rotate(0deg)';
-        }, 300);
-    });
-
-    // Parallax Effects
+    // Music Control    // Parallax Effects
     const parallaxLayers = document.querySelectorAll('.parallax-layer');
     const floatingParticles = document.querySelectorAll('.particle');
     const stellarParticles = document.querySelectorAll('.stellar-particle');
@@ -327,27 +262,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Mouse trail effect
     const mouseTrail = document.getElementById('mouse-trail');
-    let mouseX = 0;
-    let mouseY = 0;
-    let trailX = 0;
-    let trailY = 0;
+    if (mouseTrail) {
+        let mouseX = 0;
+        let mouseY = 0;
+        let trailX = 0;
+        let trailY = 0;
 
-    document.addEventListener('mousemove', function (e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+        document.addEventListener('mousemove', function (e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-    function updateMouseTrail() {
-        trailX += (mouseX - trailX) * 0.1;
-        trailY += (mouseY - trailY) * 0.1;
+        function animateTrail() {
+            trailX += (mouseX - trailX) * 0.1;
+            trailY += (mouseY - trailY) * 0.1;
 
-        mouseTrail.style.left = trailX + 'px';
-        mouseTrail.style.top = trailY + 'px';
+            mouseTrail.style.left = trailX + 'px';
+            mouseTrail.style.top = trailY + 'px';
 
-        requestAnimationFrame(updateMouseTrail);
+            requestAnimationFrame(animateTrail);
+        }
+
+        animateTrail();
     }
-
-    updateMouseTrail();
 
     // Dynamic particle generation
     function createParticle() {
@@ -439,20 +376,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const notification = document.getElementById('notification');
         const notificationText = document.getElementById('notification-text');
 
-        notificationText.textContent = message;
-        notification.className = `notification notification-${type} show`;
+        if (notification && notificationText) {
+            notificationText.textContent = message;
+            notification.className = `notification notification-${type} show`;
 
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 3000);
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        } else {
+            console.log('Notification:', message);
+        }
     }
 
     // Close notification
     const notificationClose = document.getElementById('notification-close');
-    notificationClose.addEventListener('click', function () {
-        const notification = document.getElementById('notification');
-        notification.classList.remove('show');
-    });
+    if (notificationClose) {
+        notificationClose.addEventListener('click', function () {
+            const notification = document.getElementById('notification');
+            if (notification) {
+                notification.classList.remove('show');
+            }
+        });
+    }
 
     // Game card interactions
     gameCards.forEach(card => {
@@ -551,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Loading animation
     window.addEventListener('load', function () {
         document.body.style.opacity = '1';
-        showNotification('Welcome to KK Board Games!', 'info');
+        showNotification('Welcome to SALER x SQUID GAME!', 'info');
     });
 
     // Keyboard shortcuts

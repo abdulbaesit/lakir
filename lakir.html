@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Läḳīr - KK Board Games</title>
+    <title>Läḳīr - SALER x SQUID GAME</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -12,6 +12,22 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="lakir-styles.css">
+
+    <!-- Apply saved theme immediately to prevent flash -->
+    <script>
+        (function () {
+            let savedTheme = localStorage.getItem('global-theme');
+            if (!savedTheme) {
+                savedTheme = localStorage.getItem('lakir-theme') ||
+                    localStorage.getItem('theme') ||
+                    'light';
+                localStorage.setItem('global-theme', savedTheme);
+                localStorage.removeItem('lakir-theme');
+                localStorage.removeItem('theme');
+            }
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 
     <!-- Squid Game Audio -->
     <audio id="squid-game-theme" loop preload="auto">
@@ -24,55 +40,14 @@
     <audio id="green-light-sound" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
     </audio>
-
-    <!-- Load script early for global functions -->
-    <script>
-        // Define global functions immediately
-        window.toggleThemeGlobal = function () {
-            console.log('Global theme toggle called');
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('lakir-theme', newTheme);
-            console.log('Theme changed to:', newTheme);
-        };
-
-        window.toggleMusicGlobal = function () {
-            console.log('Global music toggle called');
-            const musicBtn = document.getElementById('musicToggle');
-            if (musicBtn) {
-                const isActive = musicBtn.classList.contains('active');
-                musicBtn.classList.toggle('active', !isActive);
-                const musicIcon = musicBtn.querySelector('i');
-                if (musicIcon) {
-                    musicIcon.className = !isActive ? 'fas fa-music' : 'fas fa-music-slash';
-                }
-                localStorage.setItem('lakir-music', (!isActive).toString());
-            }
-        };
-
-        window.toggleSfxGlobal = function () {
-            console.log('Global SFX toggle called');
-            const sfxBtn = document.getElementById('sfxToggle');
-            if (sfxBtn) {
-                const isActive = sfxBtn.classList.contains('active');
-                sfxBtn.classList.toggle('active', !isActive);
-                const sfxIcon = sfxBtn.querySelector('i');
-                if (sfxIcon) {
-                    sfxIcon.className = !isActive ? 'fas fa-volume-up' : 'fas fa-volume-mute';
-                }
-                localStorage.setItem('lakir-sfx', (!isActive).toString());
-            }
-        };
-    </script>
 </head>
 
 <body>
-
-    <!-- Top Controls -->
-    <div class="top-controls">
-        <button id="themeToggle" class="theme-icon" aria-label="Toggle theme">
-            <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <!-- Global Controls -->
+    <div class="global-controls">
+        <button class="close close-rules-btn control-btn mobile-only" aria-label="Close">×</button>
+        <button id="global-theme-toggle" class="control-btn theme-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -84,16 +59,13 @@
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
-            <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
         </button>
-        <button id="musicToggle" class="audio-btn" aria-label="Toggle music">
+        <button id="global-music-toggle" class="control-btn music-btn" aria-label="Toggle music">
             <i class="fas fa-music"></i>
-        </button>
-        <button id="sfxToggle" class="audio-btn active" aria-label="Toggle sound effects">
-            <i class="fas fa-volume-up"></i>
         </button>
     </div>
 
@@ -722,6 +694,7 @@
         </div>
     </div>
 
+    <script src="global-controls.js"></script>
     <script src="lakir-script.js"></script>
 </body>
 

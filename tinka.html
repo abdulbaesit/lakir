@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tinḳä - KK Board Games</title>
+    <title>Tinḳä - SALER x SQUID GAME</title>
     <link rel="stylesheet" href="tinka-styles.css">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -12,9 +12,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Apply saved theme immediately to prevent flash -->
+    <script>
+        (function () {
+            let savedTheme = localStorage.getItem('global-theme');
+            if (!savedTheme) {
+                savedTheme = localStorage.getItem('lakir-theme') ||
+                    localStorage.getItem('theme') ||
+                    'light';
+                localStorage.setItem('global-theme', savedTheme);
+                localStorage.removeItem('lakir-theme');
+                localStorage.removeItem('theme');
+            }
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 </head>
 
 <body>
+    <!-- Global Controls -->
+    <div class="global-controls">
+        <button class="close close-rules-btn control-btn" aria-label="Close" style="display: none;">×</button>
+        <button id="global-theme-toggle" class="control-btn theme-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <button id="global-music-toggle" class="control-btn music-btn" aria-label="Toggle music">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+
     <!-- Audio Elements -->
     <audio id="squidGameTheme" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
@@ -201,34 +243,6 @@
         </div>
     </div>
 
-    <!-- Top Controls -->
-    <div class="top-controls">
-        <button id="themeToggle" class="theme-icon" aria-label="Toggle theme">
-            <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </button>
-        <button id="musicToggle" class="audio-btn" aria-label="Toggle music">
-            <i class="fas fa-music"></i>
-        </button>
-        <button id="sfxToggle" class="audio-btn active" aria-label="Toggle sound effects">
-            <i class="fas fa-volume-up"></i>
-        </button>
-    </div>
-
     <div class="container">
         <header>
             <h1>Tinḳä</h1>
@@ -358,6 +372,7 @@
             </div>
         </div>
     </div>
+    <script src="global-controls.js"></script>
     <script src="tinka-script.js?v=2"></script>
 </body>
 

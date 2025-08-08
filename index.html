@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KK Board Games</title>
+    <title>SALER x SQUID GAME</title>
     <link rel="icon" href="assets/squid-game-homepage.jpg" type="image/png">
     <link rel="stylesheet" href="homepage-styles.css">
     <link
@@ -14,6 +14,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+
+    <!-- Apply saved theme immediately to prevent flash -->
+    <script>
+        (function () {
+            let savedTheme = localStorage.getItem('global-theme');
+            if (!savedTheme) {
+                savedTheme = localStorage.getItem('lakir-theme') ||
+                    localStorage.getItem('theme') ||
+                    'light';
+                localStorage.setItem('global-theme', savedTheme);
+                localStorage.removeItem('lakir-theme');
+                localStorage.removeItem('theme');
+            }
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 
     <!-- Squid Game Audio -->
     <audio id="squid-game-theme" loop preload="auto">
@@ -29,6 +45,32 @@
 </head>
 
 <body>
+    <!-- Global Controls -->
+    <div class="global-controls">
+        <button class="close close-rules-btn control-btn" aria-label="Close" style="display: none;">×</button>
+        <button id="global-theme-toggle" class="control-btn theme-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+        <button id="global-music-toggle" class="control-btn music-btn" aria-label="Toggle music">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+
     <!-- Interactive Background Elements -->
     <div class="parallax-container">
         <div class="parallax-layer layer-1"></div>
@@ -284,12 +326,6 @@
             <div class="arena-fence fence-bottom"></div>
             <div class="arena-fence fence-left"></div>
             <div class="arena-fence fence-right"></div>
-
-            <!-- Audio Controls -->
-            <div class="audio-controls">
-                <button class="audio-btn" id="toggle-music">🎵</button>
-                <button class="audio-btn" id="toggle-sfx">🔊</button>
-            </div>
         </div>
     </div>
 
@@ -298,19 +334,9 @@
         <div class="container">
             <div class="navbar-brand">
                 <div class="navbar-start">
-                    <a href="#" class="navbar-brand-name">KK Board Games</a>
+                    <a href="#" class="navbar-brand-name">SALER x SQUID GAME</a>
                 </div>
                 <div class="navbar-end">
-                    <button class="theme-icon" id="theme-toggle">
-                        <svg class="moon-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                        <svg class="sun-icon" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </div>
@@ -320,7 +346,7 @@
     <div class="container">
         <section class="section animate-in" id="hero-section">
             <div class="parallax-header">
-                <h1 class="title has-text-primary is-3">KK Board Games</h1>
+                <h1 class="title has-text-primary is-3">SALER x SQUID GAME</h1>
                 <p class="subtitle">Experience the thrill of strategic gameplay with our collection of traditional board
                     games</p>
             </div>
@@ -371,7 +397,7 @@
             <div class="enhanced-footer">
                 <div class="footer-content">
                     <div class="footer-brand">
-                        <h3 class="footer-title">KK Board Games</h3>
+                        <h3 class="footer-title">SALER x SQUID GAME</h3>
                         <p class="footer-subtitle">Strategic gameplay meets cultural heritage</p>
                     </div>
                     <div class="footer-links">
@@ -402,7 +428,7 @@
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p class="copyright">© 2025 KK Board Games. All rights reserved.</p>
+                    <p class="copyright">© 2025 SALER x SQUID GAME. All rights reserved.</p>
                     <div class="footer-social">
                         <a href="https://github.com/abdulbaesit" target="_blank" class="social-link">
                             <i class="fab fa-github"></i>
@@ -419,9 +445,18 @@
         </section>
     </div>
 
+    <!-- Notification System -->
+    <!-- <div id="notification" class="notification">
+        <div class="notification-content">
+            <span id="notification-text"></span>
+            <button id="notification-close" class="notification-close">&times;</button>
+        </div>
+    </div> -->
+
     <!-- Mouse Trail Effect -->
     <div class="mouse-trail" id="mouse-trail"></div>
 
+    <script src="global-controls.js"></script>
     <script src="homepage-script.js"></script>
 </body>
 

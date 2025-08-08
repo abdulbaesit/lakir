@@ -1,85 +1,7 @@
-// Define global functions immediately to ensure they're available
-window.toggleThemeGlobal = function () {
-    console.log('Global theme toggle called');
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('lakir-theme', newTheme);
-    console.log('Theme changed to:', newTheme);
-};
-
-window.toggleMusicGlobal = function () {
-    console.log('Global music toggle called');
-    const musicBtn = document.getElementById('musicToggle');
-    if (musicBtn) {
-        const isActive = musicBtn.classList.contains('active');
-        musicBtn.classList.toggle('active', !isActive);
-        const musicIcon = musicBtn.querySelector('i');
-        if (musicIcon) {
-            musicIcon.className = !isActive ? 'fas fa-music' : 'fas fa-music-slash';
-        }
-        localStorage.setItem('lakir-music', (!isActive).toString());
-    }
-};
-
-window.toggleSfxGlobal = function () {
-    console.log('Global SFX toggle called');
-    const sfxBtn = document.getElementById('sfxToggle');
-    if (sfxBtn) {
-        const isActive = sfxBtn.classList.contains('active');
-        sfxBtn.classList.toggle('active', !isActive);
-        const sfxIcon = sfxBtn.querySelector('i');
-        if (sfxIcon) {
-            sfxIcon.className = !isActive ? 'fas fa-volume-up' : 'fas fa-volume-mute';
-        }
-        localStorage.setItem('lakir-sfx', (!isActive).toString());
-    }
-};
+// Lakir game script - theme and music now handled by global-controls.js
 
 // Global functions for button clicks
 let gameInstance = null;
-
-// Initialize button states immediately
-window.initializeGlobalControls = function () {
-    // Initialize theme
-    const savedTheme = localStorage.getItem('lakir-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    const themeIcon = document.querySelector('#themeToggle i');
-    if (themeIcon) {
-        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-
-    // Initialize music button
-    const savedMusic = localStorage.getItem('lakir-music') || 'false';
-    const musicEnabled = savedMusic === 'true';
-    const musicBtn = document.getElementById('musicToggle');
-    if (musicBtn) {
-        musicBtn.classList.toggle('active', musicEnabled);
-        const musicIcon = musicBtn.querySelector('i');
-        if (musicIcon) {
-            musicIcon.className = musicEnabled ? 'fas fa-music' : 'fas fa-music-slash';
-        }
-    }
-
-    // Initialize SFX button
-    const savedSfx = localStorage.getItem('lakir-sfx') || 'true';
-    const sfxEnabled = savedSfx === 'true';
-    const sfxBtn = document.getElementById('sfxToggle');
-    if (sfxBtn) {
-        sfxBtn.classList.toggle('active', sfxEnabled);
-        const sfxIcon = sfxBtn.querySelector('i');
-        if (sfxIcon) {
-            sfxIcon.className = sfxEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
-        }
-    }
-};
-
-// Initialize controls immediately when script loads
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeGlobalControls);
-} else {
-    initializeGlobalControls();
-}
 
 class LakirGame {
     constructor() {
@@ -97,9 +19,6 @@ class LakirGame {
             captureMode: false, // New: indicates if we're in capture selection mode
             pendingCapture: null // New: stores the line that was formed for capture
         };
-
-        // Initialize theme
-        this.initializeTheme();
 
         // Define board connections (adjacency list)
         this.connections = {
@@ -167,36 +86,6 @@ class LakirGame {
         gameInstance = this;
     }
 
-    initializeTheme() {
-        const savedTheme = localStorage.getItem('lakir-theme') || 'dark';
-        const savedMusic = localStorage.getItem('lakir-music') || 'false';
-        const savedSfx = localStorage.getItem('lakir-sfx') || 'true';
-
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        this.musicEnabled = savedMusic === 'true';
-        this.sfxEnabled = savedSfx === 'true';
-
-        this.updateThemeIcon(savedTheme);
-        this.updateAudioButtons();
-    }
-
-    toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        console.log('Theme toggle clicked!');
-        console.log('Current theme:', currentTheme);
-        console.log('New theme:', newTheme);
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('lakir-theme', newTheme);
-        this.updateThemeIcon(newTheme);
-
-        console.log('Theme changed to:', newTheme);
-        this.playThemeChangeSound();
-    }
-
     updateAudioButtons() {
         const musicBtn = document.getElementById('musicToggle');
         const sfxBtn = document.getElementById('sfxToggle');
@@ -218,12 +107,6 @@ class LakirGame {
         }
     }
 
-    updateThemeIcon(theme) {
-        // Theme icons are now controlled by CSS data-theme attribute
-        // No need to manually show/hide icons as CSS handles this automatically
-        console.log('Theme icon updated for theme:', theme);
-    }
-
     toggleMusic() {
         this.musicEnabled = !this.musicEnabled;
         localStorage.setItem('lakir-music', this.musicEnabled.toString());
@@ -232,7 +115,7 @@ class LakirGame {
         const bgMusic = document.getElementById('squid-game-theme');
         if (bgMusic) {
             if (this.musicEnabled) {
-                bgMusic.play().catch(e => console.log('Audio play failed:', e));
+                bgMusic.play().catch(e => { });
             } else {
                 bgMusic.pause();
             }
@@ -251,7 +134,7 @@ class LakirGame {
         const sound = document.getElementById(soundId);
         if (sound) {
             sound.currentTime = 0;
-            sound.play().catch(e => console.log('Sound play failed:', e));
+            sound.play().catch(e => { });
         }
     }
 
@@ -326,7 +209,6 @@ class LakirGame {
         const homeBtn = document.getElementById('homeBtn');
         const resetBtn = document.getElementById('resetBtn');
         const rulesBtn = document.getElementById('rulesBtn');
-        const closeRulesBtn = document.querySelector('.close-rules-btn');
 
         if (homeBtn) {
             homeBtn.addEventListener('click', () => {
@@ -342,11 +224,17 @@ class LakirGame {
             rulesBtn.addEventListener('click', () => this.showRules());
         }
 
-        if (closeRulesBtn) {
-            closeRulesBtn.addEventListener('click', () => this.hideRules());
+        // Modal close (support both .close and .close-rules-btn) - matching tinka implementation
+        const modal = document.getElementById('rulesModal');
+        const closeBtn = modal.querySelector('.close') || modal.querySelector('.close-rules-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
         }
-
-        console.log('LakirGame event listeners set up');
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
     }
 
     handleNodeClick(node) {
@@ -372,14 +260,12 @@ class LakirGame {
 
         // Check if placement would form a line of 3 (forbidden during placement)
         if (this.wouldFormLine(nodeId, this.gameState.currentPlayer)) {
-            console.log('Cannot place here - would form a line of 3');
             this.playSound('red-light-sound');
             return;
         }
 
         // Check if this is an invalid placement position
         if (node.classList.contains('invalid-placement')) {
-            console.log('Cannot place here - invalid placement position');
             this.playSound('red-light-sound');
             return;
         }
@@ -395,7 +281,6 @@ class LakirGame {
         // Check if placement phase is over
         if (this.gameState.stonesPlaced[1] >= 9 && this.gameState.stonesPlaced[2] >= 9) {
             this.gameState.gamePhase = 'movement';
-            console.log('Placement phase complete, movement phase begins');
         }
 
         this.switchPlayer();
@@ -421,7 +306,6 @@ class LakirGame {
 
             // Check if move is valid (adjacent)
             if (!this.isValidMove(this.gameState.selectedNode, nodeId)) {
-                console.log('Invalid move - not adjacent');
                 return;
             }
 
@@ -572,7 +456,6 @@ class LakirGame {
 
         // Update status to indicate capture selection
         this.updateStatus();
-        console.log(`Player ${this.gameState.currentPlayer} formed a line! Select an opponent stone to capture.`);
     }
 
     performCapture(stoneToCapture) {
@@ -590,8 +473,6 @@ class LakirGame {
 
         // Claim the line
         this.gameState.claimedLines[this.gameState.currentPlayer].push(this.gameState.pendingCapture);
-
-        console.log(`Player ${this.gameState.currentPlayer} captured stone at ${stoneToCapture} and claimed line: ${this.gameState.pendingCapture}`);
     }
 
     checkWinCondition() {
@@ -610,7 +491,6 @@ class LakirGame {
         this.gameState.gameOver = true;
         this.gameState.winner = winner;
         this.updateStatus();
-        console.log(`Game Over! Player ${winner} wins!`);
     }
 
     updateInvalidPlacementIndicators() {
@@ -914,7 +794,7 @@ class LakirGame {
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.3);
         } catch (e) {
-            console.log('Audio context not available');
+            // Audio context not available
         }
     }
 
@@ -1016,9 +896,6 @@ class LakirGame {
 
 // Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize global controls first
-    initializeGlobalControls();
-
     const game = new LakirGame();
 
     // Auto-show rules on page load
