@@ -56,18 +56,6 @@ Each game has its own rules accessible through the "📖 Rules" button. Games fe
 - 🔄 Game replay system
 - 🌍 Multi-language support
 
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- 🐛 Report bugs
-- 💡 Suggest new features
-- 🎨 Improve UI/UX
-- 📝 Enhance documentation
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## 🙏 Acknowledgments
 
 - Inspired by the Netflix series "Squid Game"
